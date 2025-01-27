@@ -1,35 +1,53 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.28;
 
-contract AccessControl {
-    //berisi role
-    enum Role {admin, member}
-    mapping (address => Role) public authority;
-    event roleCheck (address _add, Role _addRole);
-// Fungsi menjadi admin
-    constructor () {
-    authority[msg.sender] = Role.admin;
+
+contract VotingManager {
+
+    // enum yesOrNo { yes,no }
+    // mapping (address => yesOrNo) options;
+    mapping(address => uint) public voters;
+    mapping(uint => Proposal) public createdProposal;
+    mapping(address => mapping(uint => bool)) public hasVoted;
+    uint public timesOver;
+    uint private jumlahVoter = 0;
+    uint public jumlahProposal;
+    event getProposal(uint _nomor, address _proposer, uint _jumlah);
+
+    struct Proposal {
+        string contentOfProposal;
+        address proposer;
+        uint jumlah;
+    }
+
+    function createDeadLine(uint _periode) onlyAdmin public {
+        timesOver = block.timestamp + _periode;
+    }
+
+    function registration(address _voter) public {
+        voters[_voter] = jumlahVoter;
+        jumlahVoter++;
+    }
+
+    function createProposal(string memory _content) onlyAdmin public {
+        createdProposal[jumlahProposal] = Proposal({
+            contentOfProposal: _content,
+            proposer: msg.sender,
+            jumlah: 0
+        });
+        jumlahProposal++;
+    }
+
+    function vote(address _voter, uint _nomorProposal) public {
+        require(voters[_voter] <= jumlahVoter && hasVoted[_voter][_nomorProposal] == false, "kamu bukan voter teregistrasi ");
+        require(block.timestamp <= timesOver, "Waktu Habis");
+        createdProposal[_nomorProposal].jumlah += 1;
+        hasVoted[_voter][_nomorProposal] = true;
+    }
+
+    function getVoting(uint _nomorProposal) public {
+        require(block.timestamp >= timesOver, "Waktu Habis");
+        emit getProposal(_nomorProposal, createdProposal[_nomorProposal].proposer, createdProposal[_nomorProposal].jumlah);
+    }
+
 }
-    //Fungsi admin bisa menambah atau menghapus admin lain
-    function addAdmin (address _newAdmin) public onlyAdmin {
-        authority[_newAdmin] = Role.admin;
-    }
-
-    //Fungsi untuk memeriksa apakah sebuah alamat memiliki peran tertentu.
-    function checkRole(address _add) public {
-        emit roleCheck(_add, authority[_add]);
-    }
-
-    //Fungsi menambah member
-    function addMemberOrOutAdmin(address _add) public onlyAdmin {
-        authority[_add] = Role.member;
-    }
-
-    //Fungsi untuk membatasi akses fitur tertentu hanya untuk admin
-    modifier onlyAdmin() {
-        require(authority[msg.sender] == Role.admin, "kamu bukan atmin");
-        _;
-    } 
-}
-
-
