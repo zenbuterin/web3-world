@@ -25,11 +25,11 @@ contract VotingManager {
         uint jumlah;
     }
 
-    function addMember(address _add) public {
+    function addAdmin(address _add) onlyAdmin public {
         authority[_add] = true;
     }
 
-    function removeMember(address _add) public {
+    function removeAdmin(address _add) onlyAdmin public {
         authority[_add] = false;
     }
 
@@ -51,7 +51,7 @@ contract VotingManager {
         jumlahProposal++;
     }
 
-    function vote(address _voter, uint _nomorProposal, uint _jumlah) public {
+    function vote(address _voter, uint _nomorProposal) public {
         require(voters[_voter] <= jumlahVoter && hasVoted[_voter][_nomorProposal] == false, "kamu bukan voter teregistrasi ");
         require(block.timestamp <= timesOver, "Waktu Habis");
         createdProposal[_nomorProposal].jumlah += 1;
