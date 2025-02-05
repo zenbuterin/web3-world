@@ -1,0 +1,25 @@
+:root {
+  --background: rgb(230, 169, 94);
+  --foreground: #171717;
+}
+
+.tombol {
+  background-color: var(--background);
+  color: var(--foreground);
+  border-radius: 5px;
+  padding: 5px;
+  border: 5px 5px 5px 5px;
+  border-style: solid;
+  border-color: var(--foreground);
+}
+
+.header {
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.headerText {
+  
+  font-size: 10em;
+}

@@ -14,4 +14,4 @@ module.exports = {
     },
   },
 };
-//ganti private keynya untuk tersambung kembali ke ganache
+//ganti private keynya untuk tersambung kembali ke ganache kecuali yang sudah tersimpan di project ganache
