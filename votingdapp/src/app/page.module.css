@@ -11,6 +11,7 @@
   border: 5px 5px 5px 5px;
   border-style: solid;
   border-color: var(--foreground);
+  margin-top: 5px;
 }
 
 .header {
@@ -22,4 +23,9 @@
 .headerText {
   
   font-size: 10em;
+}
+
+.message {
+  font-size: 1.3em;
+  font-family:'Courier New', Courier, monospace
 }

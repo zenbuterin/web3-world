@@ -1,296 +1,132 @@
 'use client'
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Web3 from "web3";
 import styles from "./page.module.css";
+import contractAbi from "./abi.json"
+function MyApp() {
+  const [web3provider, setWeb3] = useState(null);
+  const [contract, setContract] = useState(null);
+  const [account, setAccount] = useState(null);
+  const [balanceethereum, setBalance] = useState(0);
+  const [Registration, setRegistration] = useState(null);
+  const addresscontract = "0x43995786ff06F4eb1D0BD9c937dfe787f35f4078";
 
-const contractAddress = "0xe21f490c2f9C514285E2071938AD3295eb87F164";
-const contractABI = [
-  {
-    "inputs": [],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "_nomor",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "_proposer",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "_jumlah",
-        "type": "uint256"
+  const connectToWeb3 = async () => {
+    try {
+      if (window.ethereum) {
+        const web3 = new Web3(window.ethereum);
+        const contractEth = new web3.eth.Contract(contractAbi, addresscontract);
+        const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+        console.log("Connected Account:", accounts[0]);
+        setWeb3(web3);
+        setContract(contractEth);
+        setAccount(accounts[0]);
+      } else {
+        console.log("Install provider Web3 (Metamask)");
       }
-    ],
-    "name": "getProposal",
-    "type": "event"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_add",
-        "type": "address"
-      }
-    ],
-    "name": "addAdmin",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "authority",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_periode",
-        "type": "uint256"
-      }
-    ],
-    "name": "createDeadLine",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "_content",
-        "type": "string"
-      }
-    ],
-    "name": "createProposal",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "createdProposal",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "contentOfProposal",
-        "type": "string"
-      },
-      {
-        "internalType": "address",
-        "name": "proposer",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "jumlah",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_nomorProposal",
-        "type": "uint256"
-      }
-    ],
-    "name": "getVoting",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "hasVoted",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "jumlahProposal",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_voter",
-        "type": "address"
-      }
-    ],
-    "name": "registration",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_add",
-        "type": "address"
-      }
-    ],
-    "name": "removeAdmin",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "timesOver",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_voter",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_nomorProposal",
-        "type": "uint256"
-      }
-    ],
-    "name": "vote",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "voters",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }
-]
-
-export default function Home() {
-  const [accounts, setAccounts] = useState(null); // Untuk menyimpan alamat akun
-  const [contract, setContract] = useState(null); // Untuk menyimpan contract instance
-  const [web3, setWeb3] = useState(null); // Untuk menyimpan instance web3
-
-  // Pastikan connectToMetaMask hanya dijalankan di client-side
-  const connectToMetaMask = async () => {
-    if (window.ethereum) {
-      try {
-        const web3Instance = new Web3(window.ethereum);
-        setWeb3(web3Instance); // Set web3
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const accountsList = await web3Instance.eth.getAccounts();
-        setAccounts(accountsList); // Set accounts
-        const contractInstance = new web3Instance.eth.Contract(contractABI, contractAddress);
-        setContract(contractInstance); // Set contract instance
-        console.log('Connected account:', accountsList[0]);
-        console.log('Connected to :', contractAddress);
-      } catch (error) {
-        alert('Terjadi kesalahan: ' + error.message);
-      }
-    } else {
-      alert('Install MetaMask terlebih dahulu');
+    } catch (error) {
+      console.error("Error connecting to Web3:", error);
     }
   };
 
-  // Menggunakan useEffect untuk memeriksa client-side hanya
-
-
   return (
     <>
-      <div className={styles.header}>
-        <p className={styles.headerText}>Let's Vote</p>
-        <div>
-          <button className={styles.tombol} onClick={connectToMetaMask}>
-            Click here to connect to MetaMask
-          </button>
-        </div>
-        {accounts && <div>Connected Account: {accounts[0]}</div>}
+      <div className={styles.headerText}>
+        <header>Hello, I'm a header</header>
+      </div>
+      <div>
+        <button className={styles.tombol} onClick={connectToWeb3}>
+          Connect to Metamask
+        </button>
+        {account && <p>Connected to: {account}</p>}
+        {contract && <p>Contract address is: {contract.options.address}</p>}
+        <GetBalance account={account} web3={web3provider} setBalance={setBalance} balanceethereum={balanceethereum} />
+        <GetAuthority account={account} contract={contract} />
+        <GetKnowJumlahVoter contract={contract} />
       </div>
     </>
   );
 }
 
+function GetBalance({ account, web3, setBalance, balanceethereum }) {
+  async function handlecontract() {
+    if (!web3 || !account) {
+      console.error("Web3 or account is not available.");
+      return;
+    }
+    try {
+      const balanceEth = await web3.eth.getBalance(account);
+      const balanceInEth = web3.utils.fromWei(balanceEth, "ether");
+      setBalance(balanceInEth);
+      console.log("Balance:", balanceInEth);
+    } catch (error) {
+      console.error("Error fetching balance:", error);
+    }
+  }
+
+  return (
+    <>
+      <button className={styles.tombol} onClick={handlecontract}>
+        Tekan ini untuk mengetahui jumlah ETH
+      </button>
+      {balanceethereum !== 0 && <p>{balanceethereum} ETH</p>}
+    </>
+  );
+}
+
+function GetAuthority({ contract, account }) { 
+  const [status, setStatus] = useState(null);
+  const getData = async () => {
+    if (!contract || !account) {
+      console.error("Contract atau account belum tersedia!");
+      return;
+    }
+
+    try {
+      // Kirim transaksi untuk memanggil fungsi di smart contract
+      await contract.methods.getAuthority(account).send({ from: account });
+
+      console.log("Sedang mengirim request...");
+
+      // Dengarkan event dari smart contract
+      contract.events.getKnowAuthority({ fromBlock: "latest" }).on("data", (event) => {
+        const authorityStatus = event.returnValues[0]; // Ambil data dari event
+        setStatus(authorityStatus);
+        console.log("Status:", authorityStatus);
+      });
+
+    } catch (error) {
+      console.error("Gagal mendapatkan data:", error);
+    }
+  };
+
+  return (
+    <>
+      <button className="tombol" onClick={getData}>
+        Tekan ini untuk mengetahui apakah kita admin atau bukan
+      </button>
+      {status && <p>Status: {status}</p>}
+    </>
+  );
+}
+
+function GetKnowJumlahVoter({contract}) {
+  const [voters, setjumlahVoter] = useState(0);
+  async function letKnow() {
+    let result = await contract.methods.jumlahVoter().call();
+    setjumlahVoter(result);
+  }
+  return (
+    <>
+    {voters && <div><p>voter berjumlah: {voters}</p></div>}
+    </>
+  )
+}
+
+function Registration({contract, account}) {
+ 
+}
+
+export default function Page() {
+  return <MyApp />;
+}
