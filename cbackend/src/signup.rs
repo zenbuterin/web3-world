@@ -1,5 +1,5 @@
-use sqlx::{pool, sqlite::{self, SqliteConnectOptions, SqliteJournalMode, SqlitePool, SqliteQueryResult}};
-use std::str::FromStr;
+use sqlx::{pool, sqlite::{self, SqliteConnectOptions, SqlitePool, SqliteQueryResult}};
+
 
 #[derive(Debug, sqlx::FromRow)]
 pub struct Users {
