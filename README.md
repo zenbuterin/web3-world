@@ -21,8 +21,8 @@ Decentralized Voting adalah proyek eksplorasi dalam pengembangan Web3 yang bertu
 ## Installation & Setup
 1. **Clone the repository**
    ```sh
-   git clone https://github.com/your-username/decentralized-voting.git
-   cd decentralized-voting
+   git clone https://github.com/zenbuterin/DVoting.git
+   cd DVoting
    ```
 2. **Install dependencies**
    ```sh
