@@ -1,0 +1,51 @@
+### **Step-by-Step: Membuat Sistem Sign-Up dan Login dengan JWT**  
+
+#### **1️⃣ Setup & Persiapan**  
+✅ Buat project backend dengan **Actix Web** dan **Cargo**.   done
+✅ Install dependensi: `actix-web`, `bcrypt`, `jsonwebtoken`, `serde`, `sqlx`.  done
+✅ Siapkan database untuk menyimpan user (misal SQLite, PostgreSQL).  
+
+---
+
+#### **2️⃣ Sistem Sign-Up (Pendaftaran Akun)**  
+🔹 **2.1** Buat **model User** (email, hashed password).  
+🔹 **2.2** Buat **endpoint** untuk menerima request sign-up dari frontend.  
+🔹 **2.3** **Validasi email**, cek apakah sudah ada di database.  
+🔹 **2.4** **Hash password** sebelum disimpan (gunakan `bcrypt`).  
+🔹 **2.5** Simpan user ke database.  
+🔹 **2.6** Kirim respons sukses ke frontend.  
+
+---
+
+#### **3️⃣ Sistem Login dengan JWT**  
+🔹 **3.1** Buat **endpoint login** untuk menerima email & password.  
+🔹 **3.2** **Cari user di database** berdasarkan email.  
+🔹 **3.3** **Verifikasi password** dengan `bcrypt`.  
+🔹 **3.4** **Buat JWT token** jika password benar (gunakan `jsonwebtoken`).  
+🔹 **3.5** Kirim **JWT token** ke frontend.  
+
+---
+
+#### **4️⃣ Proteksi Endpoint dengan JWT (Middleware)**  
+🔹 **4.1** Buat middleware untuk memeriksa JWT dalam request.  
+🔹 **4.2** **Extract & verifikasi JWT** dalam header `Authorization`.  
+🔹 **4.3** Jika token valid, izinkan akses ke endpoint.  
+🔹 **4.4** Jika token tidak valid, return **401 Unauthorized**.  
+
+---
+
+#### **5️⃣ Integrasi dengan Frontend (Next.js)**  
+🔹 **5.1** Buat form **sign-up** dan **login** di frontend.  
+🔹 **5.2** Kirim request **sign-up** ke backend saat user daftar.  
+🔹 **5.3** Kirim request **login**, lalu simpan JWT di **localStorage**/cookies.  
+🔹 **5.4** Set header `Authorization: Bearer <JWT>` saat fetch ke endpoint backend yang butuh auth.  
+
+---
+
+#### **6️⃣ Testing & Debugging**  
+🔹 **6.1** Coba daftar akun & lihat database (cek apakah password sudah di-hash).  
+🔹 **6.2** Login dengan akun tersebut & periksa apakah JWT dikembalikan.  
+🔹 **6.3** Gunakan JWT untuk mengakses endpoint yang dilindungi.  
+🔹 **6.4** Coba request tanpa JWT, pastikan mendapatkan **401 Unauthorized**.  
+
+✅ **Jika semua berjalan lancar, sistem Sign-Up & Login dengan JWT sudah siap!** 🚀
