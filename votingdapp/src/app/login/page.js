@@ -1,16 +1,45 @@
-'use client' 
-import { useState, useEffect } from "react"
+'use client'
+import { useState } from "react";
 
-function LoginForm() {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
+const SignupForm = () => {
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        password: "",
+    });
 
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log("Form Data Submitted:", formData);
+    };
 
-    return (<div>
-    <h1>Welcome to Los Polos Hermanos Family</h1>
-    <button >Sign Up</button>
-    <button>Log in</button>
-    <button>Log in with google</button>
-    </div>)
-}
+    return (
+        <div>
+        <h2>Signup</h2>
+        <form onSubmit={handleSubmit}>
+            <div>
+            <label>Name:</label>
+            <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+            </div>
+
+            <div>
+            <label>Email:</label>
+            <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+            </div>
+
+            <div>
+            <label>Password:</label>
+            <input type="password" name="password" value={formData.password} onChange={handleChange} required />
+            </div>
+
+            <button type="submit">Sign Up</button>
+        </form>
+        </div>
+    );
+};
+
+export default SignupForm;
