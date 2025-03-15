@@ -1,0 +1,78 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+/* 🎨 Variabel warna */
+:root {
+  --primary-color: #007bff;
+  --background-color: rgba(255, 255, 255, 0.2);
+  --text-color: #ffffff;
+  --border-color: rgba(255, 255, 255, 0.3);
+}
+
+.bungkusan {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url("https://source.unsplash.com/random/1920x1080") center/cover no-repeat;
+}
+
+.glasses {
+  background: var(--background-color);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 20px;
+  width: 350px;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+}
+
+.header {
+  font-family: "Poppins", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 20px;
+}
+
+.blanko {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.head {
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  color: var(--primary-color);
+  text-align: left;
+}
+
+.value {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+  outline: none;
+  font-size: 16px;
+}
+
+.tombol {
+  background: var(--primary-color);
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.tombol:hover {
+  background: darkblue;
+}
