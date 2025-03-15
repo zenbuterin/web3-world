@@ -1,14 +1,14 @@
 ### **Step-by-Step: Membuat Sistem Sign-Up dan Login dengan JWT**  
 
 #### **1️⃣ Setup & Persiapan**  
-✅ Buat project backend dengan **Actix Web** dan **Cargo**.   done
-✅ Install dependensi: `actix-web`, `bcrypt`, `jsonwebtoken`, `serde`, `sqlx`.  done
-✅ Siapkan database untuk menyimpan user (misal SQLite, PostgreSQL).  
+Buat project backend dengan **Actix Web** dan **Cargo**.   ✅
+Install dependensi: `actix-web`, `bcrypt`, `jsonwebtoken`, `serde`, `sqlx`.  done✅
+Siapkan database untuk menyimpan user (misal SQLite, PostgreSQL).  ✅
 
 ---
 
 #### **2️⃣ Sistem Sign-Up (Pendaftaran Akun)**  
-🔹 **2.1** Buat **model User** (email, hashed password).  
+🔹 **2.1** Buat **model User** (email, hashed password).  ✅
 🔹 **2.2** Buat **endpoint** untuk menerima request sign-up dari frontend.  
 🔹 **2.3** **Validasi email**, cek apakah sudah ada di database.  
 🔹 **2.4** **Hash password** sebelum disimpan (gunakan `bcrypt`).  

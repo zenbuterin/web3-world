@@ -25,3 +25,6 @@ pub async fn hello() -> impl Responder {
 pub async fn start(name: web::Path<String>) -> impl Responder {
     HttpResponse::Ok().json(Start {message: "ayo mulai perjalanan!".to_string(), name: name.into_inner(), level: 1 })
 }
+
+#[post("/signup")]
+pub async fn 

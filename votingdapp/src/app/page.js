@@ -9,13 +9,13 @@ function MyApp() {
   const [account, setAccount] = useState(null);
   const [balanceethereum, setBalance] = useState(0);
   const [Registration, setRegistration] = useState(null);
-  const addresscontract = "0x43995786ff06F4eb1D0BD9c937dfe787f35f4078";
+
 
   const connectToWeb3 = async () => {
     try {
       if (window.ethereum) {
         const web3 = new Web3(window.ethereum);
-        const contractEth = new web3.eth.Contract(contractAbi, addresscontract);
+        const contractEth = new web3.eth.Contract(contractAbi, process.env.ADDRESSCONTRACT);
         const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
         console.log("Connected Account:", accounts[0]);
         setWeb3(web3);

@@ -1,43 +1,40 @@
 'use client'
-import { useState } from "react";
+import { useRef, useState } from "react";
+import styles from "./login.module.css";
 
 const SignupForm = () => {
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        password: "",
-    });
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
+    const [state, setCurrentState] = useState({name: "", email: "", password: ""})
+    const change = (event) => {
+        setCurrentState({...state, [event.target.name] : event.target.value})
+    }
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Form Data Submitted:", formData);
+        console.log("Form Data Submitted:", state.name, state.email, state.password);
     };
 
     return (
-        <div>
-        <h2>Signup</h2>
-        <form onSubmit={handleSubmit}>
+        <div className={styles.bungkusan}>
+            <div className={styles.glasses}>
+        <h2 className={styles.header}>Signup</h2>
+        <form onSubmit={handleSubmit} className={styles.blanko}>
             <div>
-            <label>Name:</label>
-            <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+            <label className={styles.head}>Name:</label>
+            <input className={styles.value} type="text" name="name" onChange={change} placeholder="name" required />
             </div>
 
             <div>
-            <label>Email:</label>
-            <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+            <label className={styles.head}>Email:</label>
+            <input className={styles.value} type="email" name="email" onChange={change} placeholder="email" required />
             </div>
 
             <div>
-            <label>Password:</label>
-            <input type="password" name="password" value={formData.password} onChange={handleChange} required />
+            <label className={styles.head}>Password:</label>
+            <input className={styles.value} type="password" name="password" onChange={change} placeholder="password" required />
             </div>
 
-            <button type="submit">Sign Up</button>
+            <button type="submit" className={styles.tombol}>Sign Up</button>
         </form>
+        </div>
         </div>
     );
 };

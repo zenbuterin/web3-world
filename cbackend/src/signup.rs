@@ -1,3 +1,4 @@
+use actix_web::post;
 use sqlx::{pool, sqlite::{self, SqliteConnectOptions, SqlitePool, SqliteQueryResult}};
 
 
@@ -8,6 +9,8 @@ pub struct Users {
     password: String
 }
 
+
+// #[post()]
 
 pub async fn create_table(database_url: &str) -> Result<SqliteQueryResult, sqlx::Error> {
     let pool = SqlitePool::connect(&database_url).await?;
