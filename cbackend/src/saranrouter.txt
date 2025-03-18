@@ -1,0 +1,145 @@
+Berikut implementasi **router handler, function, dan router** untuk mengirim data dari frontend ke database **SQLite** menggunakan **Actix Web**:  
+
+---
+
+### **1️⃣ Install Dependencies**  
+Jalankan perintah berikut untuk menambahkan dependensi yang dibutuhkan di **Cargo.toml**:  
+```toml
+[dependencies]
+actix-web = "4"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sqlx = { version = "0.7", features = ["sqlite", "runtime-tokio-native-tls"] }
+tokio = { version = "1", features = ["full"] }
+dotenv = "0.15"
+```
+
+---
+
+### **2️⃣ Buat Database (`init_db.rs`)**  
+```rust
+use sqlx::{sqlite::SqlitePool, Pool, Sqlite};
+use std::env;
+
+pub async fn init_db() -> Pool<Sqlite> {
+    let db_url = env::var("DATABASE_URL").unwrap_or_else(|_| "sqlite:data.db".to_string());
+    let pool = SqlitePool::connect(&db_url).await.expect("Failed to connect to database");
+
+    sqlx::query!(
+        "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, email TEXT, password TEXT)"
+    )
+    .execute(&pool)
+    .await
+    .expect("Failed to create table");
+
+    pool
+}
+```
+
+---
+
+### **3️⃣ Setup Server & Route (`main.rs`)**  
+```rust
+use actix_web::{web, App, HttpResponse, HttpServer, Responder};
+use sqlx::SqlitePool;
+use serde::{Deserialize, Serialize};
+use dotenv::dotenv;
+
+mod init_db;
+
+#[derive(Deserialize)]
+struct User {
+    name: String,
+    email: String,
+    password: String,
+}
+
+#[derive(Serialize)]
+struct Response {
+    id: i64,
+    name: String,
+    email: String,
+}
+
+// 🛠️ **Router: Handle POST request**
+async fn register_user(pool: web::Data<SqlitePool>, user: web::Json<User>) -> impl Responder {
+    let result = sqlx::query!(
+        "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+        user.name,
+        user.email,
+        user.password
+    )
+    .execute(pool.get_ref())
+    .await;
+
+    match result {
+        Ok(res) => HttpResponse::Ok().json(Response {
+            id: res.last_insert_rowid(),
+            name: user.name.clone(),
+            email: user.email.clone(),
+        }),
+        Err(_) => HttpResponse::InternalServerError().json("Failed to insert user"),
+    }
+}
+
+// 🔥 Start Server
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    dotenv().ok();
+    let pool = init_db::init_db().await;
+
+    HttpServer::new(move || {
+        App::new()
+            .app_data(web::Data::new(pool.clone()))
+            .route("/register", web::post().to(register_user))
+    })
+    .bind("127.0.0.1:8080")?
+    .run()
+    .await
+}
+```
+
+---
+
+### **4️⃣ Konfigurasi `.env`**
+```env
+DATABASE_URL=sqlite:data.db
+```
+
+---
+
+### **5️⃣ Jalankan Server**
+```sh
+cargo run
+```
+
+---
+
+### **6️⃣ Integrasi Frontend (React - `fetch` API)**
+```javascript
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const data = { name, email, password };
+
+  const res = await fetch("http://127.0.0.1:8080/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  const result = await res.json();
+  console.log(result);
+};
+```
+
+---
+
+### **🔄 Alur Kerja:**  
+1️⃣ Frontend mengirim **POST** request ke **`/register`** dengan data **JSON**.  
+2️⃣ Actix menerima request, memvalidasi data, lalu menyimpan ke **SQLite**.  
+3️⃣ Setelah berhasil, server mengembalikan response (ID, name, email).  
+4️⃣ Frontend menampilkan respons atau menangani error.  
+
+---
+
+🚀 **Sekarang backend siap menerima data dari frontend dan menyimpannya ke SQLite!**

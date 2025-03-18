@@ -1,8 +1,9 @@
 use actix_web::{App, HttpServer};
 use actix_cors::Cors;
 use crate::router::hello;
-mod signup;
+mod registry;
 mod router;
+mod init_database;
 
 
 #[actix_web::main]

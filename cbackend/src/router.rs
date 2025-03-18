@@ -1,4 +1,4 @@
-use actix_web::{get, Responder, HttpResponse, web};
+use actix_web::{get, Responder, HttpResponse, web, post};
 use serde::{Serialize}; 
 
 
@@ -15,6 +15,13 @@ pub struct Start {
     level: u64,
 }
 
+#[derive(Serialize)]
+pub struct MessageText {
+    message: String,
+    number: u64,
+
+
+}
 
 #[get("/hello")]
 pub async fn hello() -> impl Responder {
@@ -27,4 +34,7 @@ pub async fn start(name: web::Path<String>) -> impl Responder {
 }
 
 #[post("/signup")]
-pub async fn 
+pub async fn inputAcc() -> impl Responder {
+
+    HttpResponse::Ok().json(MessageText {message: "menunggu database".to_string(), number:  56 })
+}
