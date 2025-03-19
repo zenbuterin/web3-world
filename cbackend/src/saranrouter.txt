@@ -143,3 +143,7 @@ const handleSubmit = async (e) => {
 ---
 
 🚀 **Sekarang backend siap menerima data dari frontend dan menyimpannya ke SQLite!**
+
+
+TUGAS TERAKHIR: cari tau tentang dependencies
+pada useEffect jir

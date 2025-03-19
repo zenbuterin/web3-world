@@ -1,6 +1,6 @@
-use actix_web::{App, HttpServer};
+use actix_web::{web, App, HttpServer};
 use actix_cors::Cors;
-use crate::router::hello;
+use crate::router::start;
 mod registry;
 mod router;
 mod init_database;
@@ -16,7 +16,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .wrap(Cors::permissive())
-            .service(hello)
+            .route("/start/{id}", web::get().to(start))
     })
     .bind("127.0.0.1:8000")?
     .run()

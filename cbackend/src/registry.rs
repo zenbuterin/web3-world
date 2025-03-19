@@ -1,4 +1,4 @@
-use sqlx::{sqlite::SqlitePool};
+use sqlx::sqlite::SqlitePool;
 
 
 #[derive(Debug, sqlx::FromRow)]

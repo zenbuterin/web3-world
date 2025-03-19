@@ -8,11 +8,10 @@
 #### **2️⃣ User Submit Form**
 - Ketika tombol submit ditekan, event `onSubmit` akan dijalankan. ✅ 
 - React akan mengumpulkan semua data input dari form.  ✅
-- 4
-- Metode HTTP yang digunakan biasanya **POST** karena data dikirim ke server.  
+- Metode HTTP yang digunakan biasanya **POST** karena data dikirim ke server. 
 
 #### **3️⃣ Backend Menerima Request**
-- Backend menerima permintaan dari frontend melalui **endpoint tertentu** (misalnya `/signup`).  
+- Backend menerima permintaan dari frontend melalui **endpoint tertentu** (misalnya `/signup`). ✅ 
 - Data yang dikirim oleh frontend diambil dari request body.  
 - Sebelum diproses, backend bisa memvalidasi apakah data lengkap atau ada yang kosong.  
 
