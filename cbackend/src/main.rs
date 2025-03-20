@@ -1,6 +1,7 @@
 use actix_web::{web, App, HttpServer};
 use actix_cors::Cors;
 use init_database::create_table;
+use registry::{get_user, insert_user};
 use crate::router::start;
 use sqlx::{sqlite::SqliteQueryResult, Sqlite, SqlitePool, migrate::MigrateDatabase};
 use std::env;
@@ -20,6 +21,8 @@ async fn main() -> std::io::Result<()> {
             Err(e) => panic!("{}", e)
         }
     }
+
+    
     // let instances = SqlitePool::connect(&database_url).await.unwrap();
     // let qry = "INSERT INTO settings (description) VALUES($1)";
     // let result = sqlx::query(&qry).bind("testing").execute(&instances).await;
@@ -30,7 +33,8 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .wrap(Cors::permissive())
-            .route("/start/{id}", web::get().to(start))
+            .route("/start/getUser", web::get().to(get_user))
+            .route("/start/inputUser", web::post().to(insert_user))
     })
     .bind("127.0.0.1:8000")?
     .run()
