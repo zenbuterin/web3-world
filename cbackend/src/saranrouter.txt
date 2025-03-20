@@ -145,5 +145,11 @@ const handleSubmit = async (e) => {
 🚀 **Sekarang backend siap menerima data dari frontend dan menyimpannya ke SQLite!**
 
 
-TUGAS TERAKHIR: cari tau tentang dependencies
-pada useEffect jir
+TUGAS TERAKHIR: 
+cari tau tentang dependencies pada useEffect jir
+using env
+pembuatan RESTFUL API
+sql dan nosql
+solana
+unit test
+integration database with backend

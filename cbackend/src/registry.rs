@@ -8,11 +8,6 @@ pub struct Users {
     password: String
 }
 
-
-
-
-
-
 pub async fn insert_user(pool: &SqlitePool, email: String, password: String) -> Result<(), sqlx::Error> {
     let qyr = "INSERT INTO users (email, password) VALUES (?, ?)";
     let result = sqlx::query(qyr).bind(email).bind(password).execute(pool).await?;
