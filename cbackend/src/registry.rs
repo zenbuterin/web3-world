@@ -1,6 +1,6 @@
-use actix_web::{web, HttpResponse, Responder, ResponseError};
+use actix_web::{web, HttpResponse, Responder};
 use serde::{Deserialize, Serialize};
-use sqlx::sqlite::{SqlitePool, SqliteQueryResult};
+use sqlx::sqlite::SqlitePool;
 use sqlx::Row;
 
 
@@ -19,7 +19,7 @@ pub struct UsersInput {
 
 pub async fn insert_user(pool: web::Data<SqlitePool>, datauser: web::Json<UsersInput>) -> impl Responder {
     let qyr = "INSERT INTO users (email, password) VALUES (?, ?)";
-    let result = sqlx::query(qyr).bind(datauser.email.clone()).bind(datauser.password.clone()).execute(pool.get_ref()).await;
+    let result = sqlx::query(qyr).bind(&datauser.email).bind(&datauser.password).execute(pool.get_ref()).await;
     println!("{:?}", result);
     
     match result {
@@ -29,7 +29,7 @@ pub async fn insert_user(pool: web::Data<SqlitePool>, datauser: web::Json<UsersI
     
 }
 
-async fn get_user(
+pub async fn get_user(
     pool: web::Data<SqlitePool>,
     email: web::Path<String>,
 ) -> impl Responder {

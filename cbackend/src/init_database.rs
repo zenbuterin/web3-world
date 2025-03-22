@@ -1,13 +1,11 @@
 use sqlx::{sqlite::SqlitePool, sqlite::SqliteQueryResult};
 
-pub async fn create_table(database_url: &String) -> Result<SqliteQueryResult, sqlx::Error> {
-    let pool = SqlitePool::connect(&database_url).await?;
-    let qyr = "CREATE TABLE users (
+pub async fn create_table(pool: &SqlitePool) -> Result<SqliteQueryResult, sqlx::Error> {
+    let qyr = "CREATE TABLE IF NOT EXIST users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     email TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL
     )";
-    let result = sqlx::query(qyr).execute(&pool).await;
-    pool.close().await;
+    let result = sqlx::query(qyr).execute(pool).await;
     return result;
 }
