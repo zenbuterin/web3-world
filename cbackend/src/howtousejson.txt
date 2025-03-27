@@ -1,0 +1,138 @@
+## **Konsep JSON dan Komunikasi HTTP**  
+### **1. Apa Itu JSON?**  
+JSON (*JavaScript Object Notation*) adalah format data ringan yang digunakan untuk pertukaran data antara sistem. JSON berbentuk objek dengan struktur key-value, mirip dengan dictionary di Python atau struct di Rust.  
+
+**Contoh JSON:**  
+```json
+{
+  "username": "john_doe",
+  "email": "john@example.com"
+}
+```
+
+### **2. Alur Komunikasi Frontend-Backend dengan JSON**  
+1. **Frontend mengirim data JSON** ke backend melalui HTTP request (`fetch` atau `axios`).  
+2. **Backend menerima JSON**, memproses data, dan menyimpannya ke database.  
+3. **Backend mengirim response JSON** kembali ke frontend.  
+4. **Frontend menampilkan response** ke user.  
+
+---
+
+## **Paradigma Desain Komunikasi**
+Agar frontend dan backend dapat berkomunikasi dengan baik, ada beberapa paradigma yang harus diikuti:  
+- **RESTful API** → Backend menyediakan endpoint berbasis HTTP (GET, POST, PUT, DELETE).  
+- **JSON sebagai format komunikasi** → Data dikirim dalam format JSON.  
+- **CORS Handling** → Pastikan backend mengizinkan request dari frontend.  
+- **Error Handling** → Gunakan status HTTP yang sesuai untuk setiap kondisi.  
+- **Authentication & Security** → Gunakan JWT atau API key jika diperlukan.  
+
+---
+
+## **Implementasi: Actix Web (Backend) & Next.js (Frontend)**  
+### **1. Backend dengan Actix Web**
+#### **File: `main.rs`**
+```rust
+use actix_cors::Cors;
+use actix_web::{post, web, App, HttpResponse, HttpServer, Responder};
+use serde::{Deserialize, Serialize};
+
+#[derive(Deserialize)]
+struct UserData {
+    username: String,
+    email: String,
+}
+
+#[derive(Serialize)]
+struct ResponseMessage {
+    message: String,
+}
+
+#[post("/api/user")]
+async fn create_user(user: web::Json<UserData>) -> impl Responder {
+    println!("Received: {} - {}", user.username, user.email);
+
+    HttpResponse::Ok().json(ResponseMessage {
+        message: format!("User {} registered!", user.username),
+    })
+}
+
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    HttpServer::new(|| {
+        App::new()
+            .wrap(Cors::permissive()) // Izinkan request dari frontend
+            .service(create_user)
+    })
+    .bind("127.0.0.1:8000")?
+    .run()
+    .await
+}
+```
+
+### **2. Frontend dengan Next.js**
+#### **File: `pages/index.js`**
+```jsx
+import { useState } from "react";
+
+export default function Home() {
+    const [formData, setFormData] = useState({ username: "", email: "" });
+    const [message, setMessage] = useState("");
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch("http://localhost:8000/api/user", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
+            });
+
+            const result = await response.json();
+            setMessage(result.message);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+
+    return (
+        <div>
+            <form onSubmit={handleSubmit}>
+                <input type="text" name="username" placeholder="Username" onChange={handleChange} required />
+                <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
+                <button type="submit">Submit</button>
+            </form>
+            <p>{message}</p>
+        </div>
+    );
+}
+```
+
+---
+
+## **Syarat Utama Agar Frontend & Backend Bisa Berkomunikasi**
+1. **Backend harus memiliki endpoint HTTP** yang menerima dan mengembalikan JSON.  
+2. **Frontend harus mengirim request dalam format JSON** (`Content-Type: application/json`).  
+3. **CORS harus diizinkan** jika frontend dan backend berada di domain berbeda.  
+4. **Pastikan port backend dan frontend tidak bentrok** (misal, backend di `8000`, frontend di `3000`).  
+
+---
+
+## **Cara Menjalankan**
+1. **Jalankan backend Rust:**  
+   ```sh
+   cargo run
+   ```
+2. **Jalankan frontend Next.js:**  
+   ```sh
+   npm run dev
+   ```
+3. **Buka browser** dan akses `http://localhost:3000` → Isi form dan submit → Data dikirim ke backend.  
+
+---
+
+**Dengan arsitektur ini, frontend dan backend dapat berkomunikasi secara real-time melalui JSON dengan HTTP! 🚀**
