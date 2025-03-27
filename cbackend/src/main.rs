@@ -1,5 +1,5 @@
 use actix_web::{web, App, HttpServer};
-use std::{env, path::Path};
+use std::env;
 use dotenv::dotenv;
 use actix_cors::Cors;
 use registry::{get_user, insert_user};
@@ -28,8 +28,8 @@ async fn main() -> Result<(), std::io::Error> {
         App::new()
             .wrap(Cors::permissive())
             .app_data(web::Data::new(pool.clone())) // Share pool ke handler
-            .route("/start/getUser", web::get().to(get_user))
-            .route("/start/inputUser", web::post().to(insert_user))
+            .route("/getUser", web::get().to(get_user))
+            .route("/inputUser", web::post().to(insert_user))
     })
     .bind("127.0.0.1:8000")?
     .run()

@@ -17,6 +17,11 @@ pub struct UsersInput {
     password: String
 }
 
+#[derive(Deserialize)]
+pub struct GetUsers {
+    email: String
+}
+
 pub async fn insert_user(pool: web::Data<SqlitePool>, datauser: web::Json<UsersInput>) -> impl Responder {
     let qyr = "INSERT INTO users (email, password) VALUES (?, ?)";
     let result = sqlx::query(qyr).bind(&datauser.email).bind(&datauser.password).execute(pool.get_ref()).await;
@@ -31,12 +36,12 @@ pub async fn insert_user(pool: web::Data<SqlitePool>, datauser: web::Json<UsersI
 
 pub async fn get_user(
     pool: web::Data<SqlitePool>,
-    email: web::Path<String>,
+    data: web::Json<GetUsers>,
 ) -> impl Responder {
     let query = "SELECT id, email, password FROM users WHERE email = ?";
     
     let result = sqlx::query(query)
-        .bind(&*email) // Deref karena web::Path<String>
+        .bind(&data.email) // Deref karena web::Path<String>
         .fetch_one(pool.get_ref())
         .await;
 
@@ -49,6 +54,6 @@ pub async fn get_user(
             };
             HttpResponse::Ok().json(user)
         }
-        Err(_) => HttpResponse::NotFound().body("User not found"),
+        Err(_) => HttpResponse::InternalServerError().body("Server Bermasalah"),
     }
 }
