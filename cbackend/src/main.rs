@@ -18,6 +18,7 @@ async fn main() -> Result<(), std::io::Error> {
     let db_path = database_url.trim_start_matches("sqlite://");
 
     println!("Using database at: {}", db_path);
+    println!("Running at http://127.0.0.1:8000");
 
     // Buat koneksi ke database
     let pool = SqlitePool::connect(&database_url).await.expect("Failed to connect to database");

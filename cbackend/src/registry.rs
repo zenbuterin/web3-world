@@ -1,7 +1,9 @@
+
 use actix_web::{web, HttpResponse, Responder};
 use serde::{Deserialize, Serialize};
 use sqlx::sqlite::SqlitePool;
 use sqlx::Row;
+use validator::Validate;
 
 
 #[derive(Serialize)]
@@ -11,9 +13,11 @@ pub struct Users {
     password: String
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Validate)]
 pub struct UsersInput {
+    #[validate(email(message = "email tidak valid"))]
     email: String,
+    #[validate(length(min = 8 , message="password minimal 8 elemen"))]
     password: String
 }
 
@@ -23,6 +27,9 @@ pub struct GetUsers {
 }
 
 pub async fn insert_user(pool: web::Data<SqlitePool>, datauser: web::Json<UsersInput>) -> impl Responder {
+    if let Err(error) = datauser.validate() {
+        return HttpResponse::BadRequest().json(error);
+    }
     let qyr = "INSERT INTO users (email, password) VALUES (?, ?)";
     let result = sqlx::query(qyr).bind(&datauser.email).bind(&datauser.password).execute(pool.get_ref()).await;
     println!("{:?}", result);
