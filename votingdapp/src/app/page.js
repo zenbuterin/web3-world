@@ -8,7 +8,6 @@ function MyApp() {
   const [contract, setContract] = useState(null);
   const [account, setAccount] = useState(null);
   const [balanceethereum, setBalance] = useState(0);
-  const [Registration, setRegistration] = useState(null);
 
 
   const connectToWeb3 = async () => {
@@ -31,19 +30,16 @@ function MyApp() {
 
   return (
     <>
-      <div className={styles.headerText}>
-        <header>Hello, I'm a header</header>
+    <div className={styles.body}>
+      <div className={styles.header}>
+        <button className={styles.navigator}>Dvoting</button>
+        <button className={styles.navigator}>Swap Token</button>
+        <button className={styles.navigator}>Wallet</button>
+        <button className={styles.navigator}>Author</button>
+        <button className={styles.walletconnection} onClick={connectToWeb3}>Connect Wallet</button>
       </div>
-      <div>
-        <button className={styles.tombol} onClick={connectToWeb3}>
-          Connect to Metamask
-        </button>
-        {account && <p>Connected to: {account}</p>}
-        {contract && <p>Contract address is: {contract.options.address}</p>}
-        <GetBalance account={account} web3={web3provider} setBalance={setBalance} balanceethereum={balanceethereum} />
-        <GetAuthority account={account} contract={contract} />
-        <GetKnowJumlahVoter contract={contract} />
-      </div>
+      <Dvoting />
+    </div>
     </>
   );
 }
@@ -123,10 +119,34 @@ function GetKnowJumlahVoter({contract}) {
   )
 }
 
-function Registration({contract, account}) {
- 
+function Dvoting() {
+  const [buttons, setButtons] = useState(["Add Candidate"]);
+  return(<>
+  <div className={styles.pageDvoting}>
+    <div className={styles.option}>
+      <div className={styles.info}>
+        <p>Roomname/roomnum</p>
+      </div>
+      <div className={styles.addNcandidate}>
+            {buttons.map((label, index) => (
+                <button 
+                    key={index} 
+                    onClick={() => setButtons([...buttons, `Candidate ${buttons.length + 1}`])}
+                >
+                    {label}
+                </button>
+            ))}
+            <button className={styles.back}>Back</button>
+        </div>
+    </div>
+    <div className={styles.description}>
+      {/* photo dan description dari candidate */}
+    </div>
+  </div>
+  </>)
 }
 
 export default function Page() {
   return <MyApp />;
 }
+
