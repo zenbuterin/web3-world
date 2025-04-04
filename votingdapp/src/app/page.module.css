@@ -11,7 +11,13 @@
     width: 90vw;
     height: auto;
     margin: 0 auto;
-    background-color: var(--primary-color);
+    padding: 2rem;
+    background-color: var(--secondary-color);
+}
+
+.option {
+    display: flex;
+    flex-direction: column;
 }
 
 body {
@@ -113,7 +119,11 @@ body {
         position: absolute;
         display: flex;
         flex-direction: column;
-        z-index: 3
+        z-index: 3;
+        right: 0.1vw;
+        padding: 2rem;
+        background-color: var(--background-color);
+        border: var(--text-color) 3px solid;
     }
     
 

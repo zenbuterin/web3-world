@@ -48,11 +48,16 @@ function MyApp() {
 </svg>
         </button>
         {dropDown && (<div className={styles.dropdownview}>
-        <button className={styles.navigator}>Dvoting</button>
+          <p className={styles.navdropdown}><a href="">Dvoting</a></p>
+          <p className={styles.navdropdown}><a href="">Swap Token</a></p>
+          <p className={styles.navdropdown}><a href="">Wallet</a></p>
+          <p className={styles.navdropdown}><a href="">Author</a></p>
+          <button className={styles.walletconnectiondropdown} onClick={connectToWeb3}><a href="">Connect to Wallet</a></button>
+        {/* <button className={styles.navigator}>Dvoting</button>
         <button className={styles.navigator}>Swap Token</button>
         <button className={styles.navigator}>Wallet</button>
         <button className={styles.navigator}>Author</button>
-        <button className={styles.walletconnection} onClick={connectToWeb3}>Connect Wallet</button>
+        <button className={styles.walletconnection} onClick={connectToWeb3}>Connect Wallet</button> */}
         </div>)}
         </div>
       </div>
@@ -138,7 +143,6 @@ function GetKnowJumlahVoter({contract}) {
 }
 
 function Dvoting() {
-  const [buttons, setButtons] = useState(["Add Candidate"]);
   return(<>
   <div className={styles.pageDvoting}>
     <div className={styles.option}>
@@ -146,15 +150,7 @@ function Dvoting() {
         <p>Roomname/roomnum</p>
       </div>
       <div className={styles.addNcandidate}>
-            {buttons.map((label, index) => (
-                <button 
-                    key={index} 
-                    onClick={() => setButtons([...buttons, `Candidate ${buttons.length + 1}`])}
-                >
-                    {label}
-                </button>
-            ))}
-            <button className={styles.back}>Back</button>
+            <div><button className={styles.back}>Back</button></div>
         </div>
     </div>
     <div className={styles.description}>
