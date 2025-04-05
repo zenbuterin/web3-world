@@ -84,3 +84,9 @@
 .tombol:hover {
     background: darkblue;
 }
+
+@media (max-width: 668px) {
+    .glasses {
+        width:80vw;
+    }
+}

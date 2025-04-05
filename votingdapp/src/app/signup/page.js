@@ -29,7 +29,7 @@ function SignupForm() {
     return (
         <div className={styles.bungkusan}>
             <div className={styles.glasses}>
-        <h2 className={styles.header}>Signup</h2>
+        <h2 className={styles.header}>Signup to web3 world</h2>
         <form method="POST" onSubmit={handleSubmit} className={styles.blanko}>
             <div>
             <label className={styles.head}>Name:</label>
