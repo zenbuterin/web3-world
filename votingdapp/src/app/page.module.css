@@ -12,7 +12,9 @@
     height: auto;
     margin: 0 auto;
     padding: 2rem;
-    background-color: var(--secondary-color);
+    border: 3px solid black;
+    border-radius: 10px;
+    box-shadow: 10px 10px;
 }
 
 .option {
@@ -21,29 +23,24 @@
 }
 
 body {
-    margin: 0;
-    padding: 0;
     font-family: "Winky Sans", sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
 }
 
-.innerBody {
-    margin: auto;
-    width: 95vw;
+html, body {
+    height: 100%;
 }
 
 .header {
     margin: 20px;
     padding: 20px;
     padding-left: 40px;
-    background-color: var(--primary-color);
     border-radius: 10px;
-    box-shadow: #222222;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-
-
+    box-shadow: #000000;
+    box-shadow: 10px 10px;
+    border: 3px solid black;
 }
 
 .overlapButton {
@@ -60,12 +57,11 @@ body {
     margin-left: -20px; /* tumpang tindih */
     transition: all 0.3s ease;
     z-index: 1;
-    background: var(--accent-color);
-    color: var(--secondary-color);
+    color: black;
     padding: 10px;
     border-radius: 10px;
     cursor: pointer;
-    border: 4px solid var(--primary-color);
+    border: 3px solid black;
     font-family: "Winky Sans";
     font-size: 16px;
 }
@@ -87,6 +83,17 @@ body {
 
 .logo {
     display: inline;
+}
+
+.back {
+    padding: 4px;
+    border-radius: 5px;
+    
+    background-color: white;
+}
+
+.option {
+    height: 200px;
 }
 
 @media (max-width: 668px) {
@@ -122,10 +129,10 @@ body {
         z-index: 3;
         right: 0.1vw;
         padding: 2rem;
-        background-color: var(--background-color);
+        background-color: white;
         border: var(--text-color) 3px solid;
+        border-radius: 10px;
+        
     }
     
-
-
 }

@@ -48,16 +48,12 @@ function MyApp() {
 </svg>
         </button>
         {dropDown && (<div className={styles.dropdownview}>
+          {/*ketika link dikunjungi maka componen akan muncul di div innerbody */}
           <p className={styles.navdropdown}><a href="">Dvoting</a></p>
           <p className={styles.navdropdown}><a href="">Swap Token</a></p>
           <p className={styles.navdropdown}><a href="">Wallet</a></p>
           <p className={styles.navdropdown}><a href="">Author</a></p>
           <button className={styles.walletconnectiondropdown} onClick={connectToWeb3}><a href="">Connect to Wallet</a></button>
-        {/* <button className={styles.navigator}>Dvoting</button>
-        <button className={styles.navigator}>Swap Token</button>
-        <button className={styles.navigator}>Wallet</button>
-        <button className={styles.navigator}>Author</button>
-        <button className={styles.walletconnection} onClick={connectToWeb3}>Connect Wallet</button> */}
         </div>)}
         </div>
       </div>
