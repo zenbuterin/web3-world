@@ -1,5 +1,5 @@
 'use client'
-import styles from "./login.module.css";
+import styles from "./signup.module.css";
 import axios from "axios";
 
 function SignupForm() {
