@@ -4,7 +4,6 @@ import signupstyle from "@/app/signup/signup.module.css"
 // import walletstyle from  "@/app/wallet/wallet.module.css"
 // import authorstyle from  "@/app/author/author.module.css"
 // import swapstyle from  "@/app/swap/swap.module.css"
-// import login from  "@/app/login/login.module.css"
 
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -55,10 +54,7 @@ export default function Header() {
         //     styles = authorstyle;
 
         // }
-        // else if (pname.startsWith("/login")) {
-        //     styles = loginstyle;
 
-        // }
     
     return (
         <>
