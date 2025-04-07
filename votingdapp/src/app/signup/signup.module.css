@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
-    --primary-color: #7b88c3; /* Warna ungu utama */
-    --secondary-color: #e0e7ff; /* Warna latar belakang yang lebih terang */
-    --accent-color: #4c5daa; /* Warna aksen biru */
-    --text-color: #222222; /* Warna teks utama */
-    --background-color: #cac9c9; /* Warna latar belakang umum */
+    --primary-color: #6f83b3;
+    --secondary-color: #dbeafe;
+    --accent-color: #3b4c91;
+    --text-color: #1a1a1a;
+    --background-color: #e5e5e5;
+    --border-color: #333333;
 }
 
 .bungkusan {
@@ -13,80 +14,192 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+
     background-color: var(--background-color);
 }
 
 .glasses {
-    background: white;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 12px;
-    padding: 20px;
-    width: 25vw;
+    background: #f9f9f9;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 14px;
+    padding: 24px;
+    width: 27vw;
     text-align: center;
-    box-shadow: 10px 10px black;
-    border: 3px solid black;
+    box-shadow: 8px 8px 0px var(--border-color);
+    border: 2px dashed var(--border-color);
 }
 
 .header {
-    font-family: "Winky Sans", sans-serif;
-    font-size: 2rem;
-    font-weight: 600;
-    color: black;
-    margin-bottom: 30px;
-
-
+    font-family: "Poppins", sans-serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 28px;
 }
 
 .blanko {
     display: flex;
     flex-direction: column;
-    gap: 1.3rem;
+    gap: 1.5rem;
     text-align: left;
 }
 
 .head {
-    font-family: "Winky Sans", sans-serif;
-    font-size: 1.5rem;
-    color: black;
-
+    font-family: "Poppins", sans-serif;
+    font-size: 1.6rem;
+    color: var(--accent-color);
 }
 
 .value {
     width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    background: rgba(255, 255, 255, 0.1);
-    color: black;
-    font-size: 16px;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid var(--primary-color);
+    background: rgba(255, 255, 255, 0.25);
+    color: #222;
+    font-size: 17px;
 }
 
 .value:focus {
-    outline: 2px solid black;
-    border: none;
+    outline: none;
+    border: 2px solid var(--accent-color);
+    background-color: #ffffff;
 }
 
-
 .tombol {
-    background: var(--primary-color);
+    background: var(--accent-color);
     color: white;
-    padding: 10px;
+    padding: 12px;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    font-family: "Winky Sans", sans-serif;
-    font-size: 16px;
-    transition: 0.3s;
+    font-family: "Poppins", sans-serif;
+    font-size: 17px;
+    transition: background 0.3s ease;
 }
 
 .tombol:hover {
-    background: darkblue;
+    background: #1e2a66;
+}
+
+/* main header */
+
+body {
+
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+html, body {
+    height: 100%;
+}
+
+.mainheader {
+    font-family: "Poppins", sans-serif;
+    margin: 20px;
+    padding: 20px 40px;
+    border-radius: 12px;
+    box-shadow: 8px 8px 0px var(--border-color);
+    border: 2px dashed var(--border-color);
+    background-color: #fff;
+}
+
+.overlapButton {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    position: relative;
+}
+
+.navigator, .walletconnection {
+    width: 130px;
+    margin-left: -18px;
+    transition: all 0.3s ease;
+    z-index: 1;
+    color: var(--text-color);
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 2px dashed var(--border-color);
+    background-color: #fafafa;
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+}
+
+.navigator:hover, .walletconnection:hover {
+    width: 140px;
+    margin-left: -5px;
+    z-index: 2;
+    background-color: var(--secondary-color);
+}
+
+.navigator:active, .walletconnection:active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.mobileView {
+    display: none;
+}
+
+.logo {
+    display: inline;
+}
+
+.back {
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: white;
+    font-family: "Poppins", sans-serif;
+    background-color: var(--accent-color);
+    border: none;
+}
+
+.option {
+    height: auto;
 }
 
 @media (max-width: 668px) {
     .glasses {
-        width:80vw;
+        width: 85vw;
+    }
+
+    .overlapButton {
+        display: none;
+    }
+
+    .mobileView {
+        display: block;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        padding: 1rem;
+        font-weight: bold;
+        align-items: end;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .dropdownwrapper {
+        position: relative;
+    }
+
+    .dropdownview {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        z-index: 3;
+        right: 1vw;
+        padding: 1.5rem;
+        background-color: #ffffff;
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
     }
 }

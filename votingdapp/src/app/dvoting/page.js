@@ -1,4 +1,4 @@
-import styles from "../page.module.css";
+import styles from "@/app/dvoting/dvoting.module.css";
 
 export default function Dvoting() {
     return(<>

@@ -1,6 +1,6 @@
 'use client'
 import { useState } from "react";
-import styles from "./page.module.css";
+
 function MyApp() {
   return(<>
   <p>ini digunakan untuk signing jika belum, dan kosong jika sudah **coming soon**</p>

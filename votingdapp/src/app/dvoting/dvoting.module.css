@@ -24,7 +24,7 @@
 }
 
 body {
-    font-family: "Winky Sans", sans-serif;
+    
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
@@ -34,7 +34,8 @@ html, body {
     height: 100%;
 }
 
-.header {
+.mainheader {
+    font-family: "Winky Sans", sans-serif;
     margin: 20px;
     padding: 20px;
     padding-left: 40px;
