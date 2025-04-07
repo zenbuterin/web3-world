@@ -1,36 +1,9 @@
 'use client'
 import { useState } from "react";
-import Web3 from "web3";
 import styles from "./page.module.css";
-import contractAbi from "./abi.json"
-import Dvoting from "./dvoting/page";
 function MyApp() {
-  const [web3provider, setWeb3] = useState(null);
-  const [contract, setContract] = useState(null);
-  const [account, setAccount] = useState(null);
-  const [balanceethereum, setBalance] = useState(0);
-  const [dropDown, setDropDown] = useState(false);
-
-
-  const connectToWeb3 = async () => {
-    try {
-      if (window.ethereum) {
-        const web3 = new Web3(window.ethereum);
-        const contractEth = new web3.eth.Contract(contractAbi, process.env.ADDRESSCONTRACT);
-        const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-        console.log("Connected Account:", accounts[0]);
-        setWeb3(web3);
-        setContract(contractEth);
-        setAccount(accounts[0]);
-      } else {
-        console.log("Install provider Web3 (Metamask)");
-      }
-    } catch (error) {
-      console.error("Error connecting to Web3:", error);
-    }
-  };
   return(<>
-  <p>ini kosong</p>
+  <p>ini digunakan untuk signing jika belum, dan kosong jika sudah **coming soon**</p>
   </>)
 }
 

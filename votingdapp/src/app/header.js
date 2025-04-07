@@ -1,6 +1,8 @@
 "use client"
 import styles from "./page.module.css"; 
 import { useState } from "react";
+import contractAbi from "./abi.json"
+import Web3 from "web3";
 export default function Header() {
         const [web3provider, setWeb3] = useState(null);
         const [contract, setContract] = useState(null);
