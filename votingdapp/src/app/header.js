@@ -6,16 +6,19 @@ import signupstyle from "@/app/signup/signup.module.css"
 // import swapstyle from  "@/app/swap/swap.module.css"
 
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import contractAbi from "./abi.json"
 import Web3 from "web3";
 import Link from 'next/link';
+
+
 export default function Header() {
         const [web3provider, setWeb3] = useState(null);
         const [contract, setContract] = useState(null);
         const [account, setAccount] = useState(null);
         const [balanceethereum, setBalance] = useState(0);
         const [dropDown, setDropDown] = useState(false);
+        // const smallSizeWindows = useDebouncedResize() <= 668;
         let styles = dvotingstyle;
         const pname = usePathname();
         
@@ -88,5 +91,23 @@ export default function Header() {
         </div>
         </>
         );
-
 }
+
+// const useDebouncedResize = () => {
+//     const [size, setSize] = useState({
+//         width: window.innerWidth,
+//         height: window.innerHeight,
+//     });
+
+//     useEffect(() => {
+//         const handleResize = debounce(() => {
+//         setSize({ width: window.innerWidth, height: window.innerHeight });
+//         }, 100);
+//             window.addEventListener("resize", handleResize);
+//         return () => {
+//         handleResize.cancel();
+//         window.removeEventListener("resize", handleResize);
+//         };
+//     }, []);
+//     return size;
+// };

@@ -2,89 +2,76 @@
 pragma solidity ^0.8.28;
 
 contract VotingManager {
-    mapping(address => uint) public voters;
-    mapping(uint => Proposal) public createdProposal;
-    mapping(address => mapping(uint => bool)) public hasVoted;
-    mapping(address => bool) public authority;
-    uint public timesOver;
-    uint public jumlahVoter;
-    uint public jumlahProposal;
+    //event untuk log
+    event RoomCreated(uint roomCode, address createdBy);
+    event CandidateAdded(uint roomCode, address candidateId, address addedBy);
+    event SomeoneEnterTheRoom(address guest);
+    event Voted(string roomCode, address candidateId, address voter);
+
+        //struct yang merepresentasikan Room
+    struct Room {
+        uint code; 
+        address createdBy;  
+    }
     
-    event getProposal(uint _nomor, address _proposer, uint _jumlah);
-    event getKnowAuthority(bool _status);
-    event getKnowAdmin(address _addr);
-    event getHasVoted(bool _status);
-
-    constructor() {
-        authority[msg.sender] = true;
+    struct CandidateInRoom {
+        Candidate[] candidates;
     }
 
-    struct Proposal {
-        string contentOfProposal;
-        address proposer;
-        uint jumlah;
+
+
+    //struct yang merepresentasikan Candidate
+    struct Candidate {
+        address candidateId;
+        uint candidateUniqCode;         
+        address[] voters; 
+        
     }
 
-    function getAuthority(address _addr) public {
-        emit getKnowAuthority(authority[_addr]);
+    struct Vote {
+        mapping(address => bool) hasVoted;
+        bool exists; 
     }
 
-    function addAdmin(address _addr) public onlyAdmin {
-        require(voters[_addr] != 0, "Alamat ini bukan voter");
-        authority[_addr] = true;
-        emit getKnowAdmin(_addr);
-    }
+    //inisialisasi
+    Room[] rooms;
+    Candidate[] candidateList;
 
-    function removeAdmin(address _addr) public onlyAdmin {
-        require(voters[_addr] != 0, "Alamat ini bukan voter");
-        authority[_addr] = false;
-    }
 
-    function createDeadLine(uint _periode) public onlyAdmin {
-        timesOver = block.timestamp + _periode;
-    }
+    //setter function
+    // function createRoom(uint room_code) public {
+    //     rooms.push(Room(room_code, msg.sender));
+    //     emit RoomCreated(room_code, msg.sender);
+    // }
 
-    function registration(address _voter) public {
-        require(voters[_voter] == 0, "Voter sudah terdaftar");
-        jumlahVoter++;
-        voters[_voter] = jumlahVoter; 
-    }
+    // function addCandidate(address _candidateId, uint _candidateUniqCode) public {
 
-    function createProposal(string memory _content) public onlyAdmin {
-        createdProposal[jumlahProposal] = Proposal({
-            contentOfProposal: _content,
-            proposer: msg.sender,
-            jumlah: 0
-        });
-        jumlahProposal++;
-    }
+    // }
 
-    function vote(uint _nomorProposal) public {
-        require(voters[msg.sender] != 0, "Anda bukan voter terdaftar");
-        require(_nomorProposal < jumlahProposal, "Proposal tidak ditemukan");
-        require(!hasVoted[msg.sender][_nomorProposal], "Anda sudah voting");
-        require(block.timestamp <= timesOver, "Waktu Habis");
+    // function vote() public {
 
-        createdProposal[_nomorProposal].jumlah += 1;
-        hasVoted[msg.sender][_nomorProposal] = true;
-    }
+    // }
 
-    function getVoting(uint _nomorProposal) public {
-        require(block.timestamp >= timesOver, "Voting masih berlangsung");
-        require(_nomorProposal < jumlahProposal, "Proposal tidak ditemukan");
+    // //getter function
+    // function enterRoom(uint room_code) public {
 
-        emit getProposal(_nomorProposal, createdProposal[_nomorProposal].proposer, createdProposal[_nomorProposal].jumlah);
-    }
+    // }
 
-    function getKnowHasVoted(address _voter, uint _nomorProposal) public {
-        require(_nomorProposal < jumlahProposal, "Proposal tidak ditemukan");
+    // function getVoters() public {
 
-        bool hadVoted = hasVoted[_voter][_nomorProposal];
-        emit getHasVoted(hadVoted);
-    }
+    // }
 
-    modifier onlyAdmin() {
-        require(authority[msg.sender], "Anda bukan admin");
-        _;
-    }
+    // function getNumberVotersPerCandidate() public {
+    //}
+
+    //function getNumberAllVoters() public {
+    //}
+    
+
+
+
+
+    
+
+
 }
