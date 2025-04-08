@@ -2,76 +2,75 @@
 pragma solidity ^0.8.28;
 
 contract VotingManager {
-    //event untuk log
-    event RoomCreated(uint roomCode, address createdBy);
-    event CandidateAdded(uint roomCode, address candidateId, address addedBy);
-    event SomeoneEnterTheRoom(address guest);
-    event Voted(string roomCode, address candidateId, address voter);
 
-        //struct yang merepresentasikan Room
-    struct Room {
-        uint code; 
-        address createdBy;  
-    }
-    
-    struct CandidateInRoom {
-        Candidate[] candidates;
-    }
-
-
-
-    //struct yang merepresentasikan Candidate
     struct Candidate {
-        address candidateId;
-        uint candidateUniqCode;         
-        address[] voters; 
-        
+        address candidateAddress;
+        uint candidateCode;
+        address[] voters;
     }
 
-    struct Vote {
+    struct Room {
+        uint roomCode;
+        address createdBy;
+        Candidate[] candidates;
         mapping(address => bool) hasVoted;
-        bool exists; 
     }
 
-    //inisialisasi
-    Room[] rooms;
-    Candidate[] candidateList;
+    mapping(uint => Room) public rooms;
 
+    event RoomCreated(uint roomCode, address createdBy);
+    event CandidateAdded(uint roomCode, address candidateAddress, uint candidateCode);
+    event Voted(uint roomCode, uint candidateCode, address voter);
+    event VoteRejected(address voter, string reason);
 
-    //setter function
-    // function createRoom(uint room_code) public {
-    //     rooms.push(Room(room_code, msg.sender));
-    //     emit RoomCreated(room_code, msg.sender);
-    // }
+    function addRoom(uint _roomCode) external {
+        Room storage room = rooms[_roomCode];
+        require(room.roomCode == 0, "Room already exists");
+        room.roomCode = _roomCode;
+        room.createdBy = msg.sender;
 
-    // function addCandidate(address _candidateId, uint _candidateUniqCode) public {
+        emit RoomCreated(_roomCode, msg.sender);
+    }
 
-    // }
+    function addCandidate(uint _roomCode, address _candidateAddress, uint _candidateCode) external {
+        Room storage room = rooms[_roomCode];
+        require(room.roomCode != 0, "Room doesn't exist");
 
-    // function vote() public {
+        // Candidate memory newCandidate = Candidate({
+        //     candidateAddress: _candidateAddress,
+        //     candidateCode: _candidateCode,
+        //     voters: new address 
+        // });
 
-    // }
+        room.candidates.push(newCandidate);
 
-    // //getter function
-    // function enterRoom(uint room_code) public {
+        emit CandidateAdded(_roomCode, _candidateAddress, _candidateCode);
+    }
 
-    // }
+    function vote(uint _roomCode, uint _candidateCode) external {
+        Room storage room = rooms[_roomCode];
+        require(room.roomCode != 0, "Room doesn't exist");
+        require(!room.hasVoted[msg.sender], "Already voted");
 
-    // function getVoters() public {
+        bool found = false;
+        for (uint i = 0; i < room.candidates.length; i++) {
+            if (room.candidates[i].candidateCode == _candidateCode) {
+                room.candidates[i].voters.push(msg.sender);
+                room.hasVoted[msg.sender] = true;
+                emit Voted(_roomCode, _candidateCode, msg.sender);
+                found = true;
+                break;
+            }
+        }
 
-    // }
+        if (!found) {
+            emit VoteRejected(msg.sender, "Candidate not found in this room");
+            revert("Candidate not found");
+        }
+    }
 
-    // function getNumberVotersPerCandidate() public {
-    //}
-
-    //function getNumberAllVoters() public {
-    //}
-    
-
-
-
-
-    
-
+    function getCandidates(uint _roomCode) external view returns (Candidate[] memory) {
+        return rooms[_roomCode].candidates;
+    }
 
 }
