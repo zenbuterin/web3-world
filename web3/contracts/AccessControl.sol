@@ -12,17 +12,19 @@ contract VotingManager {
     struct Room {
         uint roomCode;
         address createdBy;
+        //berisi paling tidak 2 candidates.
         Candidate[] candidates;
     }
 
     struct Voter {
-        address voterAddress;
+        //uint adalah kode room;
         mapping (uint => Candidate) voted;
     }
 
     //keterkatian
     Room[] rooms;
-    Voter[] voters;
+    //satu address hanya memilih satu candidate dalam satu room
+    mapping(address => Voter) voters;
 
 
 }
