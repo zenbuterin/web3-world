@@ -12,8 +12,8 @@ contract VotingManager {
     struct Room {
         uint roomCode;
         address createdBy;
-        //berisi paling tidak 2 candidates.
-        Candidate[] candidates;
+        address candidate1;
+        address candidate2;
     }
 
     struct Voter {
@@ -25,6 +25,7 @@ contract VotingManager {
     Room[] rooms;
     //satu address hanya memilih satu candidate dalam satu room
     mapping(address => Voter) voters;
+
 
 
 }
