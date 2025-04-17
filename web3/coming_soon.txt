@@ -1,0 +1,2 @@
+smartcontract:
+interactive button for adding candidate

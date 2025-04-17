@@ -5,11 +5,11 @@ module.exports = {
   solidity: "0.8.28",
   networks: {
     ganache: {
-      url: "http://127.0.0.1:7545", // URL Ganache
-      chainId: 1337,               // Chain ID Ganache
+      url: "http://127.0.0.1:8545", // URL Ganache / anvil
+      chainId: 31337,               // Chain ID Ganache(1337) / anvil (31337)
       accounts: [
-        "0x2314750764b80839b4b96b524c06013012753c6fede54d08415bb75d255f6d61",           // Private key dari Ganache
-        "0xd769e9b5cf0883613006f9a903bb73653d4977861083672764812904f4284203"
+        "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",           // Private key dari anvil
+        "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d"
       ],
     },
   },
