@@ -12,7 +12,6 @@ contract VotingManager {
     }
 
     struct Room {
-        // uint roomCode;
         address createdBy;
         address candidate1;
         address candidate2;
@@ -24,15 +23,12 @@ contract VotingManager {
     }
 
     //keterkatian
-    // Room[] rooms;
     //uint adalah roomCode
     mapping(uint => Room) rooms;
     //satu address hanya memilih satu candidate dalam satu room
     mapping(address => Voter) voters;
     //jumlah voter per candidate
     mapping(uint => uint) numberOfVoters;
-    // uint index = 0;
-    
 
     //fungsi setter
     function addRoom(uint _roomCode, address _candidate1, address _candidate2) public {
@@ -50,22 +46,8 @@ contract VotingManager {
         emit Voted(msg.sender, _roomCode, _candidateAddress, _candidateCode);
     }
 
-
     //fungsi getter
     function getRoomDetail(uint _roomCode, uint _candidateCode) public view returns(Room memory, uint) {
         return (rooms[_roomCode], numberOfVoters[_candidateCode]);
     }
-    
-
-    //note: penambahan require
-    
-
-
-
-
-
-    
-
-
-
 }
