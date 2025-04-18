@@ -12,7 +12,7 @@ contract VotingManager {
     }
 
     struct Room {
-        uint roomCode;
+        // uint roomCode;
         address createdBy;
         address candidate1;
         address candidate2;
@@ -24,36 +24,40 @@ contract VotingManager {
     }
 
     //keterkatian
-    Room[] rooms;
+    // Room[] rooms;
+    //uint adalah roomCode
+    mapping(uint => Room) rooms;
     //satu address hanya memilih satu candidate dalam satu room
     mapping(address => Voter) voters;
-    uint index = 0;
+    //jumlah voter per candidate
+    mapping(uint => uint) numberOfVoters;
+    // uint index = 0;
+    
 
     //fungsi setter
     function addRoom(uint _roomCode, address _candidate1, address _candidate2) public {
-        rooms.push(Room(_roomCode, msg.sender, _candidate1, _candidate2));
+        rooms[_roomCode] = Room(msg.sender, _candidate1, _candidate2);
         emit roomAdded(_roomCode, _candidate1, _candidate2);
     }
 
     function vote(address _candidateAddress, uint _candidateCode, uint _roomCode) public {
+        Room memory room = rooms[_roomCode];
+        require(_candidateAddress == room.candidate1 || _candidateAddress == room.candidate2, "Invalid candidate");
+        require(voters[msg.sender].voted[_roomCode].candidateAddress == address(0), "Already voted");
         voters[msg.sender].voted[_roomCode] = Candidate(_candidateAddress, _candidateCode);
+        //satu candidate code
+        numberOfVoters[_candidateCode]++;
         emit Voted(msg.sender, _roomCode, _candidateAddress, _candidateCode);
     }
 
 
     //fungsi getter
-    function enterTheRoom(uint _roomCode) public {
-        
-
-    }
-
-    function getCandidate() public {
-
+    function getRoomDetail(uint _roomCode, uint _candidateCode) public view returns(Room memory, uint) {
+        return (rooms[_roomCode], numberOfVoters[_candidateCode]);
     }
     
-    function getVotersPerCandidate() public {
 
-    }
+    //note: penambahan require
     
 
 
