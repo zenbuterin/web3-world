@@ -3,6 +3,7 @@ pragma solidity ^0.8.28;
 
 contract VotingManager {
     event roomAdded(uint roomCode, address candidate1, address candidate2);
+    event Voted(address voter, uint roomCode, address candidate, uint candidateCode);
 
     //entitas
     struct Candidate {
@@ -36,15 +37,23 @@ contract VotingManager {
 
     function vote(address _candidateAddress, uint _candidateCode, uint _roomCode) public {
         voters[msg.sender].voted[_roomCode] = Candidate(_candidateAddress, _candidateCode);
+        emit Voted(msg.sender, _roomCode, _candidateAddress, _candidateCode);
     }
 
 
     //fungsi getter
-    function enterTheRoom(){}
+    function enterTheRoom(uint _roomCode) public {
+        
 
-    function getCandidate() {}
+    }
+
+    function getCandidate() public {
+
+    }
     
-    function getVotersPerCandidate() {}
+    function getVotersPerCandidate() public {
+
+    }
     
 
 
