@@ -88,7 +88,7 @@ html, body {
     display: inline;
 }
 
-.back {
+.back, .walletconnectiondropdown{
     padding: 4px;
     border-radius: 5px;
     color: black;
@@ -103,6 +103,7 @@ html, body {
 }
 
 @media (max-width: 668px) {
+    .mainheader 
     .overlapButton {
         display: none;
     }
@@ -118,7 +119,7 @@ html, body {
         align-items: end;
     }
 
-    .header {
+    .mainheader {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -140,5 +141,8 @@ html, body {
         border-radius: 10px;
         
     }
+
+
+
     
 }

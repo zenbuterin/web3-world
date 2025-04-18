@@ -84,7 +84,7 @@ export default function Header() {
                 <p className={styles.navdropdown}><a href="">Swap</a></p>
                 <p className={styles.navdropdown}><a href="">Wallet</a></p>
                 <p className={styles.navdropdown}><a href="">Author</a></p>
-                <button className={styles.walletconnectiondropdown} onClick={connectToWeb3}><a href="">Connect to Wallet</a></button>
+                <button className={styles.walletconnectiondropdown} onClick={connectToWeb3}>Connect to Your Wallet</button>
             </div>)}
             </div>
             </div>
