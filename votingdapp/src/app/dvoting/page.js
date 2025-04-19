@@ -4,15 +4,16 @@ export default function Dvoting() {
     return(<>
     <div className={styles.pageDvoting}>
         <div className={styles.option}>
-            <div className={styles.info}>
-            <p>Roomname/roomnum</p>
+            <button className={styles.voteButton}>Vote #01</button>
+            <button className={styles.voteButton}>Vote #02</button>
         </div>
-        <div className={styles.addNcandidate}>
-                <div><button className={styles.back}>Back</button></div>
-            </div>
-            </div>
         <div className={styles.description}>
-        {/* photo dan description dari candidate */}
+            <div className={styles.candidateBox}>
+                <div className={styles.canddate}></div>
+                <div className={styles.canddate}></div>
+            </div>
+            <div className={styles.dataVisual}></div>
+            
         </div>
     </div>
     </>)
