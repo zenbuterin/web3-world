@@ -47,7 +47,7 @@ contract VotingManager {
     }
 
     //fungsi getter
-    function getRoomDetail(uint _roomCode, uint _candidateCode) public view returns(Room memory, uint) {
-        return (rooms[_roomCode], numberOfVoters[_candidateCode]);
+    function getRoomDetail(uint _roomCode, uint _candidate1Code, uint _candidate2Code) public view returns(Room memory, uint, uint) {
+        return (rooms[_roomCode], numberOfVoters[_candidate1Code], numberOfVoters[_candidate2Code]);
     }
 }
