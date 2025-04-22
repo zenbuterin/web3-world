@@ -1,46 +1,33 @@
 [
   {
-    "inputs": [],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "bool",
-        "name": "_status",
-        "type": "bool"
-      }
-    ],
-    "name": "getHasVoted",
-    "type": "event"
-  },
-  {
     "anonymous": false,
     "inputs": [
       {
         "indexed": false,
         "internalType": "address",
-        "name": "_addr",
+        "name": "voter",
         "type": "address"
-      }
-    ],
-    "name": "getKnowAdmin",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
+      },
       {
         "indexed": false,
-        "internalType": "bool",
-        "name": "_status",
-        "type": "bool"
+        "internalType": "uint256",
+        "name": "roomCode",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "candidate",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "candidateCode",
+        "type": "uint256"
       }
     ],
-    "name": "getKnowAuthority",
+    "name": "Voted",
     "type": "event"
   },
   {
@@ -49,34 +36,44 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "_nomor",
+        "name": "roomCode",
         "type": "uint256"
       },
       {
         "indexed": false,
         "internalType": "address",
-        "name": "_proposer",
+        "name": "candidate1",
         "type": "address"
       },
       {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "_jumlah",
-        "type": "uint256"
+        "internalType": "address",
+        "name": "candidate2",
+        "type": "address"
       }
     ],
-    "name": "getProposal",
+    "name": "roomAdded",
     "type": "event"
   },
   {
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "_roomCode",
+        "type": "uint256"
+      },
+      {
         "internalType": "address",
-        "name": "_addr",
+        "name": "_candidate1",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_candidate2",
         "type": "address"
       }
     ],
-    "name": "addAdmin",
+    "name": "addRoom",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -84,127 +81,39 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
+        "internalType": "uint256",
+        "name": "_roomCode",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_candidateCode",
+        "type": "uint256"
       }
     ],
-    "name": "authority",
+    "name": "getRoomDetail",
     "outputs": [
       {
-        "internalType": "bool",
+        "components": [
+          {
+            "internalType": "address",
+            "name": "createdBy",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "candidate1",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "candidate2",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct VotingManager.Room",
         "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_periode",
-        "type": "uint256"
-      }
-    ],
-    "name": "createDeadLine",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "_content",
-        "type": "string"
-      }
-    ],
-    "name": "createProposal",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "createdProposal",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "contentOfProposal",
-        "type": "string"
-      },
-      {
-        "internalType": "address",
-        "name": "proposer",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "jumlah",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_addr",
-        "type": "address"
-      }
-    ],
-    "name": "getAuthority",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_voter",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_nomorProposal",
-        "type": "uint256"
-      }
-    ],
-    "name": "getKnowHasVoted",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_nomorProposal",
-        "type": "uint256"
-      }
-    ],
-    "name": "getVoting",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
+        "type": "tuple"
       },
       {
         "internalType": "uint256",
@@ -212,40 +121,6 @@
         "type": "uint256"
       }
     ],
-    "name": "hasVoted",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "jumlahProposal",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "jumlahVoter",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -253,71 +128,23 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_voter",
+        "name": "_candidateAddress",
         "type": "address"
-      }
-    ],
-    "name": "registration",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_addr",
-        "type": "address"
-      }
-    ],
-    "name": "removeAdmin",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "timesOver",
-    "outputs": [
+      },
       {
         "internalType": "uint256",
-        "name": "",
+        "name": "_candidateCode",
         "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
+      },
       {
         "internalType": "uint256",
-        "name": "_nomorProposal",
+        "name": "_roomCode",
         "type": "uint256"
       }
     ],
     "name": "vote",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "voters",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   }
 ]

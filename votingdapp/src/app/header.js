@@ -1,5 +1,5 @@
 "use client"
-import dvotingstyle from "@/app/dvoting/dvoting.module.css";
+import dvotingstyle from "@/app/dvoting/votingroom/dvoting.module.css";
 import signupstyle from "@/app/signup/signup.module.css"
 // import walletstyle from  "@/app/wallet/wallet.module.css"
 // import authorstyle from  "@/app/author/author.module.css"
@@ -7,8 +7,8 @@ import signupstyle from "@/app/signup/signup.module.css"
 
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import contractAbi from "./abi.json"
-import Web3 from "web3";
+import contractAbi from "./abi.json";
+import { ethers } from "ethers";
 import Link from 'next/link';
 
 
@@ -16,9 +16,8 @@ export default function Header() {
         const [web3provider, setWeb3] = useState(null);
         const [contract, setContract] = useState(null);
         const [account, setAccount] = useState(null);
-        const [balanceethereum, setBalance] = useState(0);
         const [dropDown, setDropDown] = useState(false);
-        // const smallSizeWindows = useDebouncedResize() <= 668;
+    
         let styles = dvotingstyle;
         const pname = usePathname();
         
@@ -26,13 +25,13 @@ export default function Header() {
         const connectToWeb3 = async () => {
         try {
             if (window.ethereum) {
-                const web3 = new Web3(window.ethereum);
-                const contractEth = new web3.eth.Contract(contractAbi, process.env.ADDRESSCONTRACT);
-                const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-                console.log("Connected Account:", accounts[0]);
-                setWeb3(web3);
+                const ethersProvider = new ethers.BrowserProvider(window.ethereum);
+                const signer = await ethersProvider.getSigner();
+                const contractEth = new ethers.Contract(signer, contractAbi, ethersProvider)
+                console.log("Connected Account:", signer);
+                setWeb3(ethersProvider);
                 setContract(contractEth);
-                setAccount(accounts[0]);
+                setAccount(signer);
             } else {
                 console.log("Install provider Web3 (Metamask)");
             }
@@ -92,22 +91,3 @@ export default function Header() {
         </>
         );
 }
-
-// const useDebouncedResize = () => {
-//     const [size, setSize] = useState({
-//         width: window.innerWidth,
-//         height: window.innerHeight,
-//     });
-
-//     useEffect(() => {
-//         const handleResize = debounce(() => {
-//         setSize({ width: window.innerWidth, height: window.innerHeight });
-//         }, 100);
-//             window.addEventListener("resize", handleResize);
-//         return () => {
-//         handleResize.cancel();
-//         window.removeEventListener("resize", handleResize);
-//         };
-//     }, []);
-//     return size;
-// };
