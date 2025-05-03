@@ -79,10 +79,10 @@ export default function Header() {
             </button>
             {dropDown && (<div className={styles.dropdownview}>
               {/*ketika link dikunjungi maka componen akan muncul di div innerbody */}
-                <p className={styles.navdropdown}><a href="">Dvoting</a></p>
-                <p className={styles.navdropdown}><a href="">Swap</a></p>
-                <p className={styles.navdropdown}><a href="">Wallet</a></p>
-                <p className={styles.navdropdown}><a href="">Author</a></p>
+                <p className={styles.navdropdown}><Link href="">Dvoting</Link></p>
+                <p className={styles.navdropdown}><Link href="">Swap</Link></p>
+                <p className={styles.navdropdown}><Link href="">Wallet</Link></p>
+                <p className={styles.navdropdown}><Link href="">Author</Link></p>
                 <button className={styles.walletconnectiondropdown} onClick={connectToWeb3}>Connect to Your Wallet</button>
             </div>)}
             </div>
