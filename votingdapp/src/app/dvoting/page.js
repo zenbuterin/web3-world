@@ -1,5 +1,6 @@
 import styles from "@/app/dvoting/votingroom/dvoting.module.css";
-export default function enterRoomUI() {
+
+export default function page() {
     return (<>
     <div className={styles.enterRoomPage}>
         <h1>Enter Room</h1>

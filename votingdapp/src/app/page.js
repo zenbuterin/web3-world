@@ -17,7 +17,6 @@ function MyApp() {
   <p>Wallet adalah halaman untuk koneksi dompet Web3 seperti MetaMask, Trust Wallet, atau WalletConnect. Pengguna bisa menghubungkan dan mengelola wallet mereka untuk berinteraksi dengan fitur lainnya di Web3World.</p>
 
   <h1>👨‍💻 Author</h1>
-  <h1>👨‍💻 Author</h1>
   <p>Website ini dikembangkan secara mandiri oleh developer yang berdedikasi penuh terhadap dunia Web3 dan blockchain.</p>
   {/* <img src="/foto.jpeg" alt="Author"  /> */}
   <p>GitHub: <a href="https://github.com/zenbuterin" target="_blank" rel="noopener noreferrer">zenbuterin</a></p>

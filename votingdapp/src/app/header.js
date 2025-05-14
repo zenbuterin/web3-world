@@ -4,41 +4,14 @@ import signupstyle from "@/app/signup/signup.module.css"
 // import walletstyle from  "@/app/wallet/wallet.module.css"
 // import authorstyle from  "@/app/author/author.module.css"
 // import swapstyle from  "@/app/swap/swap.module.css"
-
+import ConnectToWallet from "./ui/walletConnect";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import contractAbi from "./abi.json";
-import { ethers } from "ethers";
 import Link from 'next/link';
 
 
 export default function Header() {
-        const [web3provider, setWeb3] = useState(null);
-        const [contract, setContract] = useState(null);
-        const [account, setAccount] = useState(null);
-        const [dropDown, setDropDown] = useState(false);
-    
         let styles = dvotingstyle;
         const pname = usePathname();
-        
-        
-        const connectToWeb3 = async () => {
-        try {
-            if (window.ethereum) {
-                const ethersProvider = new ethers.BrowserProvider(window.ethereum);
-                const signer = await ethersProvider.getSigner();
-                const contractEth = new ethers.Contract(signer, contractAbi, ethersProvider)
-                console.log("Connected Account:", signer);
-                setWeb3(ethersProvider);
-                setContract(contractEth);
-                setAccount(signer);
-            } else {
-                console.log("Install provider Web3 (Metamask)");
-            }
-            } catch (error) {
-                console.error("Error connecting to Web3:", error);
-            }
-        };
 
         //dynamic style
         if (pname.startsWith("/dvoting")) {
@@ -69,7 +42,8 @@ export default function Header() {
             <Link href="/swaptoken"><button className={styles.navigator}>Swap</button></Link>
             <Link href="/author"><button className={styles.navigator}>Author</button></Link>
             <Link href="/signup"><button className={styles.navigator}>Sign up (your character)</button></Link>
-            <button className={styles.walletconnection} onClick={connectToWeb3}>Connect Wallet</button>
+            {/*style is not working right now */}
+            <ConnectToWallet />
             </div>
             <div className={styles.dropdownwrapper}>
             <button className={styles.mobileView} onClick={() => {setDropDown(!dropDown); console.log("clicked")}}>
