@@ -10,8 +10,8 @@ export default function ConnectToWallet() {
         if (window.ethereum) {
             const ethersProvider = new ethers.BrowserProvider(window.ethereum)
             const signer = await ethersProvider.getSigner()
-            const contract = new ethers.Contract(signer, contractAbi, ethersProvider)
-            console.log("Connected to (account): ", signer)
+            const contract = new ethers.Contract(process.env.ADDRESSCONTRACT, contractAbi, signer);
+            
         }
         else {
             console.log("Install provider Web3 (Metamask)");
