@@ -1,6 +1,6 @@
 'use client'
 import { ethers } from "ethers";
-import contractAbi from "./abi.json";
+import contractAbi from "@/app/abi";
 
 
 export default function ConnectToWallet() {
@@ -18,7 +18,13 @@ export default function ConnectToWallet() {
         }
     }
     catch(error) {
-        console.log("Can't connect to Web3: ", error)
+        if(error.code === 4001){
+            console.log("User rejected connection")
+        }else {
+            console.log("Can't connect to Web3: ", error)
+
+        }
+        
     }
 }
 

@@ -98,8 +98,10 @@ html, body {
 
 .option {
     height: auto;
-    
+}
 
+.dropdownview {
+    display: none;
 }
 
 @media (max-width: 668px) {

@@ -7,11 +7,21 @@ import signupstyle from "@/app/signup/signup.module.css"
 import ConnectToWallet from "./ui/walletConnect";
 import { usePathname } from "next/navigation";
 import Link from 'next/link';
+import { useState } from "react";
 
 
 export default function Header() {
+        const [dropDown, setDropDown] = useState(false);
+
+        const toggleDropDown = () => {
+        setDropDown((status) => (status === false ? true : false));
+    };
+
+
         let styles = dvotingstyle;
         const pname = usePathname();
+
+
 
         //dynamic style
         if (pname.startsWith("/dvoting")) {
@@ -46,7 +56,7 @@ export default function Header() {
             <ConnectToWallet />
             </div>
             <div className={styles.dropdownwrapper}>
-            <button className={styles.mobileView} onClick={() => {setDropDown(!dropDown); console.log("clicked")}}>
+            <button className={styles.mobileView} onClick={()=>{toggleDropDown()}}>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
         <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
     </svg>
@@ -57,7 +67,7 @@ export default function Header() {
                 <p className={styles.navdropdown}><Link href="">Swap</Link></p>
                 <p className={styles.navdropdown}><Link href="">Wallet</Link></p>
                 <p className={styles.navdropdown}><Link href="">Author</Link></p>
-                <button className={styles.walletconnectiondropdown} onClick={connectToWeb3}>Connect to Your Wallet</button>
+                <ConnectToWallet />
             </div>)}
             </div>
             </div>
