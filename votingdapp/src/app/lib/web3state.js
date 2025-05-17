@@ -42,7 +42,7 @@ export function Web3StateProvider({children}) {
             }
     }
 
-     useEffect(() => {
+    useEffect(() => {
         if (instanceContract) {
             console.log("State instanceContract updated:", instanceContract);
         }
