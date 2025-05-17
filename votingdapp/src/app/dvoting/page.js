@@ -1,9 +1,11 @@
 import styles from "@/app/dvoting/votingroom/dvoting.module.css";
 
+
 export default function page() {
     return (<>
     <div className={styles.enterRoomPage}>
         <h1>Enter Room</h1>
+    
         <form method="POST">
             <div>
                 <label className={styles.head}>Create A Room: </label>
@@ -18,6 +20,7 @@ export default function page() {
                 <input className={styles.value} type="name" placeholder="Second Candidate Code"></input>
             </div>
         </form>
+        
     </div>
     </>)
 }

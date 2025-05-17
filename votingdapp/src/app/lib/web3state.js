@@ -1,33 +1,51 @@
+'use client'
 import contractAbi from "@/app/abi";
-import { ethers } from "ethers/lib.commonjs/ethers";
-import React,{ useContext, useState, createContext, useState } from "react";
+import { ethers } from "ethers";
+import React,{ useContext, useState, createContext } from "react";
 
-const StateContext = createContext()
+const WalletContext = createContext(null)
 
-export function Web3StateProvider({child}) {
-    const [contract, setContract] = useState(null);
+export function Web3StateProvider({children}) {
+    const [instanceContract, setContract] = useState(null);
+    const [signer, setSigner] = useState(null)
+    const [provider, setProvider] = useState(null);
+    const [address, setAddress] = useState("")
     
     const createInstance = async () => {
-        if (window.ethereum) {
-            const ethersProvider = new ethers.BrowserProvider(window.ethereum)
-            const signer = await ethersProvider.getSigner()
-            const contract = new ethers.Contract(process.env.ADDRESSCONTRACT, contractAbi, signer);
-            setContract(contract)
-            console.log("Connected to (account): ", signer)
-        }
-        else {
-            console.log("Install provider Web3 (Metamask)");
-        }
+        try {
+                if (window.ethereum && typeof window !== undefined) {
+                    const ethersProvider = new ethers.BrowserProvider(window.ethereum)
+                    const signer = await ethersProvider.getSigner()
+                    const contract = new ethers.Contract(process.env.ADDRESSCONTRACT, contractAbi, signer);
+                    const address = signer.getAddress()
+                    setContract(contract);
+                    setSigner(signer)
+                    setProvider(ethersProvider)
+                    setAddress(address)
+                }
+                else {
+                    console.log("Install provider Web3 (Metamask)");
+                }
+            }
+            catch(error) {
+                if(error.code === 4001){
+                    console.log("User rejected connection")
+                }else {
+                    console.log("Can't connect to Web3: ", error)
+        
+                }
+                
+            }
     }
 
     return (
-        <StateContext.Provider value={{contract, createInstance}}>
-            {child}
-        </StateContext.Provider>
+        <WalletContext.Provider value={{instanceContract, signer, address, provider, createInstance}}>
+            {children}
+        </WalletContext.Provider>
     )
 }
 
 export function useWeb3State () {
-    useContext(StateContext);
+    return useContext(WalletContext);
 }
 
