@@ -1,7 +1,9 @@
 'use client'
 import contractAbi from "@/app/abi";
+import { configDotenv } from "dotenv";
 import { ethers } from "ethers";
-import React,{ useContext, useState, createContext } from "react";
+import React,{ useContext, useState, createContext, useEffect } from "react";
+require('dotenv').config();
 
 const WalletContext = createContext(null)
 
@@ -16,12 +18,14 @@ export function Web3StateProvider({children}) {
                 if (window.ethereum && typeof window !== undefined) {
                     const ethersProvider = new ethers.BrowserProvider(window.ethereum)
                     const signer = await ethersProvider.getSigner()
-                    const contract = new ethers.Contract(process.env.ADDRESSCONTRACT, contractAbi, signer);
+                    const contract = new ethers.Contract(process.env.NEXT_PUBLIC_ADDRESS_CONTRACT, contractAbi, signer);
                     const address = signer.getAddress()
                     setContract(contract);
                     setSigner(signer)
                     setProvider(ethersProvider)
                     setAddress(address)
+
+                    
                 }
                 else {
                     console.log("Install provider Web3 (Metamask)");
@@ -37,6 +41,24 @@ export function Web3StateProvider({children}) {
                 
             }
     }
+
+     useEffect(() => {
+        if (instanceContract) {
+            console.log("State instanceContract updated:", instanceContract);
+        }
+    }, [instanceContract]);
+    
+    useEffect(() => {
+        if (signer) {
+            console.log("State signer updated:", signer);
+        }
+    }, [signer]);
+    
+    useEffect(() => {
+        if (address) {
+            console.log("State address updated:", address);
+        }
+    }, [address]);
 
     return (
         <WalletContext.Provider value={{instanceContract, signer, address, provider, createInstance}}>

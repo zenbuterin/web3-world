@@ -1,10 +1,12 @@
 'use client'
+import { captureOwnerStack } from "react";
 import { useWeb3State } from "../lib/web3state";
 
 
 export default function ConnectToWallet() {
-    const {createInstance} = useWeb3State();
+    const {address, createInstance} = useWeb3State()
+    
     return (
-        <button onClick={()=> {createInstance()}}>Connect your wallet</button>
+        <button onClick={()=> {createInstance()}}>{address ? address : "Connect wallet"}</button>
         )
 }
