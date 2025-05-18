@@ -1,6 +1,5 @@
 'use client'
 import contractAbi from "@/app/abi";
-import { configDotenv } from "dotenv";
 import { ethers } from "ethers";
 import React,{ useContext, useState, createContext, useEffect } from "react";
 require('dotenv').config();
