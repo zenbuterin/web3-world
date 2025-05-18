@@ -44,7 +44,7 @@ export default function CreateRoom() {
                 <input  type="text" value={firstcan} onChange={(e) => setfirstcan(e.target.value)}  placeholder="First Candidate (address)"></input>
                 <label>who is the second candidate?</label>
                 <input  type="text" value={secondcan} onChange={(e) => setsecondcan(e.target.value)}  placeholder="Second Candidate (address)"></input>
-                <button onClick={() => {handleCreateRoom()}}>Process</button>
+                <button onClick={() => {handleCreateRoom()}}>Process create</button>
             </div>
     )
 }
