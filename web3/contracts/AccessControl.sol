@@ -35,7 +35,8 @@ contract VotingManager {
         rooms[_roomCode] = Room(msg.sender, _candidate1, _candidate2);
         emit roomAdded(_roomCode, _candidate1, _candidate2);
     }
-
+    
+    //candidateCode diberitahu ketika masuk room
     function vote(address _candidateAddress, uint _candidateCode, uint _roomCode) public {
         Room memory room = rooms[_roomCode];
         require(_candidateAddress == room.candidate1 || _candidateAddress == room.candidate2, "Invalid candidate");
@@ -47,6 +48,7 @@ contract VotingManager {
     }
 
     //fungsi getter
+    //candidateCode diberitahu ketika masuk room
     function getRoomDetail(uint _roomCode, uint _candidate1Code, uint _candidate2Code) public view returns(Room memory, uint, uint) {
         return (rooms[_roomCode], numberOfVoters[_candidate1Code], numberOfVoters[_candidate2Code]);
     }

@@ -6,7 +6,7 @@ require('dotenv').config();
 
 const WalletContext = createContext(null)
 
-export function Web3StateProvider({children}) {
+export function useWeb3StateProvider({children}) {
     const [instanceContract, setContract] = useState(null);
     const [signer, setSigner] = useState(null)
     const [provider, setProvider] = useState(null);
