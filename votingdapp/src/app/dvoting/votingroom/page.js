@@ -1,7 +1,9 @@
 import styles from "@/app/dvoting/votingroom/dvoting.module.css";
+import useVote from "@/app/lib/vote";
 
 export default function Dvoting() {
     const candidateCode = useGenerateCandidateCode()
+    const handleVote = useVote()
     return(<>
     <div className={styles.pageDvoting}>
         <div className={styles.option}>

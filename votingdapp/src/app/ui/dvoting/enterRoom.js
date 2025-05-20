@@ -1,7 +1,7 @@
 'use state'
 import { useWeb3State } from "@/app/lib/web3state";
 
-export default function enterRoom() {
+export default function EnterRoom() {
     const { instanceContract } = useWeb3State()
     const [roomCode, setRoomCode] = useState(0);
     const [firstCanCode, setFirstCanCode] = useState(0);
