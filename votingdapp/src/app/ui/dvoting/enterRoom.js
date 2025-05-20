@@ -7,6 +7,7 @@ export default function EnterRoom() {
     const [firstCanCode, setFirstCanCode] = useState(0);
     const [secondCanCode, setSecondCanCode] = useState(0)
 
+
     async function handleEnterRoom() {
             try {
                 if (roomCode !== 0 && firstCanCode !== 0 && secondCanCode !== 0) {
@@ -22,7 +23,6 @@ export default function EnterRoom() {
     
             }
         }
-
 
     return (
         <div>

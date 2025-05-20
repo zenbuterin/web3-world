@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useWeb3StateProvider } from "./web3state";
+import { useWeb3State } from "./web3state";
 import { isAddress } from "ethers";
 
 export default function useVote({candidateAddress, randomGeneratedCode, roomCode}) {
-    const { instanceContract } = useWeb3StateProvider()
+    const { instanceContract } = useWeb3State()
 
     async function handleVote()  
     {
@@ -17,11 +17,9 @@ export default function useVote({candidateAddress, randomGeneratedCode, roomCode
             else {
                 console.log("invalid input address")
             }
-            
         }
         catch(err) {
             console.log("vote unsuccessful")
-
         }
     }
 
@@ -31,7 +29,7 @@ export default function useVote({candidateAddress, randomGeneratedCode, roomCode
         })
     }, [])
 
-    return {handleVote}
+    return { handleVote }
 
 
 }

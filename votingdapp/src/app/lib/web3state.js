@@ -2,11 +2,10 @@
 import contractAbi from "@/app/abi";
 import { ethers } from "ethers";
 import React,{ useContext, useState, createContext, useEffect } from "react";
-require('dotenv').config();
 
 const WalletContext = createContext(null)
 
-export function useWeb3StateProvider({children}) {
+export function Web3StateProvider({children}) {
     const [instanceContract, setContract] = useState(null);
     const [signer, setSigner] = useState(null)
     const [provider, setProvider] = useState(null);

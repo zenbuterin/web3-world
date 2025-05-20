@@ -3,16 +3,21 @@ import { isAddress } from "ethers";
 import { useEffect, useState } from "react";
 
 import { useWeb3State } from "@/app/lib/web3state";
+import { useVoteState } from "@/app/lib/voteState";
 
 
 export default function CreateRoom() {
     const [roomCode, setRoomCode] = useState(0);
     const [firstcan, setfirstcan] = useState("");
     const [secondcan, setsecondcan] = useState("");
+    //for set global state
+    const {setRoomcode, setCandidateaddress} = useVoteState();
+    
     const {instanceContract} = useWeb3State();
     async function handleCreateRoom() {
         const validfirstcan = isAddress(firstcan) ? firstcan : false;
         const validSecondcan = isAddress(secondcan) ? firstcan : false;
+
         try {
             if (validfirstcan && validSecondcan) {
                 const tx = await instanceContract.addRoom(roomCode, firstcan, secondcan);
@@ -34,6 +39,9 @@ export default function CreateRoom() {
                     console.log(`room code added: ${_roomCode}, included first candidate: ${_candidate1} & second Candidate: ${_candidate2}`)
                 })
     }, [])
+    //its for global state
+    setRoomcode(roomCode)
+    setCandidateaddress([firstcan, secondcan])
 
     return(
         <div>
