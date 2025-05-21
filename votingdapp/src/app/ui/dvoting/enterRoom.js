@@ -11,6 +11,7 @@ export default function EnterRoom() {
     async function handleEnterRoom() {
             try {
                 if (roomCode !== 0 && firstCanCode !== 0 && secondCanCode !== 0) {
+                    //roomdetail display in votingroom
                     const [roomdetail, numberOfVoterFirstCan, numberOfVoterSecondCan] = await instanceContract.getRoomDetail(roomCode, firstCanCode, secondCanCode);
                     console.log(`Successful! \nDetail Room: ${roomdetail}\nNumber of Voter of first candidate: ${numberOfVoterFirstCan}\nNumber of Voter of second candidate: ${numberOfVoterSecondCan}`);
                 }
