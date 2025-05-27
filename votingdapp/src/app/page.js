@@ -1,5 +1,8 @@
 'use client'
 import { useState } from "react";
+//NOTE: this is main page (component)
+//NOTE: Current utility: dvoting
+//TODO: all of fiture will appear in every url page
 
 function MyApp() {
   return(<>

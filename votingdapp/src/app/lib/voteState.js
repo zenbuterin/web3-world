@@ -1,7 +1,7 @@
 'use client'
 import { createContext, useContext, useState } from "react";
 
-
+//NOTE: this state provider for vote functionalities
 const VoteContext = createContext(null)
 export function VoteStateProvider({children}) {
     const [roomcode, setRoomcode] = useState(0)

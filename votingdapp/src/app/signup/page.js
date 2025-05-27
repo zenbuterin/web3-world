@@ -1,7 +1,7 @@
 'use client'
 import styles from "./signup.module.css";
 import axios from "axios";
-
+//NOTE: this is used for web2 functionalities
 function SignupForm() {
     async function handleSubmit(e) {
         const formData = new FormData(e.target);

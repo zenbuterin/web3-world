@@ -5,9 +5,10 @@ import EnterRoom from "../ui/dvoting/enterRoom";
 import { VoteStateProvider } from "../lib/voteState";
 
 
-
+//NOTE: this is /dvoting path
 export default function page() {
     return (<>
+    {/*NOTE: VoteStateProvider for createRoom and EnterRoom component can consume global vote state */}
     <VoteStateProvider>
     <div className={styles.enterRoomPage}>
         <h1>Enter Room</h1>

@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import React,{ useContext, useState, createContext, useEffect } from "react";
 
 const WalletContext = createContext(null)
-
+//NOTE: this state provider used by all component that interact with smartcontract or wallet provider or network provider
 export function Web3StateProvider({children}) {
     const [instanceContract, setContract] = useState(null);
     const [signer, setSigner] = useState(null)

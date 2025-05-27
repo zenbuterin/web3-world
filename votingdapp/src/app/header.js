@@ -5,25 +5,26 @@ import signupstyle from "@/app/signup/signup.module.css"
 // import authorstyle from  "@/app/author/author.module.css"
 // import swapstyle from  "@/app/swap/swap.module.css"
 import ConnectToWallet from "./ui/walletConnect";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from 'next/link';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 export default function Header() {
         const [dropDown, setDropDown] = useState(false);
-
+        const {instanceContract} = useWeb3State()
+        const router = useRouter()
         const toggleDropDown = () => {
         setDropDown((status) => (status === false ? true : false));
     };
 
-
+        //NOTE: pname is for dynamic css based on url page name 
         let styles = dvotingstyle;
         const pname = usePathname();
 
 
 
-        //dynamic style
+        //NOTE: dynamic style
         if (pname.startsWith("/dvoting")) {
             styles = dvotingstyle;
         } else if (pname.startsWith("/signup")) {
@@ -40,6 +41,7 @@ export default function Header() {
 
         // }
 
+        
     
     return (
         <>
@@ -47,14 +49,15 @@ export default function Header() {
             <div className={styles.mainheader}>
             <div className={styles.logo}><h1>WEB3 WORLD</h1></div>
             <div className={styles.overlapButton}>
-            <Link href="/dvoting"><button className={styles.navigator}>Dvoting</button></Link>
+            <Link href="/wallet"><button className={styles.navigator}>Dvoting</button></Link>
             <Link href="/wallet"><button className={styles.navigator}>wallet</button></Link>
             <Link href="/swaptoken"><button className={styles.navigator}>Swap</button></Link>
             <Link href="/author"><button className={styles.navigator}>Author</button></Link>
             <Link href="/signup"><button className={styles.navigator}>Sign up (your character)</button></Link>
-            {/*style is not working right now */}
+            {/*FIXME: style is not working right now */}
             <ConnectToWallet />
             </div>
+            {/*NOTE: dropdown will appear when page in small screen */}
             <div className={styles.dropdownwrapper}>
             <button className={styles.mobileView} onClick={()=>{toggleDropDown()}}>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
