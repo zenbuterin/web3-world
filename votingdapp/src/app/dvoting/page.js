@@ -1,3 +1,4 @@
+'use client'
 import styles from "@/app/dvoting/votingroom/dvoting.module.css";
 import CreateRoom from "../ui/dvoting/createRoom";
 import EnterRoom from "../ui/dvoting/enterRoom";

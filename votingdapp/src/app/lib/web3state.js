@@ -13,7 +13,7 @@ export function Web3StateProvider({children}) {
     
     const createInstance = async () => {
         try {
-                if (window.ethereum && typeof window !== undefined) {
+                if (window.ethereum ) {
                     const ethersProvider = new ethers.BrowserProvider(window.ethereum)
                     const signer = await ethersProvider.getSigner()
                     const contract = new ethers.Contract(process.env.NEXT_PUBLIC_ADDRESS_CONTRACT, contractAbi, signer);

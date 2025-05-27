@@ -12,7 +12,7 @@ export default function CreateRoom() {
     const [secondcan, setsecondcan] = useState("");
     //for set global state
     const {setRoomcode, setCandidateaddress} = useVoteState();
-    
+    //jika instanceContract == null, maka akan terjadi error jika langsung di akses url dvoting
     const {instanceContract} = useWeb3State();
     async function handleCreateRoom() {
         const validfirstcan = isAddress(firstcan) ? firstcan : false;
@@ -40,8 +40,15 @@ export default function CreateRoom() {
                 })
     }, [])
     //its for global state
-    setRoomcode(roomCode)
-    setCandidateaddress([firstcan, secondcan])
+    useEffect(() => {
+        setRoomcode(roomCode)
+    }, [roomCode])
+
+    useEffect(() => {
+        setCandidateaddress([firstcan, secondcan])
+    }, [firstcan, secondcan])
+    
+    
 
     return(
         <div>

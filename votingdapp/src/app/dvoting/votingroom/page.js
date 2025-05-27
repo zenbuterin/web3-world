@@ -1,3 +1,4 @@
+'use state'
 import styles from "@/app/dvoting/votingroom/dvoting.module.css";
 import VoteTheCandidate from "@/app/ui/dvoting/votingroom/votingRoom";
 

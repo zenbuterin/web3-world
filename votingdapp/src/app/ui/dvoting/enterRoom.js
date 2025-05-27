@@ -1,12 +1,15 @@
 'use state'
+import { useVoteState } from "@/app/lib/voteState";
 import { useWeb3State } from "@/app/lib/web3state";
-
+import { useEffect, useState } from "react";
+//enter room has quiet different logic, we will define after we finished with create logic
 export default function EnterRoom() {
     const { instanceContract } = useWeb3State()
+    const {setRoomcode, setCandidatecode} = useVoteState()
     const [roomCode, setRoomCode] = useState(0);
     const [firstCanCode, setFirstCanCode] = useState(0);
     const [secondCanCode, setSecondCanCode] = useState(0)
-
+    
 
     async function handleEnterRoom() {
             try {
@@ -21,9 +24,19 @@ export default function EnterRoom() {
             }
             catch(err) {
                 console.log("error input is not valid or fail to enter room", err)
-    
             }
         }
+
+        //useEffect for global state
+        useEffect(() => {
+            setCandidatecode([setFirstCanCode, setSecondCanCode])
+        }, [setFirstCanCode, setSecondCanCode])
+
+        useEffect(() => {
+            setRoomcode(roomCode)
+        }, [roomCode])
+
+        
 
     return (
         <div>
