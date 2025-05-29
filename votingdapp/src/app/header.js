@@ -1,8 +1,8 @@
 "use client"
 import ConnectToWallet from "./ui/walletConnect";
 import Link from 'next/link';
-import {useState } from "react";
-
+import { useState } from "react";
+// import style from "./main.module.css"
 import { useUIContext } from "./lib/UIContext";
 
 
@@ -11,7 +11,7 @@ export default function Header() {
         const [dropDown, setDropDown] = useState(false)
         const toggleDropDown = () => {
         setDropDown((status) => (status === false ? true : false))}
-        const { style } = useUIContext()
+        const style  = useUIContext()
     return (
         <>
         <div className={style.innerBody}>
