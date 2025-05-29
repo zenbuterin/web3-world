@@ -3,10 +3,11 @@ import { useState } from "react";
 //NOTE: this is main page (component)
 //NOTE: Current utility: dvoting
 //TODO: all of fiture will appear in every url page
+import styles from  "./main.module.css"
 
 function MyApp() {
   return(<>
-  <div>
+  <div className={styles.mainpage}>
   <h1>Selamat Datang di Web3World.xyz</h1>
   <p>Web3World adalah platform eksperimental berbasis Web3 yang dibangun untuk menampung berbagai utilitas blockchain dalam satu ekosistem. Website ini sedang dalam tahap pengembangan dan akan terus berkembang seiring dengan bertambahnya fitur serta pengalaman dari developer-nya.</p>
 

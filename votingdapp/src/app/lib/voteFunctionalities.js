@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useWeb3State } from "./web3state";
+import { useWeb3State } from "./web3stateContext";
 import { isAddress } from "ethers";
 
 export default function useVote({candidateAddress, randomGeneratedCode, roomCode}) {

@@ -24,17 +24,17 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       {/*NOTE: uiContextProvider used by all component to consume dynamic style logic */}
-      <UIContextProvider>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        
+        <UIContextProvider>
         {/* NOTE: this is hook in order to component header and children (content based url) can consume global web3 state */}
         <Web3StateProvider>
           {/*NOTE: header will appear on all of page (component) */}
           <Header />
         {children}
         </Web3StateProvider>
+        </UIContextProvider>
       </body>
-      </UIContextProvider>
+      
     </html>
 
   );

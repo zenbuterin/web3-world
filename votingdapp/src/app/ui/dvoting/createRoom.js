@@ -2,8 +2,8 @@
 import { isAddress } from "ethers";
 import { useEffect, useState } from "react";
 
-import { useWeb3State } from "@/app/lib/web3state";
-import { useVoteState } from "@/app/lib/voteState";
+import { useWeb3State } from "@/app/lib/web3stateContext";
+import { useVoteState } from "@/app/lib/voteStateContext";
 
 
 export default function CreateRoom() {
