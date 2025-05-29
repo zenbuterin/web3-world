@@ -1,7 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "./header"
-import { Web3StateProvider } from "./lib/web3state";
+import { Web3StateProvider } from "./lib/web3stateContext";
+import { UIContextProvider } from "./lib/UIContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,7 +23,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      {/*NOTE: uiContextProvider used by all component to consume dynamic style logic */}
+      <UIContextProvider>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        
         {/* NOTE: this is hook in order to component header and children (content based url) can consume global web3 state */}
         <Web3StateProvider>
           {/*NOTE: header will appear on all of page (component) */}
@@ -30,7 +34,9 @@ export default function RootLayout({ children }) {
         {children}
         </Web3StateProvider>
       </body>
+      </UIContextProvider>
     </html>
+
   );
 }
 
