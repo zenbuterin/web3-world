@@ -17,5 +17,11 @@
     "react-dom": "^19.0.0",
     "react-router-dom": "^6.30.0",
     "web3": "^4.16.0"
+  },
+  "devDependencies": {
+    "@metamask/providers": "^22.1.0",
+    "@types/node": "^22.15.29",
+    "@types/react": "^19.1.6",
+    "typescript": "^5.8.3"
   }
 }

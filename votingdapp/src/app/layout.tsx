@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "./header"
 import { Web3StateProvider } from "./lib/web3stateContext";
 import { UIContextProvider } from "./lib/UIContext";
+import { ReactNode } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,7 +21,7 @@ export const metadata = {
 };
 
 //NOTE: this component is contain all component, include header and content of page (component)
-export default function RootLayout({ children }) {
+export default function RootLayout({ children } : { children: ReactNode}) {
   return (
     <html lang="en">
       {/*NOTE: uiContextProvider used by all component to consume dynamic style logic */}
@@ -34,7 +35,6 @@ export default function RootLayout({ children }) {
         </Web3StateProvider>
         </UIContextProvider>
       </body>
-      
     </html>
 
   );

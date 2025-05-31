@@ -1,29 +1,30 @@
 'use client'
-import contractAbi from "@/app/abi";
+import contractAbi from "@/app/abi.json";
 import { ethers } from "ethers";
-import React,{ useContext, useState, createContext, useEffect } from "react";
+
+import React,{ useContext, useState, createContext, useEffect, ReactNode } from "react";
+
+
 
 const WalletContext = createContext(null)
 //NOTE: this state provider used by all component that interact with smartcontract or wallet provider or network provider
-export function Web3StateProvider({children}) {
+export function Web3StateProvider({children} : {children: ReactNode}) {
     const [instanceContract, setContract] = useState(null);
     const [signer, setSigner] = useState(null)
     const [provider, setProvider] = useState(null);
-    const [address, setAddress] = useState("")
+    const [address, setAddress]  = useState<String>("")
     
     const createInstance = async () => {
         try {
-                if (window.ethereum ) {
+                if (typeof window !== undefined ) {
                     const ethersProvider = new ethers.BrowserProvider(window.ethereum)
                     const signer = await ethersProvider.getSigner()
-                    const contract = new ethers.Contract(process.env.NEXT_PUBLIC_ADDRESS_CONTRACT, contractAbi, signer);
-                    const address = signer.getAddress()
+                    const contract = new ethers.Contract(process.env.NEXT_PUBLIC_ADDRESS_CONTRACT as string, contractAbi, signer);
+                    const address: String = await signer.getAddress()
                     setContract(contract);
                     setSigner(signer)
                     setProvider(ethersProvider)
-                    setAddress(address)
-
-                    
+                    setAddress(address) 
                 }
                 else {
                     console.log("Install provider Web3 (Metamask)");
