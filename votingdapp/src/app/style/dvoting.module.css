@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quicksand:wght@300..700&display=swap');
+:root {
+    --primary-color: #7b88c3; /* Warna ungu utama */
+    --secondary-color: #e0e7ff; /* Warna latar belakang yang lebih terang */
+    --accent-color: #4c5daa; /* Warna aksen biru */
+    --text-color: #222222; /* Warna teks utama */
+    --background-color: #cac9c9; /* Warna latar belakang umum */
+}
+.pageDvoting {
+    width: 90vw;
+    height: auto;
+    margin: 0 auto;
+    padding: 2rem;
+    border: 3px solid black;
+    border-radius: 10px;
+    box-shadow: 10px 10px;
+    background-color: white;
+}
+
+.option {
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+}
+
+html, body {
+    height: 100%;
+}
+
+.mainheader {
+
+    margin: 20px;
+    padding: 20px;
+    padding-left: 40px;
+    border-radius: 10px;
+    box-shadow: #000000;
+    box-shadow: 10px 10px;
+    border: 3px solid black;
+    background-color: white;
+
+}
+
+.overlapButton {
+    display: flex;
+    align-items: center;
+    gap: 0; /* jangan pakai gap */
+    position: relative;
+    
+    
+}
+
+.navigator, .walletconnection {
+    width: 130px;
+    margin-left: -20px; /* tumpang tindih */
+    transition: all 0.3s ease;
+    z-index: 1;
+    color: black;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 3px solid black;
+    font-size: 16px;
+    font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+
+.navigator:hover, .walletconnection:hover {
+    width: 140px;
+    margin-left: -4px; /* supaya tidak tumpang tindih saat hover */
+    z-index: 2; /* naik ke atas */
+}
+
+.navigator:active, .walletconnection:active {
+    background-color: var(--background-color);
+}
+
+.mobileView {
+    display: none;
+}
+
+.logo {
+    display: inline;
+}
+
+.back, .walletconnectiondropdown{
+    padding: 4px;
+    border-radius: 5px;
+    color: black;
+    background-color: white;
+}
+
+.option {
+    height: auto;
+}
+
+.dropdownview {
+    display: none;
+}
+
+
+
+@media (max-width: 668px) {
+    .mainheader 
+    .overlapButton {
+        display: none;
+    }
+
+    .mobileView {
+        display: block;
+        background-color: var(--secondary-color);
+        color: var(--accent-color);
+        border: none;
+        border-radius: 10px;
+        padding: 1rem;
+        font-style: bold;
+        align-items: end;
+    }
+
+    .mainheader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .dropdownwrapper {
+        position: relative;
+    }
+    
+    .dropdownview {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        z-index: 3;
+        right: 0.1vw;
+        padding: 2rem;
+        background-color: white;
+        border: var(--text-color) 3px solid;
+        border-radius: 10px;
+        
+    }
+
+
+
+    
+}
