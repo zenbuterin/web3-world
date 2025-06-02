@@ -3,7 +3,7 @@ import { useState } from "react";
 //NOTE: this is main page (component)
 //NOTE: Current utility: dvoting
 //TODO: all of fiture will appear in every url page
-import styles from  "./main.module.css"
+import styles from  "@/app/style/main.module.css"
 
 function MyApp() {
   return(<>

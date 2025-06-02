@@ -3,7 +3,7 @@ import styles from "./signup.module.css";
 import axios from "axios";
 //NOTE: this is used for web2 functionalities
 function SignupForm() {
-    async function handleSubmit(e) {
+    async function handleSubmit(e: any) {
         const formData = new FormData(e.target);
         let name = formData.get("name");
         let email = formData.get("email");

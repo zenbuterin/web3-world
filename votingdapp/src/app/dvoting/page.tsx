@@ -1,5 +1,5 @@
 'use client'
-import styles from "@/app/dvoting/votingroom/dvoting.module.css";
+import styles from "@/app/style/dvoting.module.css";
 import CreateRoom from "../ui/dvoting/createRoom";
 import EnterRoom from "../ui/dvoting/enterRoom";
 import { VoteStateProvider } from "../lib/voteStateContext";
