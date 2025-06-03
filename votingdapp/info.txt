@@ -1,1 +1,0 @@
-project ini menggunakan bcryptjs bukan bcrypt
