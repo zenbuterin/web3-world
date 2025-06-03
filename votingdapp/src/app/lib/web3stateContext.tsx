@@ -20,11 +20,7 @@ export function Web3StateProvider({children} : {children: ReactNode}) {
     const [instanceContract, setContract] = useState<any>();
     const [providerEth, setProvider] = useState<any>();
     const [address, setAddress]  = useState<any>("")
-    
-    
-    
-    
-    
+
     const createInstance = async () => {
         //provider metamask
     metamasksdk = new MetaMaskSDK({
