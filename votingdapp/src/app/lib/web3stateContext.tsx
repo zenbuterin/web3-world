@@ -4,27 +4,40 @@ import { createPublicClient, createWalletClient, custom, getContract, http } fro
 import React,{ useContext, useState, createContext, useEffect, ReactNode } from "react";
 import { ganacheChain } from "./customGanacheChain"
 import { MetaMaskSDK } from "@metamask/sdk"
+import { MetaMaskInpageProvider } from '@metamask/providers';
+
+declare global {
+    interface Window {
+        ethereum?: any;
+    }
+}
 
 
-
+let metamasksdk: MetaMaskSDK | null = null;
 const WalletContext = createContext<any | null>(null)
 //NOTE: this state provider used by all component that interact with smartcontract or wallet provider or network provider
 export function Web3StateProvider({children} : {children: ReactNode}) {
     const [instanceContract, setContract] = useState<any>();
     const [providerEth, setProvider] = useState<any>();
     const [address, setAddress]  = useState<any>("")
-    //provider metamask
-    const metamasksdk = new MetaMaskSDK({
+    
+    
+    
+    
+    
+    const createInstance = async () => {
+        //provider metamask
+    metamasksdk = new MetaMaskSDK({
     dappMetadata: {
         name: "Dapps utilities",
         url: window.location.href,
         },
     })
-    const ethereumprovider: any = metamasksdk.getProvider();
-    
-    const createInstance = async () => {
+    await metamasksdk.init() //for starting connect to metamask
+    const ethereumprovider = metamasksdk.getProvider();
         try {
-                if (ethereumprovider) {
+            
+                if (window.ethereum) {
                     //for public action
                     const publicClient = createPublicClient({
                         chain: ganacheChain,
@@ -33,7 +46,7 @@ export function Web3StateProvider({children} : {children: ReactNode}) {
                     //for wallet action
                     const client = createWalletClient({
                         chain: ganacheChain,
-                        transport: custom(ethereumprovider!)
+                        transport: custom(window.ethereum)
                     })
                     //instance contract
                     const contract: any = getContract({
@@ -42,11 +55,15 @@ export function Web3StateProvider({children} : {children: ReactNode}) {
                         client: {public: publicClient, wallet: client}
                     })
                     
-                    const [address] = await client.getAddresses();
+                    
+                    const accounts = await ethereumprovider.request({
+                        method: "eth_requestAccounts",
+                    });
                     setContract(contract);
                     //TODO: differentiate between signer and address
                     setProvider(ethereumprovider)
                     setAddress(address) 
+                    
                 }
                 else {
                     console.log("Install provider Web3 (Metamask)");

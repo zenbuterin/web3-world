@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import ConnectToWallet from "./ui/walletConnect";
 import Link from 'next/link';
 import { useState } from "react";
