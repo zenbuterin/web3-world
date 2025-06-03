@@ -112,7 +112,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/app/dvoting/votingroom/page.js", "src/app/dvoting/page.tsx"  ],
+, "src/app/dvoting/votingroom/page.tsx", "src/app/dvoting/page.tsx"  ],
   "exclude": [
     "node_modules"
   ]

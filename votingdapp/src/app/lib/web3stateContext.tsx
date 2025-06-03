@@ -33,7 +33,7 @@ export function Web3StateProvider({children} : {children: ReactNode}) {
         url: window.location.href,
         },
     })
-    await metamasksdk.init() //for starting connect to metamask
+    await metamasksdk.init() //starting point for connect to metamask
     const ethereumprovider = metamasksdk.getProvider();
         try {
             
@@ -56,7 +56,7 @@ export function Web3StateProvider({children} : {children: ReactNode}) {
                     })
                     
                     
-                    const accounts = await ethereumprovider.request({
+                    const accounts = await ethereumprovider!.request({
                         method: "eth_requestAccounts",
                     });
                     setContract(contract);
