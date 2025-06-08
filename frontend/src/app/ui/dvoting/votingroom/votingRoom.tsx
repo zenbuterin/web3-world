@@ -2,7 +2,8 @@ import { useGenerateCandidateCode } from "@/app/lib/candidateCodeGenerator"
 import useVote from "@/app/lib/voteFunctionalities"
 import { useVoteState } from "@/app/lib/voteStateContext"
 
-export default function VoteTheCandidate({candidateNum}) {
+
+export default function VoteTheCandidate() {
     
     return (
         <div className={styles.option}>

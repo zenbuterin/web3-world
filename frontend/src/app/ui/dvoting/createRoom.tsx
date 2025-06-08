@@ -1,15 +1,17 @@
 'use client'
 import { isAddress } from "ethers";
 import { useEffect, useState } from "react";
-
+import { watchEvent } from "viem/_types/actions/public/watchEvent";
 import { useWeb3State } from "@/app/lib/web3stateContext";
 import { useVoteState } from "@/app/lib/voteStateContext";
+import { ParseAbiItem } from "viem";
+import { PublicClient } from "viem";
 
 
 export default function CreateRoom() {
-    const [roomCode, setRoomCode] = useState(0);
-    const [firstcan, setfirstcan] = useState("");
-    const [secondcan, setsecondcan] = useState("");
+    const [roomCode, setRoomCode] = useState<number>(0);
+    const [firstcan, setfirstcan] = useState<string>("");
+    const [secondcan, setsecondcan] = useState<string>("");
     //for set global state
     const {setRoomcode, setCandidateaddress} = useVoteState();
     //jika instanceContract == null, maka akan terjadi error jika langsung di akses url dvoting
@@ -34,11 +36,12 @@ export default function CreateRoom() {
         }
     }
 
-    useEffect(() => {
-        instanceContract.on("roomAdded",(_roomCode, _candidate1, _candidate2) => {
-                    console.log(`room code added: ${_roomCode}, included first candidate: ${_candidate1} & second Candidate: ${_candidate2}`)
-                })
-    }, [])
+    // useEffect(() => {
+    //     const unwatch = publicClient.watchEvent({
+    //         onlogs: logs => console.log()
+    //     })
+    //             })
+    // }, [])
     //its for global state
     useEffect(() => {
         setRoomcode(roomCode)
@@ -54,7 +57,7 @@ export default function CreateRoom() {
         <div>
                 <label >Create A Room: </label>
                 <label>what is the room code?</label>
-                <input type="number" value={roomCode} onChange={(e) => setRoomCode(e.target.value)} placeholder="Room Code"></input>
+                <input type="number" value={roomCode} onChange={(e) => setRoomCode(Number(e.target.value))} placeholder="Room Code"></input>
                 <label>who is the first candidate?</label>
                 <input  type="text" value={firstcan} onChange={(e) => setfirstcan(e.target.value)}  placeholder="First Candidate (address)"></input>
                 <label>who is the second candidate?</label>

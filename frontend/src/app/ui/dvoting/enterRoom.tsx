@@ -6,9 +6,9 @@ import { useEffect, useState } from "react";
 export default function EnterRoom() {
     const { instanceContract } = useWeb3State()
     const {setRoomcode, setCandidatecode} = useVoteState()
-    const [roomCode, setRoomCode] = useState(0);
-    const [firstCanCode, setFirstCanCode] = useState(0);
-    const [secondCanCode, setSecondCanCode] = useState(0)
+    const [roomCode, setRoomCode] = useState<number>(0);
+    const [firstCanCode, setFirstCanCode] = useState<number>(0);
+    const [secondCanCode, setSecondCanCode] = useState<number>(0)
     
 
     async function handleEnterRoom() {
@@ -42,11 +42,11 @@ export default function EnterRoom() {
         <div>
                 <label >Enter A Room: </label>
                 <label>what is the room code?</label>
-                <input type="number" value={roomCode} onChange={(e) => setRoomCode(e.target.value)} placeholder="Room Code"></input>
+                <input type="number" value={roomCode} onChange={(e) => setRoomCode(Number(e.target.value))} placeholder="Room Code"></input>
                 <label>who is the first candidate (candidate code) ?</label>
-                <input  type="number" value={firstCanCode} onChange={(e) => setFirstCanCode(e.target.value)}  placeholder="First Candidate (address)"></input>
+                <input  type="number" value={firstCanCode} onChange={(e) => setFirstCanCode(Number(e.target.value))}  placeholder="First Candidate (address)"></input>
                 <label>who is the second candidate (candidate code) ?</label>
-                <input  type="number" value={secondCanCode} onChange={(e) => setSecondCanCode(e.target.value)}  placeholder="Second Candidate (address)"></input>
+                <input  type="number" value={secondCanCode} onChange={(e) => setSecondCanCode(Number(e.target.value))}  placeholder="Second Candidate (address)"></input>
                 <button onClick={() => {handleEnterRoom()}}>Process enter</button>
             </div>
     )
