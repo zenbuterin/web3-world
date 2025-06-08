@@ -1,6 +1,6 @@
 'use client'
-import { useUIContext } from "../lib/UIContext";
-import { useWeb3State } from "../lib/web3stateContext";
+import { useUIContext } from "../store/UIContext";
+import { useWeb3State } from "../store/web3stateContext";
 
 //NOTE: this component is button for connect to wallet installed on browser
 export default function ConnectToWallet() {

@@ -2,7 +2,7 @@
 import styles from "@/app/style/dvoting.module.css";
 import CreateRoom from "../ui/dvoting/createRoom";
 import EnterRoom from "../ui/dvoting/enterRoom";
-import { VoteStateProvider } from "../lib/voteStateContext";
+import { VoteStateProvider } from "../store/voteStateContext";
 
 
 //NOTE: this is /dvoting path

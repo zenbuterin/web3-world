@@ -1,6 +1,6 @@
-import { useGenerateCandidateCode } from "@/app/lib/candidateCodeGenerator"
-import useVote from "@/app/lib/voteFunctionalities"
-import { useVoteState } from "@/app/lib/voteStateContext"
+import { useGenerateCandidateCode } from "@/app/store/candidateCodeGenerator"
+import useVote from "@/app/store/voteFunctionalities"
+import { useVoteState } from "@/app/store/voteStateContext"
 
 
 export default function VoteTheCandidate() {

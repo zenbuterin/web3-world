@@ -2,8 +2,8 @@
 import { isAddress } from "ethers";
 import { useEffect, useState } from "react";
 import { watchEvent } from "viem/_types/actions/public/watchEvent";
-import { useWeb3State } from "@/app/lib/web3stateContext";
-import { useVoteState } from "@/app/lib/voteStateContext";
+import { useWeb3State } from "@/app/store/web3stateContext";
+import { useVoteState } from "@/app/store/voteStateContext";
 import { ParseAbiItem } from "viem";
 import { PublicClient } from "viem";
 
@@ -14,15 +14,15 @@ export default function CreateRoom() {
     const [secondcan, setsecondcan] = useState<string>("");
     //for set global state
     const {setRoomcode, setCandidateaddress} = useVoteState();
-    //jika instanceContract == null, maka akan terjadi error jika langsung di akses url dvoting
-    const {instanceContract} = useWeb3State();
+    //jika contract == null, maka akan terjadi error jika langsung di akses url dvoting
+    const {contract, publicClient} = useWeb3State();
     async function handleCreateRoom() {
         const validfirstcan = isAddress(firstcan) ? firstcan : false;
         const validSecondcan = isAddress(secondcan) ? firstcan : false;
 
         try {
             if (validfirstcan && validSecondcan) {
-                const tx = await instanceContract.addRoom(roomCode, firstcan, secondcan);
+                const tx = await contract.addRoom(roomCode, firstcan, secondcan);
                 await tx.wait()
                 console.log("successful");
             }
@@ -36,12 +36,11 @@ export default function CreateRoom() {
         }
     }
 
-    // useEffect(() => {
-    //     const unwatch = publicClient.watchEvent({
-    //         onlogs: logs => console.log()
-    //     })
-    //             })
-    // }, [])
+    useEffect(() => {
+        const unwatch = publicClient.watchEvent({
+            onlogs: logs => console.log(logs)
+        })
+    }, [])
     //its for global state
     useEffect(() => {
         setRoomcode(roomCode)

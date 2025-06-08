@@ -1,10 +1,10 @@
 'use state'
-import { useVoteState } from "@/app/lib/voteStateContext";
-import { useWeb3State } from "@/app/lib/web3stateContext";
+import { useVoteState } from "@/app/store/voteStateContext";
+import { useWeb3State } from "@/app/store/web3stateContext";
 import { useEffect, useState } from "react";
 //enter room has quiet different logic, we will define after we finished with create logic
 export default function EnterRoom() {
-    const { instanceContract } = useWeb3State()
+    const { contract } = useWeb3State()
     const {setRoomcode, setCandidatecode} = useVoteState()
     const [roomCode, setRoomCode] = useState<number>(0);
     const [firstCanCode, setFirstCanCode] = useState<number>(0);
@@ -15,7 +15,7 @@ export default function EnterRoom() {
             try {
                 if (roomCode !== 0 && firstCanCode !== 0 && secondCanCode !== 0) {
                     //roomdetail display in votingroom
-                    const [roomdetail, numberOfVoterFirstCan, numberOfVoterSecondCan] = await instanceContract.getRoomDetail(roomCode, firstCanCode, secondCanCode);
+                    const [roomdetail, numberOfVoterFirstCan, numberOfVoterSecondCan] = await contract.getRoomDetail(roomCode, firstCanCode, secondCanCode);
                     console.log(`Successful! \nDetail Room: ${roomdetail}\nNumber of Voter of first candidate: ${numberOfVoterFirstCan}\nNumber of Voter of second candidate: ${numberOfVoterSecondCan}`);
                 }
                 else {

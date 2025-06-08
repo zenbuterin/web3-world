@@ -3,7 +3,7 @@ import ConnectToWallet from "./ui/walletConnect";
 import Link from 'next/link';
 import { useState } from "react";
 // import style from "./main.module.css"
-import { useUIContext } from "./lib/UIContext";
+import { useUIContext } from "./store/UIContext";
 
 
 

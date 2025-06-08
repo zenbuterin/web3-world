@@ -17,9 +17,11 @@ let metamasksdk: MetaMaskSDK | null = null;
 const WalletContext = createContext<any | null>(null)
 //NOTE: this state provider used by all component that interact with smartcontract or wallet provider or network provider
 export function Web3StateProvider({children} : {children: ReactNode}) {
-    const [instanceContract, setContract] = useState<any>();
-    const [providerEth, setProvider] = useState<any>();
-    const [address, setAddress]  = useState<any>("")
+    const [contract, setContract] = useState<any>()
+    const [providerEth, setProvider] = useState<any>()
+    const [address, setAddress]  = useState<string>("")
+    const [walletClient, setWalletClient] = useState<any>()
+    const [publicClient, setPublicCLient] = useState<any>()
 
     const createInstance = async () => {
         //provider metamask
@@ -35,7 +37,7 @@ export function Web3StateProvider({children} : {children: ReactNode}) {
             
                 if (window.ethereum) {
                     //for public action
-                    const publicClient = createPublicClient({
+                    const publicclient = createPublicClient({
                         chain: ganacheChain,
                         transport: http()
                     })
@@ -48,17 +50,18 @@ export function Web3StateProvider({children} : {children: ReactNode}) {
                     const contract: any = getContract({
                         address: process.env.NEXT_PUBLIC_ADDRESS_CONTRACT as `0x${string}`,
                         abi: abi,
-                        client: {public: publicClient, wallet: client}
+                        client: {public: publicclient, wallet: client}
                     })
-                    
-                    
-                    const accounts = await ethereumprovider!.request({
+
+                    const accounts: any = await ethereumprovider!.request({
                         method: "eth_requestAccounts",
                     });
                     setContract(contract);
                     //TODO: differentiate between signer and address
                     setProvider(ethereumprovider)
-                    setAddress(address) 
+                    setPublicCLient(publicClient)
+                    setWalletClient(walletClient)
+                    setAddress(accounts[0])
                     
                 }
                 else {
@@ -77,19 +80,16 @@ export function Web3StateProvider({children} : {children: ReactNode}) {
     }
 
     useEffect(() => {
-        if (instanceContract) {
-            console.log("State instanceContract updated:", instanceContract);
+        if (contract) {
+            console.log("State instanceContract updated:", contract);
         }
-    }, [instanceContract]);
+    }, [contract]);
 
-    useEffect(() => {
-        if (address) {
-            console.log("State address updated:", address);
-        }
-    }, [address]);
+
+    
 
     return (
-        <WalletContext.Provider value={{instanceContract, address, providerEth, createInstance}}>
+        <WalletContext.Provider value={{contract, address, providerEth, createInstance, walletClient, publicClient}}>
             {children}
         </WalletContext.Provider>
     )
