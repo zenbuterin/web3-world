@@ -1,11 +1,12 @@
 'use client'
 import { isAddress } from "ethers";
 import { useEffect, useState } from "react";
-import { watchEvent } from "viem/_types/actions/public/watchEvent";
+import { watchContractEvent } from "viem/_types/actions/public/watchContractEvent";
 import { useWeb3State } from "@/app/store/web3stateContext";
 import { useVoteState } from "@/app/store/voteStateContext";
 import { ParseAbiItem } from "viem";
-import { PublicClient } from "viem";
+
+
 
 
 export default function CreateRoom() {
@@ -36,11 +37,12 @@ export default function CreateRoom() {
         }
     }
 
-    useEffect(() => {
-        const unwatch = publicClient.watchEvent({
-            onlogs: logs => console.log(logs)
-        })
-    }, [])
+    // useEffect(() => {
+    //     const unwatch = publicClient.watchContractEvent({
+    //         address: 
+    //         onlogs: logs => console.log(logs)
+    //     })
+    // }, [])
     //its for global state
     useEffect(() => {
         setRoomcode(roomCode)
