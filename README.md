@@ -1,12 +1,12 @@
 
 
-# 🗳️ Decentralized Voting (Web3 Utility Hub)
+# 🗳️ Web3 Utility Hub
 
 🚧 **Status: In Progress** | 🔬 Learning & Experimentation Project
 
 ## 📖 Overview
 
-**Decentralized Voting** bukan hanya sistem voting — ini adalah **website personal** yang dirancang sebagai *hub* berbagai utilitas Web3, dari smart contract sederhana hingga integrasi backend blockchain. Proyek ini berfungsi sebagai ladang eksplorasi fitur-fitur Web3 modern, integrasi frontend-backend, serta best practice dalam pengembangan sistem terdesentralisasi.
+ini adalah **personal website** yang dirancang sebagai *hub* berbagai utilitas Web3, dari smart contract sederhana hingga integrasi backend blockchain. Proyek ini berfungsi sebagai ladang eksplorasi fitur-fitur Web3 modern, integrasi frontend-backend, serta best practice dalam pengembangan sistem terdesentralisasi.
 
 Fitur utama dan eksperimen akan terus bertambah seiring perjalanan belajar dan riset teknologi blockchain.
 
@@ -27,7 +27,8 @@ Fitur utama dan eksperimen akan terus bertambah seiring perjalanan belajar dan r
   Menghubungkan Next.js dan Actix Web (Rust) sebagai backend API layer serta SQLite sebagai penyimpanan off-chain.
 
 - 🧪 **Web3 Utility Playground**  
-  Eksperimen random Web3: ENS lookup, wallet connection, chain switching, atau IPFS pinning.
+  Eksperimen random Web3: ENS lookup, wallet connection, chain switching, Decentralized Micro-savings, Dinvoices tracking
+  Defi budgeting tools atau IPFS pinning.
 
 ---
 
@@ -75,7 +76,7 @@ cargo build
 ### 📦 Install Hardhat & Dependencies
 
 ```sh
-cd smart-contract
+cd web3
 npm install
 ```
 
