@@ -325,9 +325,3 @@ Ini adalah proyek personal untuk eksplorasi. Kamu bisa ikut:
 
 > Proyek ini adalah kombinasi antara sistem voting, Web3 playground, dan backend API. Tidak semuanya akan stabil atau ideal — karena ini adalah perjalanan belajar menuju arsitektur Web3 yang lebih stable.
 
----
-
-```
-
-Jika kamu ingin versi multi-bahasa (misalnya Inggris & Indonesia), badge CI/CD, atau deploy-ready ke Vercel dan Railway, tinggal bilang saja.
-```
