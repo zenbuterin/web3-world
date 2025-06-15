@@ -12,101 +12,187 @@ npx hardhat node
 npx hardhat ignition deploy ./ignition/modules/Lock.js
 ```
 
-## 📝 Dokumentasi Smart Contract: `VotingManager.sol`
 
-### 📌 Ringkasan
+# VotingManager Smart Contract
 
-`VotingManager` adalah smart contract untuk mengelola proses voting sederhana antara dua kandidat dalam satu ruangan (room). Setiap user hanya dapat memilih satu kandidat dalam satu room. Voting ditandai dengan `candidateCode` unik untuk setiap kandidat per room.
+A minimal and gas-efficient on-chain voting contract designed for governance or decision-making protocols. Authorized accounts can create proposals and add options. Public users can cast a single vote per proposal.
+
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Contract Interface](#contract-interface)
+  - [State Variables](#state-variables)
+  - [Structs](#structs)
+  - [Events](#events)
+- [Functions](#functions)
+  - [`constructor`](#constructor)
+  - [`createProposal`](#createproposal)
+  - [`addOption`](#addoption)
+  - [`vote`](#vote)
+  - [`getVoteCount`](#getvotecount)
+- [Usage](#usage)
+- [Security Considerations](#security-considerations)
+- [Extension Recommendations](#extension-recommendations)
+- [License](#license)
 
 ---
 
-### 📦 Struktur Data
+## Overview
 
-#### `Candidate`
+This contract enables a simple proposal-based voting system. It can be used as a base layer for DAO governance, token-based polls, or internal decision workflows. The design focuses on clarity, simplicity, and extensibility.
+
+---
+
+## Features
+
+- Access control for administrative functions.
+- Single-vote enforcement per address per proposal.
+- Mapping-based data structures for optimal gas efficiency.
+- Standard event emissions for frontend and off-chain indexing.
+
+---
+
+## Contract Interface
+
+### State Variables
 
 ```solidity
-struct Candidate {
-    address candidateAddress;
-    uint candidateCode;
+mapping(address => bool) public authorized;
+uint private proposalCount;
+mapping(uint => Proposal) private proposals;
+mapping(uint => mapping(address => bool)) public isVoted;
+````
+
+* `authorized`: Maintains a list of accounts that can manage proposals and options.
+* `proposalCount`: Counter for the number of proposals created.
+* `proposals`: Stores all proposals using an incremental `proposalId`.
+* `isVoted`: Prevents double voting per address per proposal.
+
+---
+
+### Structs
+
+```solidity
+struct Option {
+    uint id;
+    uint voteCount;
+}
+
+struct Proposal {
+    uint id;
+    mapping(uint => Option) options;
+    uint optionCount;
 }
 ```
 
-#### `Room`
+* `Option`: Represents a single voting option with an ID and vote count.
+* `Proposal`: Represents a voting proposal and contains a dynamic list of options.
+
+---
+
+### Events
 
 ```solidity
-struct Room {
-    address createdBy;
-    address candidate1;
-    address candidate2;
-}
-```
-
-#### `Voter`
-
-```solidity
-struct Voter {
-    mapping(uint => Candidate) voted;
-}
+event proposalCreated(address createdBy, uint indexed proposalId);
+event optionAdded(address addedBy, uint indexed proposalId, uint indexed optionId);
+event voted(address voter, uint indexed proposalId, uint indexed optionId, uint voteCount);
 ```
 
 ---
 
-### 🗂️ State Variables
+## Functions
 
-| Nama             | Tipe                        | Deskripsi                             |
-| ---------------- | --------------------------- | ------------------------------------- |
-| `rooms`          | `mapping(uint => Room)`     | Menyimpan room berdasarkan `roomCode` |
-| `voters`         | `mapping(address => Voter)` | Menyimpan data pemilihan tiap address |
-| `numberOfVoters` | `mapping(uint => uint)`     | Total suara per `candidateCode`       |
+### `constructor()`
 
----
+```solidity
+constructor()
+```
 
-### ⚙️ Fungsi Publik
-
-#### `addRoom(uint roomCode, address candidate1, address candidate2)`
-
-Membuat room baru berisi 2 kandidat.
-
-* Tidak mencegah duplikasi `roomCode`.
-* Emit: `roomAdded`
-
-#### `vote(address candidateAddress, uint candidateCode, uint roomCode)`
-
-Memilih salah satu kandidat dalam room.
-
-* Validasi:
-
-  * Alamat kandidat harus terdaftar dalam room.
-  * Voter belum pernah memilih dalam room tersebut.
-* Update:
-
-  * Data pemilih
-  * Jumlah suara
-* Emit: `Voted`
-
-#### `getRoomDetail(uint roomCode, uint candidate1Code, uint candidate2Code)`
-
-Mengambil data room dan jumlah vote untuk kedua kandidat berdasarkan `candidateCode`.
+Initializes the contract and grants the deploying address authorization.
 
 ---
 
-### 📡 Events
+### `createProposal()`
 
-| Event       | Parameter                                     | Deskripsi                          |
-| ----------- | --------------------------------------------- | ---------------------------------- |
-| `roomAdded` | `(roomCode, candidate1, candidate2)`          | Ditrigger saat room ditambahkan    |
-| `Voted`     | `(voter, roomCode, candidate, candidateCode)` | Ditrigger saat user melakukan vote |
+```solidity
+function createProposal() external;
+```
+
+Creates a new proposal. Only callable by authorized addresses.
 
 ---
 
-### ⚠️ Catatan & Potensi Pengembangan
+### `addOption(uint proposalId)`
 
-* `roomCode` bisa ditimpa → perlu validasi unik di versi selanjutnya.
-* Tidak ada pembatasan agar `candidate1 != candidate2`.
-* `candidateCode` tidak dicek di smart contract untuk keunikan global.
-* Belum ada fungsi seperti:
+```solidity
+function addOption(uint proposalId) external;
+```
 
-  * `getTotalVotes(candidateCode)`
-  * `getWinner(roomCode)`
-* Tidak ada batasan waktu voting atau penghapusan room.
+Adds an option to a proposal. Only callable by authorized addresses.
+
+---
+
+### `vote(uint proposalId, uint optionId)`
+
+```solidity
+function vote(uint proposalId, uint optionId) external;
+```
+
+Casts a vote for an option in a proposal. Each address may vote only once per proposal.
+
+---
+
+### `getVoteCount(uint proposalId, uint optionId)`
+
+```solidity
+function getVoteCount(uint proposalId, uint optionId) external view returns (uint);
+```
+
+Returns the number of votes received by the specified option.
+
+---
+
+## Usage
+
+Example flow (in JavaScript using Ethers.js):
+
+```js
+const VotingManager = await ethers.getContractFactory("VotingManager");
+const voting = await VotingManager.deploy();
+
+await voting.createProposal();
+await voting.addOption(1);
+await voting.vote(1, 1);
+const count = await voting.getVoteCount(1, 1);
+console.log(`Votes for option 1: ${count}`);
+```
+
+---
+
+## Security Considerations
+
+* Only authorized users can create proposals or options.
+* Votes are final and cannot be changed or revoked.
+* No reentrancy vectors exist due to lack of external calls after state mutation.
+* No expiration or quorum mechanisms are currently implemented.
+
+---
+
+## Extension Recommendations
+
+Future improvements may include:
+
+* **Proposal Metadata**: Add string/URI for proposal title/description.
+* **Voting Deadlines**: Add timestamps for start/end periods.
+* **Admin Management**: Functions to add/remove authorized accounts.
+* **Vote Weighting**: Token-based or NFT-based voting power.
+* **Off-Chain Integration**: Use The Graph to query vote history and analytics.
+
+---
+
+## License
+
+This project is open-sourced under the [MIT License](LICENSE).
 

@@ -2,54 +2,58 @@
 pragma solidity ^0.8.28;
 
 contract VotingManager {
-    event roomAdded(uint roomCode, address candidate1, address candidate2);
-    event Voted(address voter, uint roomCode, address candidate, uint candidateCode);
+    event proposalCreated(address createdBy, uint indexed proposalId);
+    event optionAdded(address addedBy, uint indexed proposalId, uint indexed optionId);
+    event voted(address voter, uint indexed proposalId, uint indexed optionId, uint voteCount);
 
-    //entitas
-    struct Candidate {
-        address candidateAddress;
-        uint candidateCode;
+    uint private proposalCount;
+    mapping(address => bool) public authorized;
+    mapping(uint => Proposal) private proposals;
+    mapping(uint => mapping(address => bool)) public isVoted; 
+
+    constructor() {
+        authorized[msg.sender] = true;
     }
 
-    struct Room {
-        address createdBy;
-        address candidate1;
-        address candidate2;
+    struct Option {
+        uint id;
+        uint voteCount;
     }
 
-    struct Voter {
-        //uint adalah kode room;
-        mapping (uint => Candidate) voted;
+    struct Proposal {
+        uint id;
+        mapping(uint => Option) options;
+        uint optionCount;
     }
 
-    //keterkatian
-    //uint adalah roomCode
-    mapping(uint => Room) rooms;
-    //satu address hanya memilih satu candidate dalam satu room
-    mapping(address => Voter) voters;
-    //jumlah voter per candidate
-    mapping(uint => uint) numberOfVoters;
-
-    //fungsi setter
-    function addRoom(uint _roomCode, address _candidate1, address _candidate2) public {
-        rooms[_roomCode] = Room(msg.sender, _candidate1, _candidate2);
-        emit roomAdded(_roomCode, _candidate1, _candidate2);
-    }
-    
-    //candidateCode diberitahu ketika masuk room
-    function vote(address _candidateAddress, uint _candidateCode, uint _roomCode) public {
-        Room memory room = rooms[_roomCode];
-        require(_candidateAddress == room.candidate1 || _candidateAddress == room.candidate2, "Invalid candidate");
-        require(voters[msg.sender].voted[_roomCode].candidateAddress == address(0), "Already voted");
-        voters[msg.sender].voted[_roomCode] = Candidate(_candidateAddress, _candidateCode);
-        //satu candidate code
-        numberOfVoters[_candidateCode]++;
-        emit Voted(msg.sender, _roomCode, _candidateAddress, _candidateCode);
+    function createProposal() public {
+        require(authorized[msg.sender] == true, "You are not authorized");
+        proposalCount++;
+        Proposal storage proposal = proposals[proposalCount];
+        proposal.id = proposalCount;
+        emit proposalCreated(msg.sender, proposalCount);
     }
 
-    //fungsi getter
-    //candidateCode diberitahu ketika masuk room
-    function getRoomDetail(uint _roomCode, uint _candidate1Code, uint _candidate2Code) public view returns(Room memory, uint, uint) {
-        return (rooms[_roomCode], numberOfVoters[_candidate1Code], numberOfVoters[_candidate2Code]);
+    function addOption(uint proposalId) public {
+        require(authorized[msg.sender] == true, "You are not authorized");
+        Proposal storage proposal = proposals[proposalId];
+        proposal.optionCount++;
+        proposal.options[proposal.optionCount] = Option(proposal.optionCount, 0);
+        emit optionAdded(msg.sender, proposalId, proposal.optionCount);
+    }
+
+    function vote(uint proposalId, uint optionId) public {
+        require(!isVoted[proposalId][msg.sender], "you have voted");
+        require(proposalId > 0 && proposalId <= proposalCount, "Invalid proposal");
+        Proposal storage proposal = proposals[proposalId];
+        require(optionId > 0 && optionId <= proposal.optionCount, "Invalid option");
+        proposal.options[optionId].voteCount++;
+        isVoted[proposalId][msg.sender] = true;
+        emit voted(msg.sender, proposalId, optionId, proposal.options[optionId].voteCount);
+    }
+
+    function getvoteCount(uint proposalId, uint optionId) public view returns (uint) {
+        Proposal storage proposal = proposals[proposalId];
+        return proposal.options[optionId].voteCount;
     }
 }
