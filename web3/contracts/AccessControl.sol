@@ -2,54 +2,41 @@
 pragma solidity ^0.8.28;
 
 contract VotingManager {
-    event roomAdded(uint roomCode, address candidate1, address candidate2);
-    event Voted(address voter, uint roomCode, address candidate, uint candidateCode);
+    event proposalCreated(uint indexed proposalId);
+    event optionAdded(uint indexed proposalId, uint indexed optionId);
+    event voted(uint indexed proposalId, uint indexed optionId, uint voteCount);
 
-    //entitas
-    struct Candidate {
-        address candidateAddress;
-        uint candidateCode;
+    struct Option {
+        uint id;
+        uint voteCount;
     }
 
-    struct Room {
-        address createdBy;
-        address candidate1;
-        address candidate2;
+    struct Proposal {
+        uint id;
+        mapping(uint => Option) options;
+        uint optionCount;
     }
 
-    struct Voter {
-        //uint adalah kode room;
-        mapping (uint => Candidate) voted;
+    uint private proposalCount;
+    mapping(uint => Proposal) private proposals;
+
+    function createdProposal() public {
+        proposalCount++;
+        Proposal storage proposal = proposals[proposalCount];
+        proposal.id = proposalCount;
+        emit proposalCreated(proposalCount);
     }
 
-    //keterkatian
-    //uint adalah roomCode
-    mapping(uint => Room) rooms;
-    //satu address hanya memilih satu candidate dalam satu room
-    mapping(address => Voter) voters;
-    //jumlah voter per candidate
-    mapping(uint => uint) numberOfVoters;
-
-    //fungsi setter
-    function addRoom(uint _roomCode, address _candidate1, address _candidate2) public {
-        rooms[_roomCode] = Room(msg.sender, _candidate1, _candidate2);
-        emit roomAdded(_roomCode, _candidate1, _candidate2);
-    }
-    
-    //candidateCode diberitahu ketika masuk room
-    function vote(address _candidateAddress, uint _candidateCode, uint _roomCode) public {
-        Room memory room = rooms[_roomCode];
-        require(_candidateAddress == room.candidate1 || _candidateAddress == room.candidate2, "Invalid candidate");
-        require(voters[msg.sender].voted[_roomCode].candidateAddress == address(0), "Already voted");
-        voters[msg.sender].voted[_roomCode] = Candidate(_candidateAddress, _candidateCode);
-        //satu candidate code
-        numberOfVoters[_candidateCode]++;
-        emit Voted(msg.sender, _roomCode, _candidateAddress, _candidateCode);
+    function addOption(uint proposalId) public {
+        Proposal storage proposal = proposals[proposalId];
+        proposal.optionCount++;
+        proposal.options[proposal.optionCount] = Option(proposal.optionCount, 0);
+        emit optionAdded(proposalId, proposal.optionCount);
     }
 
-    //fungsi getter
-    //candidateCode diberitahu ketika masuk room
-    function getRoomDetail(uint _roomCode, uint _candidate1Code, uint _candidate2Code) public view returns(Room memory, uint, uint) {
-        return (rooms[_roomCode], numberOfVoters[_candidate1Code], numberOfVoters[_candidate2Code]);
+    function vote(uint proposalId, uint optionId) public {
+        Proposal storage proposal = proposals[proposalId];
+        proposal.options[optionId].voteCount++;
+        emit voted(proposalId, proposal.optionCount, proposal.options[optionId].voteCount);
     }
 }
