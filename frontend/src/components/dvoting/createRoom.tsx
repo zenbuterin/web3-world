@@ -2,8 +2,8 @@
 import { isAddress } from "ethers";
 import { useEffect, useState } from "react";
 import { watchContractEvent } from "viem/_types/actions/public/watchContractEvent";
-import { useWeb3State } from "@/app/store/web3stateContext";
-import { useVoteState } from "@/app/store/voteStateContext";
+import { useWeb3State } from "@/context/web3stateContext";
+import { useVoteState } from "@/context/voteStateContext";
 import { ParseAbiItem } from "viem";
 
 

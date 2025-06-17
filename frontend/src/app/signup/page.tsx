@@ -1,5 +1,5 @@
 'use client'
-import styles from "@/app/style/signup.module.css";
+import styles from "@/style/signup.module.css";
 import axios from "axios";
 //NOTE: this is used for web2 functionalities
 function SignupForm() {

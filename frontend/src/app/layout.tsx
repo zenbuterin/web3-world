@@ -1,8 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "./global";
 import Header from "./header"
-import { Web3StateProvider } from "./store/web3stateContext";
-import { UIContextProvider } from "./store/UIContext";
+import { Web3StateProvider } from "../context/web3stateContext";
+import { UIContextProvider } from "../context/UIContext";
 import { ReactNode } from "react";
 
 const geistSans = Geist({

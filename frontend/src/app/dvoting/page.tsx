@@ -1,8 +1,8 @@
 'use client'
 import styles from "@/app/style/dvoting.module.css";
-import CreateRoom from "../ui/dvoting/createRoom";
-import EnterRoom from "../ui/dvoting/enterRoom";
-import { VoteStateProvider } from "../store/voteStateContext";
+import CreateRoom from "../../components/dvoting/createRoom";
+import EnterRoom from "../../components/dvoting/enterRoom";
+import { VoteStateProvider } from "../../context/voteStateContext";
 
 
 //NOTE: this is /dvoting path

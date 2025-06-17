@@ -1,6 +1,6 @@
 'use state'
-import { useVoteState } from "@/app/store/voteStateContext";
-import { useWeb3State } from "@/app/store/web3stateContext";
+import { useVoteState } from "@/context/voteStateContext";
+import { useWeb3State } from "@/context/web3stateContext";
 import { useEffect, useState } from "react";
 //enter room has quiet different logic, we will define after we finished with create logic
 export default function EnterRoom() {

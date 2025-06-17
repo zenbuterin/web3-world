@@ -1,7 +1,7 @@
-import { useGenerateCandidateCode } from "@/app/store/candidateCodeGenerator"
-import { useUIContext } from "@/app/store/UIContext"
-import useVote from "@/app/store/voteFunctionalities"
-import { useVoteState } from "@/app/store/voteStateContext"
+import { useGenerateCandidateCode } from "@/lib/candidateCodeGenerator"
+import { useUIContext } from "@/context/UIContext"
+import useVote from "@/context/voteFunctionalities"
+import { useVoteState } from "@/context/voteStateContext"
 
 
 export default function VoteTheCandidate() {

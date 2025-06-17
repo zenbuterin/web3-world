@@ -1,6 +1,6 @@
 'use client'
 import abi from "@/app/MyContract.abi.json"
-import { createPublicClient, createWalletClient, custom, getContract, http } from 'viem'
+import { createPublicClient, createWalletClient, custom, getContract, http, type GetContractReturnType  } from 'viem'
 import React,{ useContext, useState, createContext, useEffect, ReactNode } from "react";
 import { ganacheChain } from "./customGanacheChain"
 import { MetaMaskSDK } from "@metamask/sdk"
@@ -47,7 +47,7 @@ export function Web3StateProvider({children} : {children: ReactNode}) {
                         transport: custom(window.ethereum)
                     })
                     //instance contract
-                    const contract: any = getContract({
+                    const contract = getContract({
                         address: process.env.NEXT_PUBLIC_ADDRESS_CONTRACT as `0x${string}`,
                         abi: abi,
                         client: {public: publicclient, wallet: client}
@@ -62,7 +62,6 @@ export function Web3StateProvider({children} : {children: ReactNode}) {
                     setPublicCLient(publicClient)
                     setWalletClient(walletClient)
                     setAddress(accounts[0])
-                    
                 }
                 else {
                     console.log("Install provider Web3 (Metamask)");
