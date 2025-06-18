@@ -7,6 +7,8 @@ import { sortAddress } from "../lib/sorterAddress";
 export default function ConnectToWallet() {
     const {address, createInstance} = useWeb3State()
     const style = useUIContext()
+
+    
     
     return (
         <button onClick={()=> {createInstance()}} className={style.walletconnection}>{address ? sortAddress(address): "Connect wallet"}</button>

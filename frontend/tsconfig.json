@@ -111,9 +111,12 @@
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "src/app/dvoting/[proposalID]/page.tsx", "src/app/dvoting/page.tsx"  ],
+    "**/*.tsx",
+    "src/app/dvoting/[proposalID]/page.tsx", 
+    "src/app/dvoting/page.tsx",
+    "src/types"  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    ".next"
   ]
 }
