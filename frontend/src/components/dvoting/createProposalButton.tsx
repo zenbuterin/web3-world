@@ -1,21 +1,11 @@
-import { useWeb3State } from "@/context/web3stateContext"
-import { useEffect  } from "react";
-import { watchEvent } from "viem/_types/actions/public/watchEvent";
+'use client'
+import { useState } from "react"
+import { Modal } from "./proposalPopup"
 
-
-export default function () {
-    const { walletClient, contract } = useWeb3State()
-    const handleCreateProposal = async () => {
-        //to communicate with smartcontract
-        let proposal = await contract.write.createProposal();
-    }
-
+export function CreateProposalButton() {
+    const [modalOpen , setModelOpen] = useState(false)
     
-
-    //for notification on page
-    useEffect(() => {
-        
-    })
-
-    return <button onClick={() => {handleCreateProposal()}}></button>
+    return <div className="modal">
+        <Modal isOpen={modalOpen} close={() => setModelOpen(false)} />
+    </div>
 }
