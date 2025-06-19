@@ -1,3 +1,26 @@
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Sample Hardhat Project](#sample-hardhat-project)
+- [VotingManager Smart Contract](#votingManager-smart-contract)
+- [Contract Interface](#contract-interface)
+  - [State Variables](#state-variables)
+  - [Structs](#structs)
+  - [Events](#events)
+- [Functions](#functions)
+  - [`constructor`](#constructor)
+  - [`createProposal`](#createproposal)
+  - [`addOption`](#addoption)
+  - [`vote`](#vote)
+  - [`getVoteCount`](#getvotecount)
+- [Usage](#usage)
+- [Security Considerations](#security-considerations)
+- [Extension Recommendations](#extension-recommendations)
+- [License](#license)
+
+---
+
 # Sample Hardhat Project
 
 This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
@@ -14,28 +37,10 @@ npx hardhat ignition deploy ./ignition/modules/Lock.js
 
 
 # VotingManager Smart Contract
+`VotingManager` adalah smart contract untuk mengelola proses voting sederhana antara dua kandidat dalam satu ruangan (room). Setiap user hanya dapat memilih satu kandidat dalam satu room. Voting ditandai dengan `candidateCode` unik untuk setiap kandidat per room.
 
 A minimal and gas-efficient on-chain voting contract designed for governance or decision-making protocols. Authorized accounts can create proposals and add options. Public users can cast a single vote per proposal.
 
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Contract Interface](#contract-interface)
-  - [State Variables](#state-variables)
-  - [Structs](#structs)
-  - [Events](#events)
-- [Functions](#functions)
-  - [`constructor`](#constructor)
-  - [`createProposal`](#createproposal)
-  - [`addOption`](#addoption)
-  - [`vote`](#vote)
-  - [`getVoteCount`](#getvotecount)
-- [Usage](#usage)
-- [Security Considerations](#security-considerations)
-- [Extension Recommendations](#extension-recommendations)
-- [License](#license)
 
 ---
 
