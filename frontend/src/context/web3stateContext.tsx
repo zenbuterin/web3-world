@@ -5,15 +5,13 @@ import type {
     Web3State,
     Web3StateProviderProps,
     ContractType,
-    ContractAddress,
     Web3Error,
-    UseWeb3StateReturn
 } from "@/types/web3.types.ts";
 
 // Import libraries
 import abi from "@/app/MyContract.abi.json";
 import { createPublicClient, createWalletClient, custom, getContract, http } from 'viem';
-import type { PublicClient, WalletClient, Address } from "viem";
+import type { PublicClient, WalletClient, Address, GetContractReturnType } from "viem";
 import React, { useContext, useState, createContext, useEffect } from "react";
 import { ganacheChain } from "./customGanacheChain";
 import { MetaMaskSDK, type SDKProvider } from "@metamask/sdk";
@@ -22,7 +20,7 @@ let metamasksdk: MetaMaskSDK | null = null;
 export const WalletContext = createContext<Web3State | null>(null);
 
 export function Web3StateProvider({ children }: Web3StateProviderProps) {
-    const [contract, setContract] = useState<ContractType | undefined>(undefined);
+    const [contract, setContract] = useState<ContractType | null>(null);
     const [providerEth, setProvider] = useState<SDKProvider | undefined>(undefined);
     const [address, setAddress] = useState<Address | null>(null);
     const [walletClient, setWalletClient] = useState<WalletClient | null | undefined>(undefined);
@@ -56,17 +54,17 @@ export function Web3StateProvider({ children }: Web3StateProviderProps) {
                 });
 
                 // Contract address validation
-                const contractAddress = process.env.NEXT_PUBLIC_ADDRESS_CONTRACT as ContractAddress;
+                const contractAddress = process.env.NEXT_PUBLIC_ADDRESS_CONTRACT as Address
                 if (!contractAddress) {
                     throw new Error("Contract address not found in environment variables");
                 }
 
                 // Instance contract
-                const contractInstance = getContract({
+                const contractInstance: ContractType = getContract({
                     address: contractAddress,
                     abi: abi,
                     client: { public: publicClient, wallet: walletClient }
-                }) as ContractType;
+                }) 
 
                 // Request accounts
                 const accounts = await ethereumProvider.request({
