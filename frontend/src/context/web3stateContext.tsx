@@ -1,76 +1,98 @@
 'use client'
+
+
+import type {
+    Web3State,
+    Web3StateProviderProps,
+    ContractType,
+    ContractAddress,
+    Web3Error,
+    UseWeb3StateReturn
+} from "@/types/web3.types.ts";
+
+// Import libraries
 import abi from "@/app/MyContract.abi.json";
-import { createPublicClient, createWalletClient, custom, getContract, http } from 'viem'
-import type {PublicClient, WalletClient, GetContractReturnType } from "viem";
-import React,{ useContext, useState, createContext, useEffect, ReactNode } from "react";
+import { createPublicClient, createWalletClient, custom, getContract, http } from 'viem';
+import type { PublicClient, WalletClient, Address } from "viem";
+import React, { useContext, useState, createContext, useEffect } from "react";
 import { ganacheChain } from "./customGanacheChain";
-import { MetaMaskSDK, SDKProvider } from "@metamask/sdk";
-
-
+import { MetaMaskSDK, type SDKProvider } from "@metamask/sdk";
 
 let metamasksdk: MetaMaskSDK | null = null;
-const WalletContext = createContext<any | null>(null)
-//NOTE: this state provider used by all component that interact with smartcontract or wallet provider or network provider
-export function Web3StateProvider({children} : {children: ReactNode}) {
-    const [contract, setContract] = useState<GetContractReturnType<typeof abi, PublicClient | WalletClient>>()
-    const [providerEth, setProvider] = useState<SDKProvider | undefined>()
-    const [address, setAddress]  = useState<string | null>("")
-    const [walletClient, setWalletClient] = useState<WalletClient | null>()
-    const [publicClient, setPublicCLient] = useState<PublicClient | null>()
+export const WalletContext = createContext<Web3State | null>(null);
 
-    const createInstance = async () => {
-        //provider metamask
-    metamasksdk = new MetaMaskSDK({
-    dappMetadata: {
-        name: "Dapps utilities",
-        url: window.location.href,
-        },
-    })
-    await metamasksdk.init() //starting point for connect to metamask
-    const ethereumprovider = metamasksdk.getProvider();
+export function Web3StateProvider({ children }: Web3StateProviderProps) {
+    const [contract, setContract] = useState<ContractType | undefined>(undefined);
+    const [providerEth, setProvider] = useState<SDKProvider | undefined>(undefined);
+    const [address, setAddress] = useState<Address | null>(null);
+    const [walletClient, setWalletClient] = useState<WalletClient | null | undefined>(undefined);
+    const [publicClient, setPublicClient] = useState<PublicClient | null | undefined>(undefined);
+
+
+    const createInstance = async (): Promise<void> => {
         try {
-            
-                if (window.ethereum) {
-                    //for public action
-                    const publicclient: PublicClient = createPublicClient({
-                        chain: ganacheChain,
-                        transport: http()
-                    })
-                    //for wallet action
-                    const client: WalletClient = createWalletClient({
-                        chain: ganacheChain,
-                        transport: custom(window.ethereum)
-                    })
-                    //instance contract
-                    const contractInstance = getContract({
-                        address: process.env.NEXT_PUBLIC_ADDRESS_CONTRACT as `0x${string}`,
-                        abi: abi,
-                        client: {public: publicclient, wallet: client}
-                    })
-                    const accounts = await ethereumprovider!.request({
-                        method: "eth_requestAccounts",
-                    }) as string[]
+            // Provider metamask
+            metamasksdk = new MetaMaskSDK({
+                dappMetadata: {
+                    name: "Dapps utilities",
+                    url: window.location.href,
+                },
+            });
 
-                    setContract(contractInstance);
-                    setProvider(ethereumprovider)
-                    setPublicCLient(publicClient)
-                    setWalletClient(walletClient)
-                    setAddress(accounts[0])
+            await metamasksdk.init();
+            const ethereumProvider = metamasksdk.getProvider();
+
+            if (window.ethereum && ethereumProvider) {
+                // For public action
+                const publicClient: PublicClient = createPublicClient({
+                    chain: ganacheChain,
+                    transport: http()
+                });
+
+                // For wallet action
+                const walletClient: WalletClient = createWalletClient({
+                    chain: ganacheChain,
+                    transport: custom(window.ethereum)
+                });
+
+                // Contract address validation
+                const contractAddress = process.env.NEXT_PUBLIC_ADDRESS_CONTRACT as ContractAddress;
+                if (!contractAddress) {
+                    throw new Error("Contract address not found in environment variables");
                 }
-                else {
-                    console.log("Install provider Web3 (Metamask)");
-                }
-                
+
+                // Instance contract
+                const contractInstance = getContract({
+                    address: contractAddress,
+                    abi: abi,
+                    client: { public: publicClient, wallet: walletClient }
+                }) as ContractType;
+
+                // Request accounts
+                const accounts = await ethereumProvider.request({
+                    method: "eth_requestAccounts",
+                }) as string[];
+
+                setContract(contractInstance);
+                setProvider(ethereumProvider);
+                setPublicClient(publicClient);  
+                setWalletClient(walletClient);  
+                setAddress(accounts[0] as Address);
+
+            } else {
+                throw new Error("MetaMask not installed or not available");
             }
-            catch(error: any) {
-                if(error.code === 4001){
-                    console.log("User rejected connection")
-                }else {
-                    console.log("Can't connect to Web3: ", error)
-        
-                }
+        } catch (error: unknown) {
+            const web3Error = error as Web3Error;
+            const errorMessage = web3Error.message || "Unknown error occurred";
+
+            if (web3Error.code === 4001) {
+                console.log("User rejected connection");
+            } else {
+                console.log("Can't connect to Web3: ", errorMessage);
             }
-    }
+        }
+    };
 
     useEffect(() => {
         if (contract) {
@@ -79,16 +101,21 @@ export function Web3StateProvider({children} : {children: ReactNode}) {
     }, [contract]);
 
 
-    
 
     return (
-        <WalletContext.Provider value={{contract, address, providerEth, createInstance, walletClient, publicClient}}>
+        <WalletContext.Provider value={{contract, address, providerEth, createInstance, walletClient, publicClient
+        }}>
             {children}
         </WalletContext.Provider>
-    )
+    );
 }
 
-export function useWeb3State () {
-    return useContext(WalletContext);
+// Hook yang safe - return Web3State tanpa null
+export function useWeb3State() {
+    const context = useContext<Web3State | null>(WalletContext);
+    
+    if (!context) {
+        throw new Error('useWeb3State must be used within Web3StateProvider');
+    }
+    return context;
 }
-
