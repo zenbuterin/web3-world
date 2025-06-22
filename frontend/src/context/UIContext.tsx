@@ -1,6 +1,6 @@
 'use client'
-import dvotingstyle from "@/app/style/dvoting.module.css";
-import signupstyle from "@/app/style/signup.module.css"
+import dvotingstyle from "@/style/dvoting.module.css";
+import signupstyle from "@/style/signup.module.css"
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
 const { createContext, useContext, useState, useEffect } = require("react");

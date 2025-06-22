@@ -1,20 +1,13 @@
 'use client'
-import styles from "@/app/style/dvoting.module.css";
-import CreateRoom from "../../components/dvoting/createRoom";
-import EnterRoom from "../../components/dvoting/enterRoom";
-import { VoteStateProvider } from "../../context/voteStateContext";
-
+import styles from "@/style/dvoting.module.css";
+import { CreateProposalButton } from "@/components/dvoting/createProposalButton";
 
 //NOTE: this is /dvoting path
 export default function page() {
     return (<>
-    {/*NOTE: VoteStateProvider for createRoom and EnterRoom component can consume global vote state */}
-    <VoteStateProvider>
-    <div className={styles.enterRoomPage}>
-        <h1>Enter Room</h1>
-        <CreateRoom />
-        <EnterRoom />
+    <div className={styles.enterRoomPage}>  
+        {/**disini akan ada button untuk buat proposal, addoption dan akan diberikan watchevent untuk proposal yang sudah terbuat. ada 3 komponen */}
+        <CreateProposalButton />
     </div>
-    </VoteStateProvider>
     </>)
 }

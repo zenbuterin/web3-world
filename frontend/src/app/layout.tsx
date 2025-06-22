@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import "./global";
-import Header from "./header"
+import "@/app/globals.css";
+import Header from "@/app/header"
 import { Web3StateProvider } from "../context/web3stateContext";
 import { UIContextProvider } from "../context/UIContext";
 import { ReactNode } from "react";
