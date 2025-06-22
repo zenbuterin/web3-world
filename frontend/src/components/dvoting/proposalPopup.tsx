@@ -4,7 +4,7 @@ import CreateProposalFunction from "@/components/dvoting/createProposalfun"
 import { useWeb3State } from "@/context/web3stateContext"
 import { useEffect, useState } from "react"
 import  { parseAbiItem, type  Address, WatchEventReturnType, WriteContractParameters } from "viem"
-import abi from "@/app/MyContract.abi.json"
+
 
 export function Modal({isOpen, close} : PopUpProposalTypes ) {
     const [proposalCreatedInfoFromChild, setProposalCreatedInfoFromChild] = useState<WriteContractParameters>()
