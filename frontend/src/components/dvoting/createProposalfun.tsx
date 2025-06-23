@@ -3,7 +3,7 @@ import abi from "@/app/MyContract.abi.json"
 import type { Address, WriteContractParameters } from "viem";
 
 
-export default function CreateProposalFunction({oncreate} : {oncreate : (value : WriteContractParameters) => void }) {
+export default function CreateProposalFunction({oncreate, onPostTodb} : {oncreate : (value : WriteContractParameters) => void , onPostTodb: () => void}) {
     const {publicClient, walletClient} = useWeb3State()
 
 
@@ -15,19 +15,16 @@ export default function CreateProposalFunction({oncreate} : {oncreate : (value :
                 abi: abi,
                 functionName: 'createProposal'
             })
-
-            
             await walletClient?.writeContract(request)
+            //FIXME: there is vulnerability here
             oncreate(request)
             console.log(`Proposal Created: ${request}`)
+            onPostTodb()
         }
         catch(err: any) {
             console.log(err);
         }
     }
-
-    
-
     return (<button onClick={() => handleCreationProposal()} className="p-3 h-40 w-100 text-green-400 font-bold bg-green-800">Create Proposal now!</button>)
 
 }

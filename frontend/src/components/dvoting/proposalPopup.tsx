@@ -4,16 +4,47 @@ import CreateProposalFunction from "@/components/dvoting/createProposalfun"
 import { useWeb3State } from "@/context/web3stateContext"
 import { useEffect, useState } from "react"
 import  { parseAbiItem, type  Address, WatchEventReturnType, WriteContractParameters } from "viem"
+import axios from "axios"
 
 
 export function Modal({isOpen, close} : PopUpProposalTypes ) {
     const [proposalCreatedInfoFromChild, setProposalCreatedInfoFromChild] = useState<WriteContractParameters>()
     const [notification, setNotification] = useState<Array<bigint | Address>>([])
+    const [titleAndDescription, setTitleAndDescription] = useState({ title: "", description: "" })
     const { publicClient } = useWeb3State() 
 
     //function to retrieve data change from child
     const handleDataChangeFromChild = (value: WriteContractParameters ) => {
         setProposalCreatedInfoFromChild(value)
+    }
+
+    // TODO: ID, Title and Description need to save in database. sync to smartcontract.
+    const handlePostDataToDB = async () => {
+        try {
+            const result = await axios.post("http://127.0.0.1:8000/inputTitleDescription",
+                {
+                    "id": notification[0],
+                    "title": titleAndDescription.title,
+                    "description": titleAndDescription.description
+                }, {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }
+            )
+        }
+        catch(err) {
+            console.error("error happend when input data to database ")
+        }
+    }
+    
+    const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+        setTitleAndDescription((prev) => ({
+            ...prev,
+            [e.target.name] : e.target.value
+        }))
+
     }
 
     const getEventProposalCreated = async () => {
@@ -29,7 +60,9 @@ export function Modal({isOpen, close} : PopUpProposalTypes ) {
         console.log(`current id of proposals: ${currentProposalId}\n current proposal creator: ${currentProposalCreator}`);
     }
 
-    // TODO: ID, Title and Description need to save in database. sync to smartcontract.
+    
+
+
 
     useEffect(() => {
         getEventProposalCreated();
@@ -38,9 +71,11 @@ export function Modal({isOpen, close} : PopUpProposalTypes ) {
 
     return (<div className={`popupProposal ${isOpen ? 'block' : 'hidden'}`}>
         <div className= {`inputTitleAndDescription bg-gray-800 text-gray-50 h-100 w-100`}>
-            <input type="text" name="title" placeholder="What's your Proposal Title?"></input>
-            <input type="text" name="description" placeholder="Add a description to your Proposal"></input>
-        <CreateProposalFunction oncreate={handleDataChangeFromChild}/>
+            <label>Proposal Title</label>
+            <input type="text" name="title" placeholder="What's your Proposal Title?" onChange={handleChangeInput}></input>
+            <label>Description for Proposal</label>
+            <input type="text" name="description" placeholder="Add a description to your Proposal" onChange={handleChangeInput}></input>
+        <CreateProposalFunction oncreate={handleDataChangeFromChild} onPostTodb={handlePostDataToDB} />
         <button className="bg-red-900 h-20 w-30 p-0.5" onClick={() => close()}>Back</button>
         </div>
         </div>)
