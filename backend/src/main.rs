@@ -1,10 +1,12 @@
 use actix_web::{web, App, HttpServer};
+mod models;
+mod handlers;
 use std::env;
 use dotenv::dotenv;
 use actix_cors::Cors;
-use registry::{get_user, insert_user};
 use sqlx::SqlitePool;
-mod registry;
+use handlers::log_in_handler::{get_user, insert_user};
+
 
 #[actix_web::main]
 async fn main() -> Result<(), std::io::Error> {
