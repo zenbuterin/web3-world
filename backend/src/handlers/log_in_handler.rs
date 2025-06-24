@@ -1,30 +1,8 @@
-
 use actix_web::{web, HttpResponse, Responder};
-use serde::{Deserialize, Serialize};
 use sqlx::sqlite::SqlitePool;
 use sqlx::Row;
+use crate::models::user_dto::{Users, UsersInput, GetUsers};
 use validator::Validate;
-
-
-#[derive(Serialize)]
-pub struct Users {
-    id: i32,
-    email: String,
-    password: String
-}
-
-#[derive(Deserialize, Validate)]
-pub struct UsersInput {
-    #[validate(email(message = "email tidak valid"))]
-    email: String,
-    #[validate(length(min = 8 , message="password minimal 8 elemen"))]
-    password: String
-}
-
-#[derive(Deserialize)]
-pub struct GetUsers {
-    email: String
-}
 
 pub async fn insert_user(pool: web::Data<SqlitePool>, datauser: web::Json<UsersInput>) -> impl Responder {
     if let Err(error) = datauser.validate() {
