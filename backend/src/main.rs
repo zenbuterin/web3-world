@@ -7,6 +7,8 @@ use actix_cors::Cors;
 use sqlx::SqlitePool;
 use handlers::log_in_handler::{get_user, insert_user};
 
+use crate::handlers::off_chain_voting_data::insert_id_description;
+
 
 #[actix_web::main]
 async fn main() -> Result<(), std::io::Error> {
@@ -30,9 +32,11 @@ async fn main() -> Result<(), std::io::Error> {
     HttpServer::new(move || {
         App::new()
             .wrap(Cors::permissive())
-            .app_data(web::Data::new(pool.clone())) // Share pool ke handler
+            .app_data(web::Data::new(pool.clone())) // Share pool ke handler | shared handler
             .route("/getUser", web::get().to(get_user))
             .route("/inputUser", web::post().to(insert_user))
+            .route("/insertTitleDescription", web::post().to(insert_id_description))
+            
     })
     .bind("127.0.0.1:8000")?
     .run()
