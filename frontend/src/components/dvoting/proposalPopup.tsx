@@ -23,7 +23,7 @@ export function Modal({isOpen, close} : PopUpProposalTypes ) {
         try {
             const result = await axios.post("http://127.0.0.1:8000/insertProposalInformation",
                 {
-                    "id": notification[0],
+                    "id": notification[0].toString(),
                     "title": titleAndDescription.title,
                     "description": titleAndDescription.description
                 }, {

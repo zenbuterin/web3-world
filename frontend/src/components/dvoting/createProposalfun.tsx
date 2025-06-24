@@ -20,6 +20,7 @@ export default function CreateProposalFunction({oncreate, onPostTodb} : {oncreat
             oncreate(request)
             console.log(`Proposal Created: ${request}`)
             onPostTodb()
+
         }
         catch(err: any) {
             console.log(err);
