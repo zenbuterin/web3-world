@@ -21,7 +21,7 @@ export function Modal({isOpen, close} : PopUpProposalTypes ) {
     // TODO: ID, Title and Description need to save in database. sync to smartcontract.
     const handlePostDataToDB = async () => {
         try {
-            const result = await axios.post("http://127.0.0.1:8000/inputTitleDescription",
+            const result = await axios.post("http://127.0.0.1:8000/insertProposalInformation",
                 {
                     "id": notification[0],
                     "title": titleAndDescription.title,
@@ -32,6 +32,7 @@ export function Modal({isOpen, close} : PopUpProposalTypes ) {
                     }
                 }
             )
+            console.log(`post data successful ${result}`)
         }
         catch(err) {
             console.error("error happend when input data to database ")

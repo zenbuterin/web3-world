@@ -35,7 +35,7 @@ async fn main() -> Result<(), std::io::Error> {
             .app_data(web::Data::new(pool.clone())) // Share pool ke handler | shared handler
             .route("/getUser", web::get().to(get_user))
             .route("/inputUser", web::post().to(insert_user))
-            .route("/insertTitleDescription", web::post().to(insert_id_description))
+            .route("/insertProposalInformation", web::post().to(insert_id_description))
             
     })
     .bind("127.0.0.1:8000")?
