@@ -1,6 +1,4 @@
 import { useWeb3State } from "@/context/web3stateContext"
-import { simulateContract } from "viem/_types/actions/public/simulateContract";
-import { writeContract } from "viem/_types/actions/wallet/writeContract";
 import type { Address } from "viem";
 import abi from "@/app/MyContract.abi.json"
 
