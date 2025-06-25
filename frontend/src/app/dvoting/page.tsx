@@ -2,6 +2,7 @@
 import styles from "@/style/dvoting.module.css";
 import { CreateProposalButton } from "@/components/dvoting/createProposalButton";
 import { ProposalListCard } from "@/components/dvoting/proposalListCard";
+import { AddOptionButton } from "@/components/dvoting/addOptionButton";
 
 //NOTE: this is /dvoting path
 export default function page() {

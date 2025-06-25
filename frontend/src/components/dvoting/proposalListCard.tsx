@@ -18,7 +18,9 @@ export function ProposalListCard() {
 
         return () => clearInterval(interval)
     }, [])
+
+    
     return <div className="w-120 h-fit bg-blue-600 text-amber-50">
-        {list.map((value) => <ProposalCard id={value.id} title={value.title} description={value.description}/>)}
+        {list.map((value, index) => <ProposalCard key={index} id={value.id} title={value.title} description={value.description}/>)}
     </div>
 }
