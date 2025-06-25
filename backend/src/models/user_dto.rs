@@ -21,7 +21,7 @@ pub struct GetUsers {
     pub email: String
 }
 
-#[derive(Deserialize, Validate)]
+#[derive(sqlx::FromRow, Serialize,Deserialize, Validate)]
 pub struct OffChainVotingData {
     //we use string, therefore we use bigint in smartcontract
     pub id: String,

@@ -14,3 +14,13 @@ pub async fn insert_id_description(pool: web::Data<SqlitePool>, data: web::Json<
         
     }
 }
+
+pub async fn get_info_proposal(pool: web::Data<SqlitePool>) -> impl Responder {
+    let qry = "SELECT * FROM proposalinformation";
+    let result: Result<Vec<OffChainVotingData>, sqlx::Error> = sqlx::query_as(qry).fetch_all(pool.get_ref()).await;
+
+    match result {
+        Ok(data) => HttpResponse::Ok().json(data),
+        Err(err) => HttpResponse::InternalServerError().body(format!("error happend when get info proposal : {err}"))
+    }
+}
