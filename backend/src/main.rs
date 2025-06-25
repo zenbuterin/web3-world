@@ -6,8 +6,8 @@ use dotenv::dotenv;
 use actix_cors::Cors;
 use sqlx::SqlitePool;
 use handlers::log_in_handler::{get_user, insert_user};
+use handlers::off_chain_voting_data::{insert_id_description, get_info_proposal};
 
-use crate::handlers::off_chain_voting_data::insert_id_description;
 
 
 #[actix_web::main]
@@ -36,7 +36,7 @@ async fn main() -> Result<(), std::io::Error> {
             .route("/getUser", web::get().to(get_user))
             .route("/inputUser", web::post().to(insert_user))
             .route("/insertProposalInformation", web::post().to(insert_id_description))
-            
+            .route("getInfoProposal", web::get().to(get_info_proposal))
     })
     .bind("127.0.0.1:8000")?
     .run()
