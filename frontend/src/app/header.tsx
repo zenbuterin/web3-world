@@ -6,7 +6,6 @@ import { useState } from "react";
 import { useUIContext } from "../context/UIContext";
 
 
-
 export default function Header() {
         const [dropDown, setDropDown] = useState(false)
         const toggleDropDown = () => {

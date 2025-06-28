@@ -14,13 +14,12 @@ export function ProposalListCard() {
     useEffect(() => {
         const interval = setInterval(async() => {
             fetchInformationProposalFromDb()
-        }, 10000);
+        }, 3000);
 
         return () => clearInterval(interval)
     }, [])
-
     
-    return <div className="w-120 h-fit bg-blue-600 text-amber-50">
-        {list.map((value, index) => <ProposalCard key={index} id={value.id} title={value.title} description={value.description}/>)}
+    return <div className="flex flex-col bg-gray-200 border-3 rounded-lg shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex-grow">
+        {list.map((value, index) => <ProposalCard key={index} id={value.id} title={value.title} description={value.description}/>)} 
     </div>
 }

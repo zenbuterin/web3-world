@@ -21,5 +21,6 @@ export function VoteButton({idProposal, idOption } : {idProposal : bigint, idOpt
         }
     }
 
-    return <button onClick={handleVote}>Vote</button>
+    return <button onClick={handleVote} className=" shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] duration-150 transition-shadow hover:bg-gray-600 hover:text-white bg-white border-3 border-black mt-4 h-10 w-20 rounded-lg">Vote</button>
+
 }
