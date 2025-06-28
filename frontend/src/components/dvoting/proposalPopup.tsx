@@ -9,7 +9,7 @@ import axios from "axios"
 
 export function Modal({isOpen, close} : PopUpProposalTypes ) {
     const [proposalCreatedInfoFromChild, setProposalCreatedInfoFromChild] = useState<WriteContractParameters>()
-    const [notification, setNotification] = useState<Array<bigint | Address | undefined>>([])
+    const [notification, setNotification] = useState<Array<bigint | Address >>([])
     const [titleAndDescription, setTitleAndDescription] = useState({ title: "", description: "" })
     const { publicClient } = useWeb3State() 
     //function to retrieve data change from child
@@ -20,9 +20,15 @@ export function Modal({isOpen, close} : PopUpProposalTypes ) {
     // TODO: ID, Title and Description need to save in database. sync to smartcontract.
     const handlePostDataToDB = async () => {
         try {
+            // Fix: Check if notification[0] exists before using it
+            if (!notification[0]) {
+                console.error("Proposal ID not available")
+                return
+            }
+
             const result = await axios.post("http://127.0.0.1:8000/insertProposalInformation",
                 {
-                    "id": notification[0]!.toString(),
+                    "id": notification[0].toString(),
                     "title": titleAndDescription.title,
                     "description": titleAndDescription.description
                 }, {
@@ -34,7 +40,8 @@ export function Modal({isOpen, close} : PopUpProposalTypes ) {
             console.log(`post data successful ${result}`)
         }
         catch(err) {
-            console.error("error happend when input data to database ")
+            // Fix: Show actual error details
+            console.error("error happend when input data to database ", err)
         }
     }
     
@@ -48,25 +55,52 @@ export function Modal({isOpen, close} : PopUpProposalTypes ) {
     }
 
     const getEventProposalCreated = async () => {
-        const logs = await publicClient!.getLogs({
-            address: process.env.NEXT_PUBLIC_ADDRESS_CONTRACT as Address,
-            event: parseAbiItem('event proposalCreated(address createdBy, uint indexed proposalId)')
-        })
+        try {
+            // Fix: Check if publicClient exists
+            if (!publicClient) {
+                console.log("publicClient not available yet")
+                return
+            }
 
-        const currentProposalId = logs.findLast((log) => log.args.proposalId)?.args.proposalId
-        const currentProposalCreator = logs.findLast((log) => log.args.proposalId)?.args.createdBy
-        setNotification([currentProposalId, currentProposalCreator])
-        //TODO: this log return undefined
-        console.log(`current id of proposals: ${currentProposalId}\n current proposal creator: ${currentProposalCreator}`);
+            // Fix: Check if contract address exists
+            if (!process.env.NEXT_PUBLIC_ADDRESS_CONTRACT) {
+                console.error("Contract address not defined")
+                return
+            }
+
+            const logs = await publicClient.getLogs({
+                address: process.env.NEXT_PUBLIC_ADDRESS_CONTRACT as Address,
+                event: parseAbiItem('event proposalCreated(address createdBy, uint indexed proposalId)')
+            })
+
+            // Fix: Check if logs exist and have data
+            if (logs.length === 0) {
+                console.log("No proposal events found")
+                return
+            }
+
+            const lastLog = logs.findLast((log) => log.args?.proposalId !== undefined)
+            
+            // Fix: Check if lastLog exists and has the required data
+            if (lastLog && lastLog.args?.proposalId !== undefined && lastLog.args?.createdBy !== undefined) {
+                const currentProposalId = lastLog.args.proposalId
+                const currentProposalCreator = lastLog.args.createdBy
+                setNotification([currentProposalId, currentProposalCreator])
+                console.log(`current id of proposals: ${currentProposalId}\n current proposal creator: ${currentProposalCreator}`);
+            } else {
+                console.log("No valid proposal data found in logs")
+            }
+        } catch (err) {
+            console.error("Error fetching proposal events:", err)
+        }
     }
 
-    
-
-
-
     useEffect(() => {
-        getEventProposalCreated();
-    }, [proposalCreatedInfoFromChild])
+        // Fix: Only call when publicClient is available
+        if (publicClient) {
+            getEventProposalCreated();
+        }
+    }, [proposalCreatedInfoFromChild, publicClient])
 
 
     return (<div className={`${isOpen ? 'block' : 'hidden'} fixed inset-0 bg-black/50 z-50 flex items-center
