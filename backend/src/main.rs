@@ -7,8 +7,7 @@ use actix_cors::Cors;
 use sqlx::SqlitePool;
 use handlers::log_in_handler::{get_user, insert_user};
 use handlers::off_chain_voting_data::{insert_id_description, get_info_proposal};
-
-
+ 
 
 #[actix_web::main]
 async fn main() -> Result<(), std::io::Error> {

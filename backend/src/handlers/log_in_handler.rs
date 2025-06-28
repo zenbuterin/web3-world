@@ -8,6 +8,7 @@ pub async fn insert_user(pool: web::Data<SqlitePool>, datauser: web::Json<UsersI
     if let Err(error) = datauser.validate() {
         return HttpResponse::BadRequest().json(error);
     }
+    
     let qyr = "INSERT INTO users (email, password) VALUES (?, ?)";
     let result = sqlx::query(qyr).bind(&datauser.email).bind(&datauser.password).execute(pool.get_ref()).await;
     println!("{:?}", result);
@@ -29,7 +30,6 @@ pub async fn get_user(
         .bind(&data.email) // Deref karena web::Path<String>
         .fetch_one(pool.get_ref())
         .await;
-
     match result {
         Ok(row) => {
             let user = Users {

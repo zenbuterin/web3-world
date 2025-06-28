@@ -24,5 +24,5 @@ export function AddOptionButton({idProposal} : {idProposal : bigint}) {
 
     
     return <button className="shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] duration-150 transition-shadow
-    w-25 m-4 hover:bg-gray-600 hover:text-white border-2 bg-white border-black rounded-md cursor-pointer text-black" onClick={handleAddingOption} >Add Option</button>
+    w-25 m-4 hover:bg-[#333c64] hover:text-white border-2 bg-white border-black p-3 rounded-md cursor-pointer text-black" onClick={handleAddingOption} >Add Option</button>
 }
