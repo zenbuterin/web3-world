@@ -3,6 +3,7 @@ import type { ProposalInfoTypes } from "@/types/porposalInfoTypes";
 import { VoteButton } from "./voteButton";
 import { AddOptionButton } from "./addOptionButton";
 import { useEffect } from "react";
+import { VoterCount } from "./VoterCount";
 
 interface ProposalCardProps extends ProposalInfoTypes {
     options: bigint[];
@@ -19,6 +20,9 @@ export function ProposalCard ({id, title, description, options} : ProposalCardPr
         <div className="flex flex-col m-3">
         <h3 className="text-lg font-semibold text-black">{title}</h3>
         <p className="text-gray-300">{description}</p>
+        {options.map((optionId) => {
+          return <VoterCount key={`${id}-${optionId}`} proposalId={BigInt(id)} optionId={optionId} />
+        })}
         </div>
         <div className="flex flex-row">
         {options.length > 0 ? (
