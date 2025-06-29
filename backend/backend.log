@@ -1,5 +1,0 @@
-   Compiling backend v0.1.0 (/home/guslizen/Documents/BLOCKCHAIN-Journey/web3 skill/voting_project/backend)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 7.99s
-     Running `target/debug/backend`
-Using database at: database/worldweb3.db
-Running at http://127.0.0.1:8000
