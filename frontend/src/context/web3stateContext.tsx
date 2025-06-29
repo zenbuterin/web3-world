@@ -11,7 +11,7 @@ import type {
 // Import libraries
 import abi from "@/app/MyContract.abi.json";
 import { createPublicClient, createWalletClient, custom, getContract, http } from 'viem';
-import type { PublicClient, WalletClient, Address, GetContractReturnType } from "viem";
+import type { PublicClient, WalletClient, Address } from "viem";
 import React, { useContext, useState, createContext, useEffect } from "react";
 import { ganacheChain } from "./customGanacheChain";
 import { MetaMaskSDK, type SDKProvider } from "@metamask/sdk";
@@ -72,10 +72,16 @@ export function Web3StateProvider({ children }: Web3StateProviderProps) {
                 }) as string[];
 
                 setContract(contractInstance);
+                sessionStorage.setItem("contractInstance", contractInstance as any )
                 setProvider(ethereumProvider);
+                sessionStorage.setItem("ethereumProvider", ethereumProvider as any)
                 setPublicClient(publicClient);  
+                sessionStorage.setItem("publicClient", publicClient as any)
                 setWalletClient(walletClient);  
+                sessionStorage.setItem("walletClient", walletClient as any)
+                //TODO: this address need to adjustment
                 setAddress(accounts[0] as Address);
+                sessionStorage.setItem("address", accounts[0] as Address)
 
             } else {
                 throw new Error("MetaMask not installed or not available");
@@ -93,10 +99,16 @@ export function Web3StateProvider({ children }: Web3StateProviderProps) {
     };
 
     useEffect(() => {
-        if (contract) {
+      const contractInstance = sessionStorage.getItem("contractInstance")
+      const ethereumProvider = sessionStorage.getItem("ethereumProvider")
+      const publicClient = sessionStorage.getItem("publicClient")
+      const walletClient = sessionStorage.getItem("walletClient")
+      const address = sessionStorage.getItem("address")
+        if (contractInstance && ethereumProvider && publicClient && walletClient && address) {
             console.log("State instanceContract updated:", contract);
+            createInstance();
         }
-    }, [contract]);
+    }, []);
 
 
 
