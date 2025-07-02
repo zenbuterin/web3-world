@@ -106,19 +106,19 @@ export function Modal({isOpen, close} : PopUpProposalTypes ) {
     return (<div className={`${isOpen ? 'block' : 'hidden'} fixed inset-0 bg-black/50 z-50 flex items-center
             justify-center`}>
         <div className= "p-8 h-100 w-100 bg-white border-4 rounded-xl">
-        <h1 className="font-bold text-xl">What you need to do?</h1>
-        <div className="mt-5">
-        <label>Proposal Title</label>
-        <input className="border-b-3" type="text" name="title" placeholder="What's your Proposal Title?" onChange={handleChangeInput}></input>
-        </div>
-        <div className="mt-3">
-        <label>Description for Proposal</label>
-        <input className="border-b-3" type="text" name="description" placeholder="Add a description to your Proposal" onChange={handleChangeInput}></input>
-        </div>
-        <div className="flex flex-col">
-        <CreateProposalFunction oncreate={handleDataChangeFromChild} onPostTodb={handlePostDataToDB} />
-        <button className="shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] duration-150 transition-shadow hover:bg-gray-600 hover:text-white bg-white border-3 border-black mt-4 h-10 w-20 rounded-lg" onClick={() => close()}>Back</button>
-        </div>
-        </div>
+            <h1 className="font-bold text-xl">What you need to do?</h1>
+              <div className="mt-5">
+                <label>Proposal Title</label>
+                  <input className="border-b-3" type="text" name="title" placeholder="What's your Proposal Title?" onChange={handleChangeInput}></input>
+                  </div>
+                  <div className="mt-3">
+                  <label>Description for Proposal</label>
+                  <input className="border-b-3" type="text" name="description" placeholder="Add a description to your Proposal" onChange={handleChangeInput}></input>
+                  </div>
+                  <div className="flex flex-col">
+                  <CreateProposalFunction oncreate={handleDataChangeFromChild} onPostTodb={handlePostDataToDB} />
+                <button className="shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] duration-150 transition-shadow hover:bg-gray-600 hover:text-white bg-white border-3 border-black mt-4 h-10 w-20 rounded-lg" onClick={() => close()}>Back</button>
+              </div>
+          </div>
         </div>)
 }
