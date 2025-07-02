@@ -4,6 +4,7 @@ import Header from "@/app/header"
 import { Web3StateProvider } from "../context/web3stateContext";
 import { UIContextProvider } from "../context/UIContext";
 import { ReactNode } from "react";
+import { BrowserRouter } from "react-router-dom";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +27,7 @@ export default function RootLayout({ children } : { children: ReactNode}) {
     <html lang="en">
       {/*NOTE: uiContextProvider used by all component to consume dynamic style logic */}
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <BrowserRouter>
         <UIContextProvider>
         {/* NOTE: this is hook in order to component header and children (content based url) can consume global web3 state */}
         <Web3StateProvider>
@@ -34,6 +36,7 @@ export default function RootLayout({ children } : { children: ReactNode}) {
         {children}
         </Web3StateProvider>
         </UIContextProvider>
+      </BrowserRouter>
       </body>
     </html>
 

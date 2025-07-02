@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import { readContract, ReadContractErrorType, ReadContractReturnType } from "viem/_types/actions/public/readContract";
 import { Address } from "viem";
 import abi from "@/app/MyContract.abi.json"
+
 export function VoterCount({proposalId, optionId} : {proposalId: bigint, optionId : bigint}) {
   const [voterCount, setVoterCount] = useState<bigint>(0n)
   const {publicClient} = useWeb3State()
 
   const getCount = async () => {
+
     const count = await publicClient!.readContract({
       address: process.env.NEXT_PUBLIC_ADDRESS_CONTRACT as Address,
       abi: abi,

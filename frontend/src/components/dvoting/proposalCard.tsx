@@ -10,13 +10,15 @@ interface ProposalCardProps extends ProposalInfoTypes {
 }
 
 export function ProposalCard ({id, title, description, options} : ProposalCardProps) {
+
     
     // Debug log
     useEffect(() => {
         console.log(`ProposalCard ${id} received options:`, options);
     }, [id, options]);
 
-    return <div className="bg-white flex flex-row justify-between rounded-md m-1 border-2 border-black">
+    return <div className="bg-white flex flex-row justify-between rounded-md m-1 border-2 border-black"
+    role="button" onClick={handleNavigate} onKeyDown={(e) => {if (e.key == 'Enter' || e.key == ' ') {handleNavigate()}} }>
         <div className="flex flex-col m-3">
         <h3 className="text-lg font-semibold text-black">{title}</h3>
         <p className="text-gray-300">{description}</p>
@@ -25,6 +27,8 @@ export function ProposalCard ({id, title, description, options} : ProposalCardPr
         })}
         </div>
         <div className="flex flex-row">
+        <div className="flex flex-col">
+        <div>
         {options.length > 0 ? (
             options.map((optionId, index) => {
                 console.log(`Rendering VoteButton for proposal ${id}, option ${optionId}`);
@@ -33,6 +37,8 @@ export function ProposalCard ({id, title, description, options} : ProposalCardPr
         ) : (
             <span className="text-gray-400 text-sm mr-2">No options yet</span>
         )}
+        </div>
+        </div>
         <AddOptionButton idProposal={BigInt(id)}/>
         </div>
     </div>

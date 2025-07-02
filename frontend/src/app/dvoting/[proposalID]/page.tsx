@@ -1,11 +1,10 @@
 'use state'
-import styles from "@/style/dvoting.module.css";
-//NOTE: voting room will take data from state if state is created from createRoom component
-//NOTE: it takes data from smartcontract
 export default function page() {
     return(<>
-    <div className={styles.pageDvoting}>
-        {/*TODO: this page used for display all information about related proposal */}
+    <div className="m-3 p-4 border-4 rounded-lg shadod-[4px_4px_0px_0px_rgba(0,0,0,0,1)]">
+
+
+        
     </div>
     </>)
     }
