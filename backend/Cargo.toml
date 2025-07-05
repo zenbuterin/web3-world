@@ -15,6 +15,10 @@ jsonwebtoken = "9.3.1"
 sqlx = { version = "=0.8.3", features = ["sqlite", "runtime-tokio", "migrate"] }
 rusqlite = "=0.32.1"
 validator = { version = "0.19", features = ["derive"] }
+ipfs-api-backend-actix = "0.7.0"
+chrono = "0.4.41"
+uuid = { version = "1.17.0", features = ["v4"] }
+serde_json = "1.0.140"
 
 [dev-dependencies]
 sqlx-cli = { version = "0.8.3", default-features = false, features = ["sqlite"] }
