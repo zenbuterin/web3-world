@@ -2,9 +2,10 @@ use actix_web::{web, HttpResponse, Result};
 use crate::services::ipfs_services::IpfsService;
 use crate::models::user_ipfs_dto::*;
 use uuid::Uuid;
+use std::sync::Arc;
 
 pub async fn store_json(
-    ipfs_service: web::Data<IpfsService>,
+    ipfs_service: web::Data<Arc<IpfsService>>,
     req: web::Json<StoreRequest>,
 ) -> Result<HttpResponse> {
     let data = JsonData {
@@ -43,7 +44,7 @@ pub async fn store_json(
 
 
 pub async fn get_json(
-    ipfs_service: web::Data<IpfsService>,
+    ipfs_service: web::Data<Arc<IpfsService>>,
     req: web::Json<RetrieveRequest>
     ) -> Result<HttpResponse> {
     match ipfs_service.get_json::<JsonData>(&req.hash).await {
@@ -61,7 +62,7 @@ pub async fn get_json(
 
 
 pub async fn get_raw_data(
-    ipfs_service: web::Data<IpfsService>,
+    ipfs_service: web::Data<Arc<IpfsService>>,
     path: web::Path<String>
     ) -> Result<HttpResponse> {
     let hash = path.into_inner();
@@ -74,7 +75,7 @@ pub async fn get_raw_data(
 }
 
 pub async fn node_info(
-    ipfs_service: web::Data<IpfsService>
+    ipfs_service: web::Data<Arc<IpfsService>>
     ) -> Result<HttpResponse> {
     match ipfs_service.get_node_info().await {
         Ok(version) => Ok(HttpResponse::Ok().json(format!("IPFS version: {}", version))),
