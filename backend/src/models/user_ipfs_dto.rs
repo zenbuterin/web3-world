@@ -17,7 +17,7 @@ pub struct JsonData {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct StoreRequest {
-    pub data: serde_json::value,
+    pub data: serde_json::Value,
     pub pin: Option<bool>
 }
 
