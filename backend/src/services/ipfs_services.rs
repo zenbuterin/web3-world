@@ -2,23 +2,24 @@
 use ipfs_api_backend_actix::{IpfsApi, IpfsClient};
 use serde::{Deserialize, Serialize};
 use std::io::Cursor;
+use std::sync::Arc;
 
 
 pub struct IpfsService {
-    client: IpfsClient,
+    client: Arc<IpfsClient>,
 }
 
 impl IpfsService {
     pub fn new() -> Self {
         // Default client menghubungkan ke localhost:5001
-        let client = IpfsClient::default();
+        let client = Arc::new(IpfsClient::default());
         Self { client }
     }
 
-    pub fn with_custom_endpoint(host: &str, port: u16) -> Self {
-        let client = IpfsClient::from_host_and_port(host, port);
-        Self { client }
-    }
+    //pub fn with_custom_endpoint(host: &str, port: u16) -> Self {
+    //    let client = Arc(IpfsClient::from_host_and_port(host, port));
+    //    Self { client }
+    //}
 
      // Store JSON ke IPFS
     pub async fn store_json<T>(&self, data: &T) -> Result<String, Box<dyn std::error::Error>>
@@ -39,7 +40,7 @@ impl IpfsService {
     where
         T: for<'de> Deserialize<'de>,
     {
-        match self.client.cat(hash).await {
+        match self.client.cat(hash).await? {
             Ok(response) => {
                 let json_string = String::from_utf8(response)?;
                 let data: T = serde_json::from_str(&json_string)?;
