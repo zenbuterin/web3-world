@@ -1,9 +1,8 @@
 // src/services/ipfs_service.rs
-use ipfs_api_backend_actix::{IpfsApi, IpfsClient};
+use ipfs_api::{IpfsApi, IpfsClient};
 use serde::{Deserialize, Serialize};
 use std::io::Cursor;
 use std::sync::Arc;
-
 
 pub struct IpfsService {
     client: Arc<IpfsClient>,
@@ -40,7 +39,9 @@ impl IpfsService {
     where
         T: for<'de> Deserialize<'de>,
     {
-        match self.client.cat(hash).await? {
+        let mut stream = self.client.cat(hash);
+        
+        match self.client.cat(hash).await {
             Ok(response) => {
                 let json_string = String::from_utf8(response)?;
                 let data: T = serde_json::from_str(&json_string)?;
@@ -60,13 +61,7 @@ impl IpfsService {
         }
     }
 
-    // Get raw bytes
-    pub async fn get_bytes(&self, hash: &str) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
-        match self.client.cat(hash).await {
-            Ok(response) => Ok(response),
-            Err(e) => Err(Box::new(e)),
-        }
-    }
+    
 
     // Pin data untuk memastikan availability
     pub async fn pin_hash(&self, hash: &str) -> Result<(), Box<dyn std::error::Error>> {
