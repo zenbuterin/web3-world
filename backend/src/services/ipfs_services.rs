@@ -39,6 +39,8 @@ impl IpfsService {
     where
         T: for<'de> Deserialize<'de>,
     {
+        let mut stream = self.client.cat(hash);
+        
         match self.client.cat(hash).await {
             Ok(response) => {
                 let json_string = String::from_utf8(response)?;
