@@ -59,7 +59,6 @@ async fn main() -> Result<(), std::io::Error> {
                 .app_data(web::Data::new(ipfs_service.clone()))
                 .route("/store", web::post().to(ipfs_data_handler::store_json))
                 .route("/get", web::post().to(ipfs_data_handler::get_json))
-                .route("/raw/{hash}", web::get().to(ipfs_data_handler::get_raw_data))
                 .route("/info", web::get().to(ipfs_data_handler::node_info))
             )
     })
